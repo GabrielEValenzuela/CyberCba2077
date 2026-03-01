@@ -11,6 +11,7 @@ enable_testing()
 # --- Options
 option(CYBERPUNK_BUILD_TESTS "Build unit tests" ON)
 option(CYBERPUNK_BUILD_BENCHMARKS "Build benchmarks" ON)
+option(CYBERPUNK_ENABLE_COVERAGE "Enable coverage flags" ON)
 
 # -- Export compile commands for IDEs and tools
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
@@ -37,6 +38,11 @@ if(CYBERPUNK_BUILD_TESTS)
 
   target_include_directories(unit_tests PRIVATE include)
   target_link_libraries(unit_tests PRIVATE GTest::gtest GTest::gtest_main)
+
+  if(CYBERPUNK_ENABLE_COVERAGE)
+    add_compile_options(-O0 -g --coverage)
+    add_link_options(--coverage)
+  endif()
 
   include(GoogleTest)
   gtest_discover_tests(unit_tests)
