@@ -39,3 +39,10 @@
 
 # debug information files
 *.dwo
+
+# ---- Extra (optional)
+build/
+.vscode/
+.idea/
+cmake-build-*/
+compile_commands.json

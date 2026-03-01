@@ -1,0 +1,179 @@
+name: Cyberpunk CI Advanced
+
+on:
+  push:
+    branches: [main, dev]
+  pull_request:
+
+permissions:
+  contents: read
+  pull-requests: write
+
+jobs:
+  ci:
+    runs-on: ubuntu-latest
+
+    env:
+      BUILD_TYPE: Debug
+      VCPKG_ROOT: ${{ github.workspace }}/vcpkg
+
+    steps:
+      # -----------------------------------
+      # Checkout
+      # -----------------------------------
+      - uses: actions/checkout@v4
+
+      - name: Install dependencies
+        run: |
+          sudo apt update
+          sudo apt install -y ninja-build clang clang-tidy clang-format \
+            gcovr lcov doxygen graphviz
+
+      # -----------------------------------
+      # vcpkg (cached)
+      # -----------------------------------
+      - name: Cache vcpkg
+        id: cache-vcpkg
+        uses: actions/cache@v4
+        with:
+          path: vcpkg
+          key: vcpkg-${{ runner.os }}-${{ hashFiles('vcpkg.json') }}
+
+      - name: Bootstrap vcpkg
+        if: steps.cache-vcpkg.outputs.cache-hit != 'true'
+        run: |
+          git clone https://github.com/microsoft/vcpkg.git
+          ./vcpkg/bootstrap-vcpkg.sh
+
+      # -----------------------------------
+      # Clang Format
+      # -----------------------------------
+      - name: Style Check
+        id: style
+        run: |
+          FILES=$(find src include tests -name '*.cpp' -o -name '*.hpp')
+          clang-format --dry-run --Werror $FILES
+
+      # -----------------------------------
+      # Configure (with coverage)
+      # -----------------------------------
+      - name: Configure
+        run: |
+          cmake -S . -B build \
+            -G Ninja \
+            -DCMAKE_BUILD_TYPE=${BUILD_TYPE} \
+            -DCMAKE_TOOLCHAIN_FILE=${VCPKG_ROOT}/scripts/buildsystems/vcpkg.cmake \
+            -DCMAKE_CXX_FLAGS="--coverage"
+
+      # -----------------------------------
+      # Build
+      # -----------------------------------
+      - name: Build
+        run: cmake --build build
+
+      # -----------------------------------
+      # Run Tests (capture output)
+      # -----------------------------------
+      - name: Run Tests
+        id: tests
+        run: |
+          set +e
+          ctest --test-dir build --output-on-failure | tee test_output.txt
+          echo "EXIT_CODE=$?" >> $GITHUB_ENV
+          set -e
+
+      # Parse failed tests
+      - name: Parse Test Results
+        id: testparse
+        run: |
+          FAILED=$(grep -oP "\d+ tests failed" test_output.txt || true)
+          echo "FAILED_TESTS=$FAILED" >> $GITHUB_ENV
+
+      # -----------------------------------
+      # Coverage
+      # -----------------------------------
+      - name: Generate Coverage
+        run: |
+          lcov --capture --directory build --output-file coverage.info
+          lcov --remove coverage.info '/usr/*' --output-file coverage.info
+          lcov --list coverage.info
+
+      - name: Upload Coverage Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: coverage-report
+          path: coverage.info
+
+      # -----------------------------------
+      # Clang-Tidy
+      # -----------------------------------
+      - name: Static Analysis
+        id: tidy
+        run: |
+          run-clang-tidy -p build > tidy_output.txt || true
+
+      # -----------------------------------
+      # Benchmarks
+      # -----------------------------------
+      - name: Run Benchmarks
+        run: |
+          ./build/benchmarks_run --benchmark_format=json > benchmark.json
+
+      - name: Upload Benchmark Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: benchmark-results
+          path: benchmark.json
+
+      # -----------------------------------
+      # Docs
+      # -----------------------------------
+      - name: Generate Docs
+        run: |
+          if [ -f Doxyfile ]; then
+            doxygen Doxyfile
+          fi
+
+      - name: Upload Docs Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: documentation
+          path: docs/
+
+      # -----------------------------------
+      # PR Bot with Smart Feedback
+      # -----------------------------------
+      - name: PR Feedback
+        if: github.event_name == 'pull_request'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const status = "${{ job.status }}";
+            const failedTests = process.env.FAILED_TESTS || "0";
+
+            let body = "## 🤖 Cyberpunk CI Report\n\n";
+
+            if (status === "success") {
+              body += "✅ All systems operational.\n";
+              body += "Your implementation survived 2077.\n";
+            } else {
+              body += "❌ Pipeline failed.\n\n";
+
+              if (failedTests !== "0") {
+                body += `🧪 Tests failed: ${failedTests}\n`;
+              }
+
+              body += "\n### Possible issues:\n";
+              body += "- Formatting violations → Run clang-format.\n";
+              body += "- Failing tests → Review edge cases.\n";
+              body += "- Coverage low → Add more tests.\n";
+              body += "- Clang-tidy warnings → Improve code quality.\n";
+              body += "- Benchmark regressions → Optimize complexity.\n";
+            }
+
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: body
+            });
