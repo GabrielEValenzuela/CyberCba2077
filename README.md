@@ -17,6 +17,7 @@ Es un laboratorio vivo donde cada estructura que implementes tendrá impacto rea
 ## 👥 Equipo de desarrollo
 
 - Gabi Valenzuela ([@GabrielEValenzuela](https://github.com/GabrielEValenzuela)) - Lider de proyecto.
+- Marcos Rusconi ([@b0nusonline](https://github.com/b0nusonline)) - Desarrollador
 
 ---
 
