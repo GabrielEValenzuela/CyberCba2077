@@ -19,7 +19,7 @@ Es un laboratorio vivo donde cada estructura que implementes tendrá impacto rea
 - Gabi Valenzuela ([@GabrielEValenzuela](https://github.com/GabrielEValenzuela)) - Lider de proyecto.
 - Marcos Rusconi ([@b0nusonline](https://github.com/b0nusonline)) - Desarrollador
 - Erick Economou ([@ErickEconomou](https://github.com/ErickEconomou)) - Desarrollador
-
+- Marcos Bravin ([@marcosbravin7](https://github.com/marcosbravin7)) - Desarrollador
 ---
 
 ## 🎮 ¿Qué es Cyberpunk Córdoba 2077?
