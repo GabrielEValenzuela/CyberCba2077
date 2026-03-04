@@ -1,0 +1,72 @@
+CompileFlags:
+  Add:
+    - -std=c++17
+    - -x
+    - c++
+    - -Wall
+    - -Wextra
+    - -Wpedantic
+    - -Wconversion
+    - -Wshadow
+    - -Werror
+    - -fexceptions
+    - -I${workspaceFolder}/include
+    - -I${workspaceFolder}/src
+    - -I/usr/local/include
+  CompilationDatabase: build
+
+Diagnostics:
+  ClangTidy:
+    Add:
+      - bugprone-*
+      - modernize-*
+      - performance-*
+      - portability-*
+      - readability-*
+      - cppcoreguidelines-*
+      - clang-analyzer-*
+      - misc-*
+    Remove:
+      - abseil-*
+      - altera-*
+      - android-*
+      - fuchsia-*
+      - llvm-*
+      - zircon-*
+      - google-readability-todo
+      - readability-identifier-length
+      - cppcoreguidelines-avoid-magic-numbers
+      - hicpp-avoid-goto
+      - modernize-use-trailing-return-type
+      - modernize-use-nodiscard
+      - performance-avoid-endl
+    CheckOptions:
+      readability-identifier-naming.ClassCase: CamelCase
+      readability-identifier-naming.StructCase: CamelCase
+      readability-identifier-naming.FunctionCase: camelBack
+      readability-identifier-naming.VariableCase: camelBack
+      readability-identifier-naming.MemberCase: camelBack
+      readability-identifier-naming.ConstexprVariableCase: CamelCase
+  UnusedIncludes: Strict
+
+Index:
+  Background: Build
+  StandardLibrary: Yes
+
+Hover:
+  ShowAKA: true
+
+Completion:
+  AllScopes: Yes
+
+InlayHints:
+  Enabled: true
+  ParameterNames: true
+  DeducedTypes: true
+  Designators: true
+  BlockEnd: true
+
+Style:
+  FullyQualifiedNamespaces:
+    - std
+    - chrono

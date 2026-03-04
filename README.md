@@ -1,4 +1,4 @@
-# 🌆 Cyberpunk Córdoba 2077
+# 🌆 Cyberpunk Córdoba 2077 ![CI](https://github.com/<owner>/<repo>/actions/workflows/ci.yml/badge.svg)
 
 > Año 2077.  
 > Córdoba ya no es la que conocías.  

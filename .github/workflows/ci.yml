@@ -1,0 +1,315 @@
+name: Cyberpunk CI Advanced
+
+on:
+  push:
+    branches: [main, dev]
+  pull_request:
+
+permissions:
+  contents: read
+  pull-requests: write
+
+jobs:
+  ci:
+    runs-on: ubuntu-latest
+
+    env:
+      BUILD_TYPE: Debug
+      VCPKG_ROOT: ${{ github.workspace }}/vcpkg
+
+    steps:
+      # -----------------------------------
+      # Checkout
+      # -----------------------------------
+      - uses: actions/checkout@v4
+
+      - name: Install dependencies
+        run: |
+          sudo apt update
+          sudo apt install -y ninja-build clang clang-tidy clang-format \
+            lcov llvm doxygen graphviz unzip
+
+      # -----------------------------------
+      # vcpkg (cached)
+      # -----------------------------------
+      - name: Cache vcpkg
+        id: cache-vcpkg
+        uses: actions/cache@v4
+        with:
+          path: vcpkg
+          key: vcpkg-${{ runner.os }}-${{ hashFiles('vcpkg.json') }}
+
+      - name: Bootstrap vcpkg
+        if: steps.cache-vcpkg.outputs.cache-hit != 'true'
+        run: |
+          git clone https://github.com/microsoft/vcpkg.git
+          ./vcpkg/bootstrap-vcpkg.sh
+
+      # -----------------------------------
+      # Clang Format
+      # -----------------------------------
+      - name: Style Check
+        id: style
+        run: |
+          FILES=$(find src include tests -name '*.cpp' -o -name '*.hpp' || true)
+          if [ -n "$FILES" ]; then
+            clang-format --dry-run --Werror $FILES
+          else
+            echo "No C++ files found under src/include/tests."
+          fi
+
+      # -----------------------------------
+      # Docs
+      # -----------------------------------
+      - name: Generate Docs
+        id: docs
+        run: |
+          if [ -f Doxyfile ]; then
+            mkdir -p ./build/docs
+            doxygen Doxyfile
+          else
+            echo "No Doxyfile found, skipping docs."
+          fi
+
+      - name: Upload Docs Artifact
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: documentation
+          path: ./build/docs
+          if-no-files-found: ignore
+
+      # -----------------------------------
+      # Configure (with coverage)
+      # -----------------------------------
+      - name: Configure
+        id: configure
+        run: |
+          cmake -S . -B build \
+            -G Ninja \
+            -DCMAKE_BUILD_TYPE=${BUILD_TYPE} \
+            -DCMAKE_TOOLCHAIN_FILE=${VCPKG_ROOT}/scripts/buildsystems/vcpkg.cmake \
+            -DCMAKE_EXPORT_COMPILE_COMMANDS=ON \
+            -DCMAKE_C_COMPILER=clang \
+            -DCMAKE_CXX_COMPILER=clang++ \
+            -DCMAKE_CXX_FLAGS="-O0 -g --coverage" \
+            -DCMAKE_EXE_LINKER_FLAGS="--coverage"
+
+      # -----------------------------------
+      # Clang-Tidy (needs compile_commands.json)
+      # -----------------------------------
+      - name: Static Analysis
+        id: tidy
+        run: |
+          run-clang-tidy -p build > tidy_output.txt || true
+
+      # -----------------------------------
+      # Build
+      # -----------------------------------
+      - name: Build
+        id: build
+        run: cmake --build build
+
+      # -----------------------------------
+      # Run Tests (fail job if tests fail)
+      # -----------------------------------
+      - name: Run Tests
+        id: tests
+        run: |
+          set +e
+          ctest --test-dir build --output-on-failure | tee test_output.txt
+          RC=$?
+          echo "EXIT_CODE=$RC" >> $GITHUB_ENV
+          set -e
+          exit $RC
+
+      # Parse failed tests
+      - name: Parse Test Results
+        id: testparse
+        if: always()
+        run: |
+          FAILED=$(grep -oP "\d+ tests failed" test_output.txt || true)
+          echo "FAILED_TESTS=${FAILED:-0 tests failed}" >> $GITHUB_ENV
+
+      # -----------------------------------
+      # Coverage (lcov + llvm-cov)
+      # -----------------------------------
+      - name: Generate Coverage
+        id: coverage
+        if: always()
+        run: |
+          # Wrapper: lcov expects a single executable path for --gcov-tool
+          cat > llvm-gcov.sh <<'EOF'
+          #!/usr/bin/env bash
+          exec llvm-cov gcov "$@"
+          EOF
+          chmod +x llvm-gcov.sh
+
+          lcov --capture \
+            --directory build \
+            --output-file coverage.info \
+            --gcov-tool "$(pwd)/llvm-gcov.sh" \
+            --ignore-errors inconsistent,mismatch
+
+          # Remove system + deps; tolerate "unused" pattern
+          lcov --remove coverage.info \
+            '/usr/*' \
+            '*/build/vcpkg_installed/*' \
+            --ignore-errors inconsistent,unused \
+            --output-file coverage.info
+
+          # lcov can still exit non-zero on inconsistent while listing
+          lcov --list coverage.info --ignore-errors inconsistent
+
+      - name: Upload Coverage Artifact
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: coverage-report
+          path: coverage.info
+          if-no-files-found: ignore
+
+      - name: Coverage Summary
+        id: cov
+        if: always()
+        run: |
+          SUMMARY=$(lcov --summary coverage.info --ignore-errors inconsistent | tail -n 1 || true)
+          echo "$SUMMARY"
+          PCT=$(echo "$SUMMARY" | sed -n 's/.*: \([0-9.]\+\)%.*/\1/p')
+          echo "COVERAGE_PCT=${PCT:-0}" >> $GITHUB_ENV
+
+      - name: Count clang-tidy warnings
+        id: tidy_count
+        if: always()
+        run: |
+          WARN=$(grep -c "warning:" tidy_output.txt || true)
+          echo "TIDY_WARNINGS=$WARN" >> $GITHUB_ENV
+
+      # -----------------------------------
+      # Benchmarks - ToDo: implementar comparación con baseline
+      # -----------------------------------
+
+      # -----------------------------------
+      # PR Bot with Smart Feedback
+      # -----------------------------------
+      - name: 🤖 PR Bot (smart, ES)
+        if: always() && github.event_name == 'pull_request'
+        uses: actions/github-script@v7
+        env:
+          STYLE_OUTCOME: ${{ steps.style.outcome }}
+          CONFIGURE_OUTCOME: ${{ steps.configure.outcome }}
+          BUILD_OUTCOME: ${{ steps.build.outcome }}
+          TESTS_OUTCOME: ${{ steps.tests.outcome }}
+          BENCH_OUTCOME: ${{ steps.bench_compare.outcome }}
+          DOCS_OUTCOME: ${{ steps.docs.outcome }}
+          BASELINE_AVAILABLE: ${{ steps.bench_base.outputs.baseline_available }}
+        with:
+          script: |
+            const styleOk = process.env.STYLE_OUTCOME === "success";
+            const cfgOk   = process.env.CONFIGURE_OUTCOME === "success";
+            const buildOk = process.env.BUILD_OUTCOME === "success";
+            const testsOk = process.env.TESTS_OUTCOME === "success";
+            const docsOk  = (process.env.DOCS_OUTCOME || "success") === "success";
+
+            const baseline = (process.env.BASELINE_AVAILABLE || "false") === "true";
+            const benchOutcome = process.env.BENCH_OUTCOME || "skipped";
+            const benchOk = !baseline ? true : (benchOutcome === "success");
+
+            // from $GITHUB_ENV (set by prior steps)
+            const cov = parseFloat(process.env.COVERAGE_PCT || "0");
+            const tidyWarn = parseInt(process.env.TIDY_WARNINGS || "0", 10);
+
+            // Quality score (simple, 0..100)
+            let score = 0;
+            score += styleOk ? 20 : 0;
+            score += (cfgOk && buildOk) ? 20 : 0;
+            score += testsOk ? 20 : 0;
+            score += (cov >= 90 ? 20 : cov >= 80 ? 18 : cov >= 50 ? 10 : cov >= 20 ? 5 : 0);
+            score += (tidyWarn === 0 ? 20 : tidyWarn <= 10 ? 15 : tidyWarn <= 30 ? 10 : 0);
+
+            // Detect first failing stage
+            let failed = null;
+            if (!styleOk) failed = "style";
+            else if (!cfgOk) failed = "configure";
+            else if (!buildOk) failed = "build";
+            else if (!testsOk) failed = "tests";
+            else if (baseline && !benchOk) failed = "bench";
+            else if (!docsOk) failed = "docs";
+
+            const hints = {
+              style: [
+                "Ejecutá clang-format localmente (ideal: format on save en tu editor).",
+                "Verificá que exista y se esté usando el archivo .clang-format del repo.",
+                "Formateá solo los archivos del PR (src/, include/, tests/).",
+                "Si trabajaron en equipo: asegúrense de usar la misma configuración de formateo."
+              ],
+              configure: [
+                "Revisá que vcpkg esté bien configurado (VCPKG_ROOT y toolchain file).",
+                "Si cambiaste dependencias, verificá vcpkg.json y reconfigurá desde cero (borrar build/).",
+                "Asegurate de tener Ninja instalado si el preset lo usa (o cambiá el generator).",
+                "Chequeá que CMakePresets.json coincida con el build dir que usa el repo."
+              ],
+              build: [
+                "Si dice 'file not found': suele ser un include mal escrito o una ruta no agregada en CMake (target_include_directories).",
+                "Si falla al linkear: revisá target_link_libraries y dependencias (gtest/benchmark/raylib).",
+                "Si cambiaste nombres de archivos: actualizá los CMakeLists.txt.",
+                "Probá un build limpio: borrar build/ y volver a configurar."
+              ],
+              tests: [
+                "Revisá casos borde: lista vacía, un solo elemento, umbrales, valores extremos.",
+                "Si hay crashes: probá compilar con sanitizers (ASan/UBSan) localmente.",
+                "Evitá comportamiento indefinido: punteros sin inicializar, double free, acceso fuera de rango.",
+                "Si un test es no determinista: revisá orden de iteración o valores no inicializados."
+              ],
+              bench: [
+                "Hay una regresión de rendimiento vs baseline: revisá complejidad (¿metiste O(n) dentro de O(n)?).",
+                "Evitá copias innecesarias: pasá por referencia, usá move cuando corresponda.",
+                "Reducí asignaciones: reservá memoria si aplica, reutilizá buffers/estructuras.",
+                "Medí localmente y compará: un cambio chico puede afectar mucho en loops calientes."
+              ],
+              docs: [
+                "Si falló doxygen: revisá que exista Doxyfile y que las rutas de entrada sean correctas.",
+                "Si docs/ no se generó: verificá OUTPUT_DIRECTORY y permisos.",
+                "Esto no suele bloquear el proyecto, pero mantené la doc al día."
+              ]
+            };
+
+            function take(arr, max=5) {
+              return (arr || []).slice(0, max).map(x => `- ${x}`).join("\n");
+            }
+
+            const benchStatus = !baseline ? "SIN BASELINE (aún)" : (benchOk ? "OK" : "REGRESIÓN");
+
+            let body = "## 🤖 Reporte de CI — Cyberpunk Córdoba 2077\n\n";
+            body += `**Quality Score:** **${score}/100**\n`;
+            body += `- 🧪 Tests: **${testsOk ? "OK" : "FALLÓ"}**\n`;
+            body += `- 🎨 Estilo (clang-format): **${styleOk ? "OK" : "FALLÓ"}**\n`;
+            body += `- 🧼 clang-tidy warnings: **${tidyWarn}**\n`;
+            body += `- 📈 Coverage: **${cov.toFixed(1)}%**\n`;
+            body += `- ⚡ Benchmarks vs baseline: **${benchStatus}**\n\n`;
+
+            if (!failed) {
+              body += "✅ **Todo OK.** Tu PR pasó el pipeline completo.\n\n";
+              body += "> En 2077, tu código sobrevivió.\n";
+            } else {
+              const titles = {
+                style: "🎨 Estilo / Formato",
+                configure: "⚙ Configuración (CMake/vcpkg)",
+                build: "🏗 Compilación / Linkeo",
+                tests: "🧪 Tests",
+                bench: "⚡ Benchmarks (regresión)",
+                docs: "📚 Documentación"
+              };
+
+              body += `❌ **Falló la etapa:** **${titles[failed] || failed}**\n\n`;
+              body += "### Pistas para arreglarlo (3–5)\n";
+              body += take(hints[failed], 5) + "\n\n";
+              body += "📌 Revisá los logs del step fallido en GitHub Actions: ahí está el error exacto.\n";
+            }
+
+            await github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body
+            });
