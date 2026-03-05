@@ -22,6 +22,20 @@ Es un laboratorio vivo donde cada estructura que implementes tendrá impacto rea
 
 ---
 
+
+
+
+
+
+
+
+
+
+
+
+
+-Santiago Fernandez (@SantiFernandezGit) - Desarrollador
+
 ## 🎮 ¿Qué es Cyberpunk Córdoba 2077?
 
 Es un RPG 2D top-down desarrollado con **raylib**, donde el motor gráfico ya está provisto por la cátedra.
