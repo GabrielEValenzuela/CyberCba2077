@@ -22,6 +22,8 @@ Es un laboratorio vivo donde cada estructura que implementes tendrá impacto rea
 - Lautaro Flores ([@lautyfg](https://github.com/lautyfg)) - Desarrollador
 - Alejandro Kodjadelian ([@Alejandro-unc](https://github.com/Alejandro-unc)) - Desarrollador
 - - Marcos Bravin ([@marcosbravin7](https://github.com/marcosbravin7)) - Desarrollador
+- Leandro Bassi ([@LeandroBassi] (https://github.com/LeandroBassi))
+- Desarrollador
 ---
 
 
