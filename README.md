@@ -21,6 +21,8 @@ Es un laboratorio vivo donde cada estructura que implementes tendrá impacto rea
 - Erick Economou ([@ErickEconomou](https://github.com/ErickEconomou)) - Desarrollador
 - Lautaro Flores ([@lautyfg](https://github.com/lautyfg)) - Desarrollador
 - Alejandro Kodjadelian ([@Alejandro-unc](https://github.com/Alejandro-unc)) - Desarrollador
+- Marcos Bravin ([@marcosbravin7](https://github.com/marcosbravin7)) - Desarrollador
+- Leandro Bassi ([@LeandroBassi] (https://github.com/LeandroBassi)) - Desarrollador
 - Agustina Marasini ([@agustinaa-arch](https://github.com/agustinaa-arch)) - Desarrollador
 - Marcos Bravin ([@marcosbravin7](https://github.com/marcosbravin7)) - Desarrollador
 - Santiago Fernandez (@SantiFernandezGit) - Desarrollador
