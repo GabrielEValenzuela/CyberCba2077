@@ -10,6 +10,33 @@ permissions:
   pull-requests: write
 
 jobs:
+  validate-branch-name:
+    name: validate-branch-name
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Validate branch name
+        run: |
+          if [ "${{ github.event_name }}" = "pull_request" ]; then
+            BRANCH="${{ github.head_ref }}"
+          else
+            BRANCH="${GITHUB_REF#refs/heads/}"
+          fi
+
+          echo "Validando rama: $BRANCH"
+
+          if [ "$BRANCH" = "master" ] || [ "$BRANCH" = "development" ]; then
+            exit 0
+          fi
+
+          if [[ "$BRANCH" =~ ^(feature|hotfix|bug|release)\/.+$ ]]; then
+            exit 0
+          fi
+
+          echo "Nombre de rama inválido"
+          echo "Usa: feature/* hotfix/* bug/* release/*"
+          exit 1
+
   ci:
     runs-on: ubuntu-latest
 

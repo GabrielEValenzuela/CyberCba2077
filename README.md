@@ -22,21 +22,13 @@ Es un laboratorio vivo donde cada estructura que implementes tendrá impacto rea
 - Lautaro Flores ([@lautyfg](https://github.com/lautyfg)) - Desarrollador
 - Alejandro Kodjadelian ([@Alejandro-unc](https://github.com/Alejandro-unc)) - Desarrollador
 - Martin Compagnucci ([@Martin2026-AyE](https://github.com/Martin2026-AyE)) - Desarrollador
+- Marcos Bravin ([@marcosbravin7](https://github.com/marcosbravin7)) - Desarrollador
+- Leandro Bassi ([@LeandroBassi] (https://github.com/LeandroBassi)) - Desarrollador
+- Agustina Marasini ([@agustinaa-arch](https://github.com/agustinaa-arch)) - Desarrollador
+- Marcos Bravin ([@marcosbravin7](https://github.com/marcosbravin7)) - Desarrollador
+- Santiago Fernandez (@SantiFernandezGit) - Desarrollador
+- Alejo Sosa Luna ([@asosalunaa](https://github.com/asosalunaa)) - Desarrollador 
 ---
-
-
-
-
-
-
-
-
-
-
-
-
-
--Santiago Fernandez (@SantiFernandezGit) - Desarrollador
 
 ## 🎮 ¿Qué es Cyberpunk Córdoba 2077?
 
