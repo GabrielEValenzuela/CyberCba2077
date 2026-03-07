@@ -26,7 +26,8 @@ Es un laboratorio vivo donde cada estructura que implementes tendrá impacto rea
 - Agustina Marasini ([@agustinaa-arch](https://github.com/agustinaa-arch)) - Desarrollador
 - Marcos Bravin ([@marcosbravin7](https://github.com/marcosbravin7)) - Desarrollador
 - Santiago Fernandez (@SantiFernandezGit) - Desarrollador
-- Alejo Sosa Luna ([@asosalunaa](https://github.com/asosalunaa)) - Desarrollador 
+- Alejo Sosa Luna ([@asosalunaa](https://github.com/asosalunaa)) - Desarrollador
+- Agustin Mella Romero ([@mellantastico](https://github.com/Mellantastico)) - Humungosaurio-
 ---
 
 ## 🎮 ¿Qué es Cyberpunk Córdoba 2077?
