@@ -28,6 +28,7 @@ Es un laboratorio vivo donde cada estructura que implementes tendrá impacto rea
 - Marcos Bravin ([@marcosbravin7](https://github.com/marcosbravin7)) - Desarrollador
 - Santiago Fernandez (@SantiFernandezGit) - Desarrollador
 - Alejo Sosa Luna ([@asosalunaa](https://github.com/asosalunaa)) - Desarrollador 
+- Facundo Lugones ([@Facu01332](https://github.com/Facu01332)) -Desarrollador
 ---
 
 ## 🎮 ¿Qué es Cyberpunk Córdoba 2077?
