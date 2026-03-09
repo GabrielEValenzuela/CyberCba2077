@@ -17,7 +17,7 @@ Es un laboratorio vivo donde cada estructura que implementes tendrá impacto rea
 ## 👥 Equipo de desarrollo
 
 - Gabi Valenzuela ([@GabrielEValenzuela](https://github.com/GabrielEValenzuela)) - Lider de proyecto.
-
+- Ramiro Navarro ([@RamiroNavarro01](https://github.com/RamiroNavarro01)) - Desarrollador.
 ---
 
 ## 🎮 ¿Qué es Cyberpunk Córdoba 2077?
