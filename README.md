@@ -23,12 +23,23 @@ Es un laboratorio vivo donde cada estructura que implementes tendrá impacto rea
 - Alejandro Kodjadelian ([@Alejandro-unc](https://github.com/Alejandro-unc)) - Desarrollador
 - Martin Compagnucci ([@Martin2026-AyE](https://github.com/Martin2026-AyE)) - Desarrollador
 - Marcos Bravin ([@marcosbravin7](https://github.com/marcosbravin7)) - Desarrollador
-- Leandro Bassi ([@LeandroBassi] (https://github.com/LeandroBassi)) - Desarrollador
+- Leandro Bassi ([@LeandroBassi](https://github.com/LeandroBassi)) - Desarrollador
 - Agustina Marasini ([@agustinaa-arch](https://github.com/agustinaa-arch)) - Desarrollador
 - Marcos Bravin ([@marcosbravin7](https://github.com/marcosbravin7)) - Desarrollador
-- Santiago Fernandez (@SantiFernandezGit) - Desarrollador
+- Agustin Mella Romero ([@mellantastico](https://github.com/Mellantastico)) - Humungosaurio-
+- Santiago Fernandez ([@SantiFernandezGit](https://github.com/SantiFernandezGit)) - Desarrollador
+- Alejo Sosa Luna ([@asosalunaa](https://github.com/asosalunaa)) - Desarrollador
+- Lautaro Perez ([@Lautazz11](https://github.com/Lautazz11)) - Desarrollador
 - Alejo Sosa Luna ([@asosalunaa](https://github.com/asosalunaa)) - Desarrollador 
 - Facundo Michaud ([@FacuM225](https://github.com/FacuM225)) - Desarrollador
+- Camila Soto ([@camila-soto](https://github.com/camila-soto)) - Desarrollador 
+- Santiago Bertocco ([@santi-bertocco](https://github.com/santi-bertocco)) - Desarrollador
+- Leonardo Rincon ([@LeoRincon03](https://github.com/LeoRincon03)) - Desarrolador
+- Juan Ignacio Fernandez([@JuanIFSB](https://github.com/JuanIFSB)) - Desarrollador 
+- Luis Enrique Palacio ([@luis-palacio-unc](https://github.com/luis-palacio-unc)) - Desarrollador
+- Pilar Fernandez Bonilla([@Pilarfbonilla](https://github.com/Pilarfbonilla))-Desarrollador
+- Ángela Marioni ([@Angela-M-01](https://github.com/Angela-M-01)) - Desarrollador
+
 ---
 
 ## 🎮 ¿Qué es Cyberpunk Córdoba 2077?
