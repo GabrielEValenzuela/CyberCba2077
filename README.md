@@ -29,6 +29,8 @@ Es un laboratorio vivo donde cada estructura que implementes tendrá impacto rea
 - Santiago Fernandez (@SantiFernandezGit) - Desarrollador
 - Alejo Sosa Luna ([@asosalunaa](https://github.com/asosalunaa)) - Desarrollador 
 - Pilar Fernandez Bonilla([@Pilarfbonilla](https://github.com/Pilarfbonilla))-Desarrollador
+- Ángela Marioni ([@Angela-M-01](https://github.com/Angela-M-01)) - Desarrollador
+
 ---
 
 ## 🎮 ¿Qué es Cyberpunk Córdoba 2077?
