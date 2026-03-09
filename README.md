@@ -31,6 +31,7 @@ Es un laboratorio vivo donde cada estructura que implementes tendrá impacto rea
 - Alejo Sosa Luna ([@asosalunaa](https://github.com/asosalunaa)) - Desarrollador
 - Lautaro Perez ([@Lautazz11](https://github.com/Lautazz11)) - Desarrollador
 - Alejo Sosa Luna ([@asosalunaa](https://github.com/asosalunaa)) - Desarrollador 
+- Facundo Michaud ([@FacuM225](https://github.com/FacuM225)) - Desarrollador
 - Camila Soto ([@camila-soto](https://github.com/camila-soto)) - Desarrollador 
 - Santiago Bertocco ([@santi-bertocco](https://github.com/santi-bertocco)) - Desarrollador
 - Leonardo Rincon ([@LeoRincon03](https://github.com/LeoRincon03)) - Desarrolador
