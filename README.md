@@ -28,6 +28,7 @@ Es un laboratorio vivo donde cada estructura que implementes tendrá impacto rea
 - Marcos Bravin ([@marcosbravin7](https://github.com/marcosbravin7)) - Desarrollador
 - Santiago Fernandez ([@SantiFernandezGit](https://github.com/SantiFernandezGit)) - Desarrollador
 - Alejo Sosa Luna ([@asosalunaa](https://github.com/asosalunaa)) - Desarrollador 
+- Juan Ignacio Fernandez([@JuanIFSB](https://github.com/JuanIFSB)) - Desarrollador 
 - Luis Enrique Palacio ([@luis-palacio-unc](https://github.com/luis-palacio-unc)) - Desarrollador
 - Pilar Fernandez Bonilla([@Pilarfbonilla](https://github.com/Pilarfbonilla))-Desarrollador
 - Ángela Marioni ([@Angela-M-01](https://github.com/Angela-M-01)) - Desarrollador
