@@ -52,6 +52,7 @@ Es un laboratorio vivo donde cada estructura que implementes tendrá impacto rea
 - Matias Martin Fenizi ([@matiasfenizi-a11y](https://github.com/matiasfenizi-a11y)) - Desarrollador
 - Geronimo Borda Bossana([@granitsilber-e36](https://github.com/granitsilber-e36)) - Desarrollador
 - Fabricio Lucero([@fabriciobit](https://github.com/fabriciobit)) - Desarrollador
+- Franco Diaz ([@LeoFranco02](https://github.com/LeoFranco02)) - Desarrollador
 
 ---
 
