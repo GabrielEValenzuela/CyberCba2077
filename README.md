@@ -54,6 +54,7 @@ Es un laboratorio vivo donde cada estructura que implementes tendrá impacto rea
 - Fabricio Lucero([@fabriciobit](https://github.com/fabriciobit)) - Desarrollador
 - Lucia Alazino([@luciiii4](https://github.com/luciiii4)) - Desarrollador
 - Nicolas Centurion ([@NicolasCenturion122](https://github.com/NicolasCenturion122)) - Desarrollador
+- Juan Ignacio Martinez ([@Juanimart51](https://github.com/Juanimart51)) - Desarrollador
 
 ---
 
