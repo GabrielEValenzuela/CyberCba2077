@@ -59,7 +59,7 @@ Es un laboratorio vivo donde cada estructura que implementes tendrá impacto rea
 - Priscila Martinez([@Prisci-Martinez](https://github.com/Prisci-Martinez)) - Desarrollador
 - Lucia Alazino([@luciiii4](https://github.com/luciiii4)) - Desarrollador
 - Nicolas Centurion ([@NicolasCenturion122](https://github.com/NicolasCenturion122)) - Desarrollador
-
+- Bruno Ottonello ([@Motomoto17](https://github.com/Motomoto17)) - Desarrollador 
 ---
 
 ## 🎮 ¿Qué es Cyberpunk Córdoba 2077?
