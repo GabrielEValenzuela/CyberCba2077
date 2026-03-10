@@ -53,6 +53,11 @@ Es un laboratorio vivo donde cada estructura que implementes tendrá impacto rea
 - Geronimo Borda Bossana([@granitsilber-e36](https://github.com/granitsilber-e36)) - Desarrollador
 - Fabricio Lucero([@fabriciobit](https://github.com/fabriciobit)) - Desarrollador
 - Juana Castellano ([@juanacast](https://github.com/juanacast)) - Desarrollador
+- Franco Diaz ([@LeoFranco02](https://github.com/LeoFranco02)) - Desarrollador
+- Matias Angel Lamas ([@angelowski001](https://github.com/angelowski001)) - Desarrollador
+- Priscila Martinez([@Prisci-Martinez](https://github.com/Prisci-Martinez)) - Desarrollador
+- Lucia Alazino([@luciiii4](https://github.com/luciiii4)) - Desarrollador
+- Nicolas Centurion ([@NicolasCenturion122](https://github.com/NicolasCenturion122)) - Desarrollador
 
 ---
 
