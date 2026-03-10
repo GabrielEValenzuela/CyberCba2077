@@ -35,6 +35,7 @@ Es un laboratorio vivo donde cada estructura que implementes tendrá impacto rea
 - Alejo Sosa Luna ([@asosalunaa](https://github.com/asosalunaa)) - Desarrollador 
 - Juani Aguero ([@juaniaguero](https://github.com/juaniaguero)) - Desarrollador
 - Valentin Suppo ([@valesppo](https://github.com/valesppo)) - Desarrollador
+- Mateo Agustín Ahivar ([@Mateo-Ahivar](https://github.com/Mateo-Ahivar)) - Desarrollador
 - Benjamin Vasconsellos ([@benjaminvasconsellos](https://github.com/benjaminvasconsellos)) - Desarrollador
 - Santiago Riera ([@SantiiRiera](https://github.com/SantiiRiera)) - Desarrollador
 - Facundo Lugones ([@Facu01332](https://github.com/Facu01332)) -Desarrollador
@@ -52,6 +53,10 @@ Es un laboratorio vivo donde cada estructura que implementes tendrá impacto rea
 - Matias Martin Fenizi ([@matiasfenizi-a11y](https://github.com/matiasfenizi-a11y)) - Desarrollador
 - Geronimo Borda Bossana([@granitsilber-e36](https://github.com/granitsilber-e36)) - Desarrollador
 - Fabricio Lucero([@fabriciobit](https://github.com/fabriciobit)) - Desarrollador
+- Juana Castellano ([@juanacast](https://github.com/juanacast)) - Desarrollador
+- Franco Diaz ([@LeoFranco02](https://github.com/LeoFranco02)) - Desarrollador
+- Matias Angel Lamas ([@angelowski001](https://github.com/angelowski001)) - Desarrollador
+- Priscila Martinez([@Prisci-Martinez](https://github.com/Prisci-Martinez)) - Desarrollador
 - Lucia Alazino([@luciiii4](https://github.com/luciiii4)) - Desarrollador
 - Nicolas Centurion ([@NicolasCenturion122](https://github.com/NicolasCenturion122)) - Desarrollador
 - Juan Ignacio Martinez ([@Juanimart51](https://github.com/Juanimart51)) - Desarrollador
