@@ -55,13 +55,17 @@ Es un laboratorio vivo donde cada estructura que implementes tendrá impacto rea
 - Matias Martin Fenizi ([@matiasfenizi-a11y](https://github.com/matiasfenizi-a11y)) - Desarrollador
 - Geronimo Borda Bossana([@granitsilber-e36](https://github.com/granitsilber-e36)) - Desarrollador
 - Fabricio Lucero([@fabriciobit](https://github.com/fabriciobit)) - Desarrollador
+- Franco Ibarra ([@francoibarra26](https://github.com/francoibarra26)) - Desarrollador
 - Juana Castellano ([@juanacast](https://github.com/juanacast)) - Desarrollador
 - Franco Diaz ([@LeoFranco02](https://github.com/LeoFranco02)) - Desarrollador
 - Matias Angel Lamas ([@angelowski001](https://github.com/angelowski001)) - Desarrollador
 - Priscila Martinez([@Prisci-Martinez](https://github.com/Prisci-Martinez)) - Desarrollador
 - Lucia Alazino([@luciiii4](https://github.com/luciiii4)) - Desarrollador
 - Nicolas Centurion ([@NicolasCenturion122](https://github.com/NicolasCenturion122)) - Desarrollador
-
+- Mateo Correa Sisalli ([@mateocorreasisalli](https://github.com/mateocorreasisalli)) - Desarrollador
+- Santiago Nicolau ([@Santi695174](https://github.com/Santi695174)) - Desarrollador
+- Claudia Yon ([@clau-yon](https://github.com/clau-yon)) - Desarrollador
+- Bruno Ottonello ([@Motomoto17](https://github.com/Motomoto17)) - Desarrollador 
 ---
 
 ## 🎮 ¿Qué es Cyberpunk Córdoba 2077?
