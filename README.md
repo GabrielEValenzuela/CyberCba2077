@@ -69,7 +69,7 @@ Es un laboratorio vivo donde cada estructura que implementes tendrá impacto rea
 - Bruno Ottonello ([@Motomoto17](https://github.com/Motomoto17)) - Desarrollador 
 - Sharon Blatter ([@sharonblatter-jpg](https://github.com/sharonblatter-jpg)) - Desarrollador 
 - Sofía Sivila ([@Nazarena12](https://github.com/Nazarena12)) - Desarrollador
-
+- Alfredo Binaghi ([@alfredobinaghi](https://github.com/alfredobinaghi)) - Desarrollador
 ---
 
 ## 🎮 ¿Qué es Cyberpunk Córdoba 2077?
