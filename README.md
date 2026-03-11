@@ -65,7 +65,8 @@ Es un laboratorio vivo donde cada estructura que implementes tendrá impacto rea
 - Mateo Correa Sisalli ([@mateocorreasisalli](https://github.com/mateocorreasisalli)) - Desarrollador
 - Santiago Nicolau ([@Santi695174](https://github.com/Santi695174)) - Desarrollador
 - Claudia Yon ([@clau-yon](https://github.com/clau-yon)) - Desarrollador
-- Bruno Ottonello ([@Motomoto17](https://github.com/Motomoto17)) - Desarrollador 
+- Bruno Ottonello ([@Motomoto17](https://github.com/Motomoto17)) - Desarrollador
+- Santiago Barboza ([@santybarboza](https://github.com/santybarboza)) - Desarrollador
 ---
 
 ## 🎮 ¿Qué es Cyberpunk Córdoba 2077?
