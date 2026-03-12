@@ -67,6 +67,7 @@ Es un laboratorio vivo donde cada estructura que implementes tendrá impacto rea
 - Claudia Yon ([@clau-yon](https://github.com/clau-yon)) - Desarrollador
 - Santiago Barboza ([@santybarboza](https://github.com/santybarboza)) - Desarrollador
 - Bruno Ottonello ([@Motomoto17](https://github.com/Motomoto17)) - Desarrollador 
+- Nicolás Ludueña ([@nicoluduena04](https://github.com/nicoluduena04)) - Desarrollador 
 - Santiago Agustin Zuñiga Castro ([@santizuu](https://github.com/Santizuu)) - Desarrollador
 - Sharon Blatter ([@sharonblatter-jpg](https://github.com/sharonblatter-jpg)) - Desarrollador 
 - Sofía Sivila ([@Nazarena12](https://github.com/Nazarena12)) - Desarrollador
