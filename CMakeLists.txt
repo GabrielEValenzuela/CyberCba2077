@@ -20,6 +20,11 @@ set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 add_executable(cyberpunk2077
   src/main.cpp
   src/model/GameModel.cpp
+        src/model/agent.cpp
+        include/model/agent.hpp
+        src/model/mercenary.cpp
+        include/model/mercenary.hpp
+        include/model/squad.hpp
 )
 
 target_include_directories(cyberpunk2077 PRIVATE include)
@@ -34,6 +39,11 @@ if(CYBERPUNK_BUILD_TESTS)
   add_executable(unit_tests
     tests/test_gamemodel.cpp
     src/model/GameModel.cpp
+          src/model/agent.cpp
+          include/model/agent.hpp
+          src/model/mercenary.cpp
+          include/model/mercenary.hpp
+          include/model/squad.hpp
   )
 
   target_include_directories(unit_tests PRIVATE include)
