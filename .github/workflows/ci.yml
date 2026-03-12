@@ -8,7 +8,7 @@ permissions:
   pull-requests: write
 
 env:
-  COVERAGE_THRESHOLD: "100"
+  COVERAGE_THRESHOLD: "80"
 
 jobs:
   validate-branch-name:

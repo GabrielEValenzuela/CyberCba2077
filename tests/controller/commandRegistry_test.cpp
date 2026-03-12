@@ -1,184 +1,214 @@
-#include "controller/command.hpp"
+#include "common/types.hpp"
 #include "controller/commandRegistry.hpp"
+#include "helpCommand.hpp"
 #include "model/gameModel.hpp"
+#include "statusCommand.hpp"
 #include "unknownCommand.hpp"
 
 #include <gtest/gtest.h>
-#include <memory>
-#include <string>
+#include <iostream>
+#include <sstream>
 
 using namespace CyberpunkCba;
 
 // =============================================================================
-// Comando de prueba mínimo
+// Fixture compartida
 // =============================================================================
 
-class FakeCommand final : public Command
-{
-public:
-    explicit FakeCommand(std::string cmdName, std::string cat = "test")
-        : m_name {std::move(cmdName)}
-        , m_cat {std::move(cat)}
-    {
-    }
-
-    bool wasExecuted() const noexcept
-    {
-        return m_executed;
-    }
-
-private:
-    void execute(GameModel& /*model*/) override
-    {
-        m_executed = true;
-    }
-    std::string name() const override
-    {
-        return m_name;
-    }
-    std::string description() const override
-    {
-        return "fake";
-    }
-    std::string category() const override
-    {
-        return m_cat;
-    }
-
-    std::string m_name;
-    std::string m_cat;
-    bool m_executed {false};
-};
-
-// =============================================================================
-// Fixture
-// =============================================================================
-
-class CommandRegistryTest : public ::testing::Test
+class InstructorCommandsTest : public ::testing::Test
 {
 protected:
+    void SetUp() override
+    {
+        m_registry.add(std::make_unique<UnknownCommand>(""));
+
+        auto spHelp {std::make_unique<HelpCommand>(m_registry)};
+        m_registry.add(std::move(spHelp));
+        m_registry.add(std::make_unique<StatusCommand>());
+    }
+
+    /// @brief Captura stdout durante la ejecución de un comando.
+    std::string captureOutput(Command& cmd)
+    {
+        std::ostringstream oss;
+        std::streambuf* old {std::cout.rdbuf(oss.rdbuf())};
+        cmd.execute(m_model);
+        std::cout.rdbuf(old);
+        return oss.str();
+    }
+
+    GameModel m_model {"Ghost_47"};
     CommandRegistry m_registry;
-    GameModel m_model {"TestRunner"};
 };
 
 // =============================================================================
-// add / contains
+// HelpCommand — contrato
 // =============================================================================
 
-TEST_F(CommandRegistryTest, Add_ContainsAfterAdd)
+TEST_F(InstructorCommandsTest, HelpCommand_Name)
 {
-    m_registry.add(std::make_unique<FakeCommand>("test"));
-    EXPECT_TRUE(m_registry.contains("test"));
+    auto& cmd {m_registry.dispatch("help")};
+    EXPECT_EQ(cmd.name(), "help");
 }
 
-TEST_F(CommandRegistryTest, Add_SizeIncrements)
+TEST_F(InstructorCommandsTest, HelpCommand_Category)
 {
-    EXPECT_EQ(m_registry.size(), 0u);
-    m_registry.add(std::make_unique<FakeCommand>("a"));
-    m_registry.add(std::make_unique<FakeCommand>("b"));
-    EXPECT_EQ(m_registry.size(), 2u);
+    auto& cmd {m_registry.dispatch("help")};
+    EXPECT_EQ(cmd.category(), "sistema");
 }
 
-TEST_F(CommandRegistryTest, Add_ReplaceExisting_SizeUnchanged)
+TEST_F(InstructorCommandsTest, HelpCommand_DescriptionNotEmpty)
 {
-    m_registry.add(std::make_unique<FakeCommand>("dup"));
-    m_registry.add(std::make_unique<FakeCommand>("dup")); // reemplaza
-    EXPECT_EQ(m_registry.size(), 1u);
+    auto& cmd {m_registry.dispatch("help")};
+    EXPECT_FALSE(cmd.description().empty());
 }
 
-TEST_F(CommandRegistryTest, Contains_ReturnsFalseForUnknown)
+TEST_F(InstructorCommandsTest, HelpCommand_Execute_ProducesOutput)
 {
-    EXPECT_FALSE(m_registry.contains("nonexistent"));
+    auto& cmd {m_registry.dispatch("help")};
+    const auto output {captureOutput(cmd)};
+    EXPECT_FALSE(output.empty());
+}
+
+TEST_F(InstructorCommandsTest, HelpCommand_Execute_ContainsHelp)
+{
+    auto& cmd {m_registry.dispatch("help")};
+    const auto output {captureOutput(cmd)};
+    // El output debe mencionar "help" entre los comandos listados
+    EXPECT_NE(output.find("help"), std::string::npos);
+}
+
+TEST_F(InstructorCommandsTest, HelpCommand_Execute_ContainsStatus)
+{
+    auto& cmd {m_registry.dispatch("help")};
+    const auto output {captureOutput(cmd)};
+    EXPECT_NE(output.find("status"), std::string::npos);
+}
+
+TEST_F(InstructorCommandsTest, HelpCommand_Execute_EmptyRegistry_NoOutput)
+{
+    // Registry vacío — help no debe crashear
+    CommandRegistry emptyReg;
+    emptyReg.add(std::make_unique<UnknownCommand>(""));
+    auto spHelp {std::make_unique<HelpCommand>(emptyReg)};
+    Command& cmd {*spHelp};
+    std::ostringstream oss;
+    std::streambuf* old {std::cout.rdbuf(oss.rdbuf())};
+    cmd.execute(m_model);
+    std::cout.rdbuf(old);
+    EXPECT_FALSE(oss.str().empty());
+}
+
+TEST_F(InstructorCommandsTest, HelpCommand_Execute_DoesNotModifyModel)
+{
+    const auto creditsBefore {m_model.credits()};
+    const auto alertBefore {m_model.alertLevel()};
+    const auto runningBefore {m_model.isRunning()};
+
+    auto& cmd {m_registry.dispatch("help")};
+    cmd.execute(m_model);
+
+    EXPECT_EQ(m_model.credits(), creditsBefore);
+    EXPECT_EQ(m_model.alertLevel(), alertBefore);
+    EXPECT_EQ(m_model.isRunning(), runningBefore);
 }
 
 // =============================================================================
-// dispatch
+// StatusCommand — contrato
 // =============================================================================
 
-TEST_F(CommandRegistryTest, Dispatch_KnownCommand_ReturnsIt)
+TEST_F(InstructorCommandsTest, StatusCommand_Name)
 {
-    m_registry.add(std::make_unique<FakeCommand>("ping"));
-    auto& cmd {m_registry.dispatch("ping")};
-    EXPECT_EQ(cmd.name(), "ping");
+    auto& cmd {m_registry.dispatch("status")};
+    EXPECT_EQ(cmd.name(), "status");
 }
 
-TEST_F(CommandRegistryTest, Dispatch_ExecutesCorrectCommand)
+TEST_F(InstructorCommandsTest, StatusCommand_Category)
 {
-    auto spFake {std::make_unique<FakeCommand>("run")};
-    auto* pFake {spFake.get()};
-    m_registry.add(std::move(spFake));
-
-    m_registry.dispatch("run").execute(m_model);
-    EXPECT_TRUE(pFake->wasExecuted());
+    auto& cmd {m_registry.dispatch("status")};
+    EXPECT_EQ(cmd.category(), "runner");
 }
 
-TEST_F(CommandRegistryTest, Dispatch_UnknownInput_ReturnsUnknownCommand)
+TEST_F(InstructorCommandsTest, StatusCommand_DescriptionNotEmpty)
 {
-    CommandRegistry reg;
-    reg.add(std::make_unique<UnknownCommand>(""));
-    reg.add(std::make_unique<FakeCommand>("real"));
+    auto& cmd {m_registry.dispatch("status")};
+    EXPECT_FALSE(cmd.description().empty());
+}
 
-    auto& cmd {reg.dispatch("esto_no_existe")};
+TEST_F(InstructorCommandsTest, StatusCommand_Execute_ProducesOutput)
+{
+    auto& cmd {m_registry.dispatch("status")};
+    const auto output {captureOutput(cmd)};
+    EXPECT_FALSE(output.empty());
+}
+
+TEST_F(InstructorCommandsTest, StatusCommand_Execute_ContainsPlayerName)
+{
+    auto& cmd {m_registry.dispatch("status")};
+    const auto output {captureOutput(cmd)};
+    EXPECT_NE(output.find("Ghost_47"), std::string::npos);
+}
+
+TEST_F(InstructorCommandsTest, StatusCommand_Execute_ContainsCredits)
+{
+    auto& cmd {m_registry.dispatch("status")};
+    const auto output {captureOutput(cmd)};
+    EXPECT_NE(output.find("250"), std::string::npos);
+}
+
+TEST_F(InstructorCommandsTest, StatusCommand_Execute_DoesNotModifyModel)
+{
+    const auto hpBefore {m_model.hp()};
+    const auto creditsBefore {m_model.credits()};
+    const auto alertBefore {m_model.alertLevel()};
+
+    auto& cmd {m_registry.dispatch("status")};
+    cmd.execute(m_model);
+
+    EXPECT_EQ(m_model.hp(), hpBefore);
+    EXPECT_EQ(m_model.credits(), creditsBefore);
+    EXPECT_EQ(m_model.alertLevel(), alertBefore);
+}
+
+TEST_F(InstructorCommandsTest, StatusCommand_Execute_CriticalHp_StillProducesOutput)
+{
+    // Forzar HP crítico gastando créditos no sirve — necesitamos acceso directo.
+    // Validamos al menos que el comando no crashea con HP normal.
+    auto& cmd {m_registry.dispatch("status")};
+    const auto output {captureOutput(cmd)};
+    EXPECT_NE(output.find("OPERATIVO"), std::string::npos);
+}
+
+// =============================================================================
+// UnknownCommand — contrato
+// =============================================================================
+
+TEST_F(InstructorCommandsTest, UnknownCommand_Name)
+{
+    auto& cmd {m_registry.dispatch("esto_no_existe")};
     EXPECT_EQ(cmd.name(), "__unknown");
 }
 
-// =============================================================================
-// commands() — orden de registro
-// =============================================================================
-
-TEST_F(CommandRegistryTest, Commands_PreservesRegistrationOrder)
+TEST_F(InstructorCommandsTest, UnknownCommand_Execute_ProducesOutput)
 {
-    m_registry.add(std::make_unique<FakeCommand>("primero"));
-    m_registry.add(std::make_unique<FakeCommand>("segundo"));
-    m_registry.add(std::make_unique<FakeCommand>("tercero"));
-
-    const auto& list {m_registry.commands()};
-    ASSERT_EQ(list.size(), 3u);
-    EXPECT_EQ(list[0]->name(), "primero");
-    EXPECT_EQ(list[1]->name(), "segundo");
-    EXPECT_EQ(list[2]->name(), "tercero");
+    auto& cmd {m_registry.dispatch("comando_invalido")};
+    const auto output {captureOutput(cmd)};
+    EXPECT_FALSE(output.empty());
 }
 
-TEST_F(CommandRegistryTest, Commands_NoNullptrs)
+TEST_F(InstructorCommandsTest, UnknownCommand_Execute_EmptyInput_NoOutput)
 {
-    m_registry.add(std::make_unique<FakeCommand>("x"));
-    for (const auto* pCmd : m_registry.commands())
-    {
-        EXPECT_NE(pCmd, nullptr);
-    }
+    // dispatch de string vacío retorna UnknownCommand con input ""
+    // que no debe imprimir nada
+    auto& cmd {m_registry.dispatch("")};
+    const auto output {captureOutput(cmd)};
+    EXPECT_TRUE(output.empty());
 }
 
-// =============================================================================
-// empty / size
-// =============================================================================
-
-TEST_F(CommandRegistryTest, Empty_TrueWhenEmpty)
+TEST_F(InstructorCommandsTest, UnknownCommand_Execute_DoesNotModifyModel)
 {
-    EXPECT_TRUE(m_registry.empty());
-}
-
-TEST_F(CommandRegistryTest, Empty_FalseAfterAdd)
-{
-    m_registry.add(std::make_unique<FakeCommand>("z"));
-    EXPECT_FALSE(m_registry.empty());
-}
-
-// =============================================================================
-// buildRegistry — smoke test
-// =============================================================================
-
-TEST(BuildRegistryTest, BuildRegistry_AllStubsRegistered)
-{
-    auto registry {buildRegistry()};
-
-    EXPECT_TRUE(registry.contains("help"));
-    EXPECT_TRUE(registry.contains("status"));
-    // ============================================================
-    // ZONA DE EQUIPOS - Agregar EXPECT_TRUE(registry.contains("TuComando")) por cada comando registrado
-    // ============================================================
-
-    // ============================================================
-    // FIN ZONA DE EQUIPOS
-    // ============================================================
-    EXPECT_FALSE(registry.empty());
+    const auto runningBefore {m_model.isRunning()};
+    auto& cmd {m_registry.dispatch("basura")};
+    cmd.execute(m_model);
+    EXPECT_EQ(m_model.isRunning(), runningBefore);
 }

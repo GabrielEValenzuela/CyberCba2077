@@ -14,20 +14,15 @@ enable_testing()
 # =============================================================================
 option(CYBERPUNK_BUILD_TESTS "Build unit tests" ON)
 option(CYBERPUNK_BUILD_BENCHMARKS "Build benchmarks" ON)
-# Nota: coverage se controla desde el CI via CMAKE_CXX_FLAGS.
-# Esta opción solo tiene efecto cuando el CI NO inyecta --coverage externamente.
 option(CYBERPUNK_ENABLE_COVERAGE "Enable coverage flags (local only)" OFF)
 
 # =============================================================================
-# Flags de compilación — warnings como errores
-# Nota: el CI puede agregar flags adicionales via CMAKE_CXX_FLAGS (coverage,
-# sanitizers). Esos flags se acumulan con los de abajo, no los pisan.
+# Flags de compilación
 # =============================================================================
 add_compile_options(-Wall -Wextra -Werror -Wpedantic)
 
 # =============================================================================
-# Biblioteca estática — código del juego
-# Siempre se compila con los flags de CMAKE_CXX_FLAGS heredados del CI.
+# Biblioteca estática
 # =============================================================================
 add_library(cyberpunk_lib STATIC
   src/common/types.cpp
@@ -45,9 +40,6 @@ target_include_directories(cyberpunk_lib
 
 # =============================================================================
 # Ejecutable principal
-# Hereda CMAKE_CXX_FLAGS del CI (coverage + sanitizers).
-# El CI también inyecta CMAKE_EXE_LINKER_FLAGS con --coverage, por lo que
-# el linker resuelve __gcov_* correctamente.
 # =============================================================================
 add_executable(cyberpunk2077
   src/main.cpp
@@ -66,6 +58,7 @@ if(CYBERPUNK_BUILD_TESTS)
   find_package(GTest CONFIG REQUIRED)
 
   add_executable(unit_tests
+    tests/common/types_test.cpp
     tests/model/gameModel_test.cpp
     tests/controller/commandRegistry_test.cpp
   )
@@ -80,7 +73,6 @@ if(CYBERPUNK_BUILD_TESTS)
     GTest::gtest_main
   )
 
-  # Coverage local (sin CI): solo cuando se pide explícitamente
   if(CYBERPUNK_ENABLE_COVERAGE)
     target_compile_options(unit_tests PRIVATE -O0 -g --coverage)
     target_compile_options(cyberpunk_lib PRIVATE -O0 -g --coverage)

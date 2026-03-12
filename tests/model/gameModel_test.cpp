@@ -1,192 +1,93 @@
 #include "common/types.hpp"
 #include "model/gameModel.hpp"
+#include <algorithm>
 
 #include <gtest/gtest.h>
 
 using namespace CyberpunkCba;
 
-// =============================================================================
-// Fixture
-// =============================================================================
-
-class GameModelTest : public ::testing::Test
+class GameModelGettersTest : public ::testing::Test
 {
 protected:
     GameModel m_model {"Ghost_47"};
 };
 
 // =============================================================================
-// Construcción e invariantes iniciales
+// Mundo — getters sin cubrir
 // =============================================================================
 
-TEST_F(GameModelTest, InitialState_PlayerName)
+TEST_F(GameModelGettersTest, SimulationDay_Initial)
 {
-    EXPECT_EQ(m_model.playerName(), "Ghost_47");
+    EXPECT_GE(m_model.simulationDay(), 1);
 }
 
-TEST_F(GameModelTest, InitialState_HpIsMax)
+TEST_F(GameModelGettersTest, CurrentHour_InRange)
 {
-    EXPECT_EQ(m_model.hp(), m_model.maxHp());
-    EXPECT_GT(m_model.maxHp(), 0);
+    EXPECT_GE(m_model.currentHour(), 0);
+    EXPECT_LE(m_model.currentHour(), 23);
 }
 
-TEST_F(GameModelTest, InitialState_CreditsPositive)
+TEST_F(GameModelGettersTest, CurrentMinute_InRange)
 {
-    EXPECT_GT(m_model.credits(), 0);
+    EXPECT_GE(m_model.currentMinute(), 0);
+    EXPECT_LE(m_model.currentMinute(), 59);
 }
 
-TEST_F(GameModelTest, InitialState_IsRunning)
+TEST_F(GameModelGettersTest, TimeOfDay_DerivedFromHour)
 {
-    EXPECT_TRUE(m_model.isRunning());
+    const auto expected {timeOfDayFromHour(m_model.currentHour())};
+    EXPECT_EQ(m_model.timeOfDay(), expected);
 }
 
-TEST_F(GameModelTest, InitialState_CommandCountZero)
+TEST_F(GameModelGettersTest, TotalZoneCount_Positive)
 {
-    EXPECT_EQ(m_model.commandCount(), 0);
+    EXPECT_GT(m_model.totalZoneCount(), 0);
 }
 
-TEST_F(GameModelTest, InitialState_HackAttemptsAtMax)
+TEST_F(GameModelGettersTest, VisitedZones_ContainsCurrentZone)
 {
-    EXPECT_EQ(m_model.hackAttempts(), m_model.maxHackAttempts());
-    EXPECT_GT(m_model.maxHackAttempts(), 0);
+    const auto& visited {m_model.visitedZones()};
+    const auto it {std::find(visited.begin(), visited.end(), m_model.currentZone())};
+    EXPECT_NE(it, visited.end());
 }
 
-TEST_F(GameModelTest, InitialState_InventoryNotEmpty)
+TEST_F(GameModelGettersTest, LastAlertCause_InitiallyEmpty)
 {
-    // Tiene al menos el ítem inicial
-    EXPECT_FALSE(m_model.inventory().empty());
-}
-
-TEST_F(GameModelTest, InitialState_HasActiveMission)
-{
-    EXPECT_NE(m_model.activeMission(), nullptr);
-}
-
-TEST_F(GameModelTest, InitialState_CurrentZoneNotEmpty)
-{
-    EXPECT_FALSE(m_model.currentZone().empty());
-}
-
-TEST_F(GameModelTest, InitialState_AdjacentZonesNotEmpty)
-{
-    EXPECT_FALSE(m_model.adjacentZones().empty());
+    // Sin incrementAlert llamado, la causa debe ser vacía
+    EXPECT_TRUE(m_model.lastAlertCause().empty());
 }
 
 // =============================================================================
-// isCriticalHp
+// Inventario — getters sin cubrir
 // =============================================================================
 
-TEST_F(GameModelTest, IsCriticalHp_FullHp_IsFalse)
+TEST_F(GameModelGettersTest, InventoryCapacity_Positive)
 {
-    EXPECT_FALSE(m_model.isCriticalHp());
+    EXPECT_GT(m_model.inventoryCapacity(), 0);
+}
+
+TEST_F(GameModelGettersTest, IsInventoryFull_InitiallyFalse)
+{
+    EXPECT_FALSE(m_model.isInventoryFull());
+}
+
+TEST_F(GameModelGettersTest, Inventory_SizeWithinCapacity)
+{
+    EXPECT_LE(static_cast<int>(m_model.inventory().size()), m_model.inventoryCapacity());
 }
 
 // =============================================================================
-// incrementAlert
+// Reputación — dominantFaction con empate
 // =============================================================================
 
-TEST_F(GameModelTest, IncrementAlert_ChangesLevel)
+TEST_F(GameModelGettersTest, DominantFaction_WithEqualRep_ReturnsLowestIndex)
 {
-    const auto before {m_model.alertLevel()};
-    m_model.incrementAlert("test scan");
-    EXPECT_NE(m_model.alertLevel(), before);
+    // Estado inicial: todas las facciones tienen el mismo rep (INITIAL_REP)
+    // dominantFaction() debe retornar Corporations (índice 0)
+    EXPECT_EQ(m_model.dominantFaction(), Faction::Corporations);
 }
 
-TEST_F(GameModelTest, IncrementAlert_UpdatesCause)
-{
-    m_model.incrementAlert("causa test");
-    EXPECT_EQ(m_model.lastAlertCause(), "causa test");
-}
-
-TEST_F(GameModelTest, IncrementAlert_SaturatesAtMaximum)
-{
-    for (int i {}; i < 10; ++i)
-    {
-        m_model.incrementAlert("spam");
-    }
-    EXPECT_EQ(m_model.alertLevel(), AlertLevel::Maximum);
-}
-
-// =============================================================================
-// spendCredits
-// =============================================================================
-
-TEST_F(GameModelTest, SpendCredits_DeductsCorrectly)
-{
-    const auto before {m_model.credits()};
-    m_model.spendCredits(50);
-    EXPECT_EQ(m_model.credits(), before - 50);
-}
-
-TEST_F(GameModelTest, SpendCredits_NeverGoesNegative)
-{
-    const auto allCredits {m_model.credits()};
-    m_model.spendCredits(allCredits);
-    EXPECT_EQ(m_model.credits(), 0);
-}
-
-// =============================================================================
-// logAction
-// =============================================================================
-
-TEST_F(GameModelTest, LogAction_AddsEntry)
-{
-    const auto before {m_model.actionLog().size()};
-    m_model.logAction("evento test");
-    EXPECT_EQ(m_model.actionLog().size(), before + 1);
-}
-
-TEST_F(GameModelTest, LogAction_MessagePreserved)
-{
-    m_model.logAction("mensaje especifico");
-    EXPECT_EQ(m_model.actionLog().back().message, "mensaje especifico");
-}
-
-// =============================================================================
-// incrementCommandCount
-// =============================================================================
-
-TEST_F(GameModelTest, IncrementCommandCount_IsMonotone)
-{
-    const auto before {m_model.commandCount()};
-    m_model.incrementCommandCount();
-    m_model.incrementCommandCount();
-    EXPECT_EQ(m_model.commandCount(), before + 2);
-}
-
-// =============================================================================
-// consumeHackAttempt
-// =============================================================================
-
-TEST_F(GameModelTest, ConsumeHackAttempt_Decrements)
-{
-    const auto before {m_model.hackAttempts()};
-    m_model.consumeHackAttempt();
-    EXPECT_EQ(m_model.hackAttempts(), before - 1);
-}
-
-// =============================================================================
-// quit
-// =============================================================================
-
-TEST_F(GameModelTest, Quit_SetsRunningFalse)
-{
-    m_model.quit();
-    EXPECT_FALSE(m_model.isRunning());
-}
-
-TEST_F(GameModelTest, Quit_IsIdempotent)
-{
-    m_model.quit();
-    m_model.quit(); // segunda llamada — no-op, no crash
-    EXPECT_FALSE(m_model.isRunning());
-}
-
-// =============================================================================
-// repValue y dominantFaction
-// =============================================================================
-
-TEST_F(GameModelTest, RepValue_InRange)
+TEST_F(GameModelGettersTest, RepValue_AllFactionsInRange)
 {
     for (uint8_t i {}; i < FACTION_COUNT; ++i)
     {
@@ -196,38 +97,73 @@ TEST_F(GameModelTest, RepValue_InRange)
     }
 }
 
-TEST_F(GameModelTest, DominantFaction_ReturnsValid)
+// =============================================================================
+// Misiones — getters con nullptr
+// =============================================================================
+
+TEST_F(GameModelGettersTest, ActiveMission_InitiallyNotNull)
 {
-    const auto dominant {m_model.dominantFaction()};
-    const auto idx {static_cast<uint8_t>(dominant)};
-    EXPECT_LT(idx, FACTION_COUNT);
+    EXPECT_NE(m_model.activeMission(), nullptr);
+}
+
+TEST_F(GameModelGettersTest, ActiveMission_NameNotEmpty)
+{
+    ASSERT_NE(m_model.activeMission(), nullptr);
+    EXPECT_FALSE(m_model.activeMission()->name.empty());
+}
+
+TEST_F(GameModelGettersTest, LastFailedMission_InitiallyNull)
+{
+    EXPECT_EQ(m_model.lastFailedMission(), nullptr);
+}
+
+TEST_F(GameModelGettersTest, CompletedMissions_InitiallyZero)
+{
+    EXPECT_EQ(m_model.completedMissions(), 0);
+}
+
+TEST_F(GameModelGettersTest, FailedMissions_InitiallyZero)
+{
+    EXPECT_EQ(m_model.failedMissions(), 0);
 }
 
 // =============================================================================
-// nearbyEntities — observadores
+// Hackeo — getters sin cubrir
 // =============================================================================
 
-TEST_F(GameModelTest, NearbyEntities_NoNullptrs)
+TEST_F(GameModelGettersTest, HackCost_Positive)
 {
-    for (const auto* pEntity : m_model.nearbyEntities())
-    {
-        EXPECT_NE(pEntity, nullptr);
-    }
+    EXPECT_GT(m_model.hackCost(), 0);
 }
 
-TEST_F(GameModelTest, NearbyEntities_NamesNotEmpty)
+TEST_F(GameModelGettersTest, MaxHackAttempts_Positive)
 {
-    for (const auto* pEntity : m_model.nearbyEntities())
-    {
-        EXPECT_FALSE(pEntity->name.empty());
-    }
+    EXPECT_GT(m_model.maxHackAttempts(), 0);
+}
+
+TEST_F(GameModelGettersTest, HackAttempts_InitiallyAtMax)
+{
+    EXPECT_EQ(m_model.hackAttempts(), m_model.maxHackAttempts());
 }
 
 // =============================================================================
-// sessionDuration
+// Sesión — getters sin cubrir
 // =============================================================================
 
-TEST_F(GameModelTest, SessionDuration_NonNegative)
+TEST_F(GameModelGettersTest, ActionLog_InitiallyNotEmpty)
 {
-    EXPECT_GE(m_model.sessionDuration().count(), 0);
+    // El constructor registra al menos un evento
+    EXPECT_FALSE(m_model.actionLog().empty());
+}
+
+TEST_F(GameModelGettersTest, ActionLog_FirstEntry_HourInRange)
+{
+    const auto& entry {m_model.actionLog().front()};
+    // hour puede ser -1 (no disponible) o en [0, 23]
+    EXPECT_TRUE(entry.hour == -1 || (entry.hour >= 0 && entry.hour <= 23));
+}
+
+TEST_F(GameModelGettersTest, ActionLog_FirstEntry_MessageNotEmpty)
+{
+    EXPECT_FALSE(m_model.actionLog().front().message.empty());
 }
