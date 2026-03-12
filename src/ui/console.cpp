@@ -65,8 +65,8 @@ namespace CyberpunkCba
     void Console::printPrompt() const
     {
         const auto color {alertColor(m_model.alertLevel())};
-        std::cout << color << "[" << m_model.playerName() << " | " << m_model.credits() << "cr"
-                  << " | " << alertLevelToString(m_model.alertLevel()) << "]" << COLOR_RESET << "> ";
+        std::cout << color << "[" << m_model.playerName() << " | " << m_model.credits() << "cr" << " | "
+                  << alertLevelToString(m_model.alertLevel()) << "]" << COLOR_RESET << "> ";
     }
 
     std::optional<std::string> Console::readLine() const
