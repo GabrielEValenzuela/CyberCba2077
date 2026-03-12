@@ -47,6 +47,8 @@ jobs:
       VCPKG_ROOT: ${{ github.workspace }}/vcpkg
       CCACHE_DIR: ${{ github.workspace }}/.ccache
       ENABLE_SANITIZERS: "true"
+      # Versión fija — misma que los alumnos tienen localmente
+      CLANG_VERSION: "18"
 
     steps:
       # -----------------------------------
@@ -59,16 +61,27 @@ jobs:
           sudo apt update
           sudo apt install -y \
             ninja-build \
-            clang \
-            clang-tidy \
-            clang-format \
+            clang-${{ env.CLANG_VERSION }} \
+            clang-tidy-${{ env.CLANG_VERSION }} \
+            clang-format-${{ env.CLANG_VERSION }} \
             lcov \
-            llvm \
+            llvm-${{ env.CLANG_VERSION }} \
             doxygen \
             graphviz \
             unzip \
             bc \
             ccache
+
+          # Crear symlinks versionados como nombres canónicos
+          sudo ln -sf /usr/bin/clang-${{ env.CLANG_VERSION }}        /usr/local/bin/clang
+          sudo ln -sf /usr/bin/clang++-${{ env.CLANG_VERSION }}      /usr/local/bin/clang++
+          sudo ln -sf /usr/bin/clang-format-${{ env.CLANG_VERSION }} /usr/local/bin/clang-format
+          sudo ln -sf /usr/bin/clang-tidy-${{ env.CLANG_VERSION }}   /usr/local/bin/clang-tidy
+          sudo ln -sf /usr/bin/run-clang-tidy-${{ env.CLANG_VERSION }} /usr/local/bin/run-clang-tidy || true
+          sudo ln -sf /usr/bin/llvm-cov-${{ env.CLANG_VERSION }}     /usr/local/bin/llvm-cov
+
+          echo "clang-format version: $(clang-format --version)"
+          echo "clang version:        $(clang --version | head -1)"
 
       # -----------------------------------
       # vcpkg (cached)
@@ -108,16 +121,27 @@ jobs:
 
       # -----------------------------------
       # Clang Format
+      # Aplica el .clang-format del repo con la versión fija.
+      # Falla solo si hay diferencias reales (--dry-run --Werror).
       # -----------------------------------
       - name: Style Check
         id: style
         run: |
-          FILES=$(find src include tests \( -name '*.cpp' -o -name '*.hpp' -o -name '*.cc' -o -name '*.cxx' -o -name '*.h' \) || true)
-          if [ -n "$FILES" ]; then
-            clang-format --dry-run --Werror $FILES
-          else
-            echo "No C++ files found under src/include/tests."
+          FILES=$(find src include tests \
+            \( -name '*.cpp' -o -name '*.hpp' -o -name '*.h' \) \
+            -not -path '*/build/*' \
+            | sort)
+
+          if [ -z "$FILES" ]; then
+            echo "No C++ files found — skipping."
+            exit 0
           fi
+
+          echo "Archivos a verificar:"
+          echo "$FILES"
+
+          # --Werror hace que el step falle si algún archivo no está formateado
+          clang-format --dry-run --Werror $FILES
 
       # -----------------------------------
       # Docs
@@ -142,6 +166,10 @@ jobs:
 
       # -----------------------------------
       # Prepare flags
+      # Coverage se inyecta via CMAKE_CXX_FLAGS para que afecte
+      # tanto a cyberpunk_lib como a unit_tests en una sola pasada.
+      # CMAKE_EXE_LINKER_FLAGS incluye --coverage para que el linker
+      # resuelva __gcov_* en todos los targets ejecutables.
       # -----------------------------------
       - name: Prepare flags
         id: flags
@@ -161,16 +189,16 @@ jobs:
           FINAL_EXE_LINKER_FLAGS="$LINK_FLAGS $COV_FLAGS"
           FINAL_SHARED_LINKER_FLAGS="$LINK_FLAGS $COV_FLAGS"
 
-          echo "FINAL_CXX_FLAGS=$FINAL_CXX_FLAGS" >> $GITHUB_ENV
+          echo "FINAL_CXX_FLAGS=$FINAL_CXX_FLAGS"             >> $GITHUB_ENV
           echo "FINAL_EXE_LINKER_FLAGS=$FINAL_EXE_LINKER_FLAGS" >> $GITHUB_ENV
           echo "FINAL_SHARED_LINKER_FLAGS=$FINAL_SHARED_LINKER_FLAGS" >> $GITHUB_ENV
 
-          echo "CXX FLAGS: $FINAL_CXX_FLAGS"
-          echo "EXE LINKER FLAGS: $FINAL_EXE_LINKER_FLAGS"
-          echo "SHARED LINKER FLAGS: $FINAL_SHARED_LINKER_FLAGS"
+          echo "CXX FLAGS:            $FINAL_CXX_FLAGS"
+          echo "EXE LINKER FLAGS:     $FINAL_EXE_LINKER_FLAGS"
+          echo "SHARED LINKER FLAGS:  $FINAL_SHARED_LINKER_FLAGS"
 
       # -----------------------------------
-      # Configure (with coverage + sanitizers + ccache)
+      # Configure
       # -----------------------------------
       - name: Configure
         id: configure
@@ -186,10 +214,11 @@ jobs:
             -DCMAKE_CXX_COMPILER_LAUNCHER=ccache \
             -DCMAKE_CXX_FLAGS="${FINAL_CXX_FLAGS}" \
             -DCMAKE_EXE_LINKER_FLAGS="${FINAL_EXE_LINKER_FLAGS}" \
-            -DCMAKE_SHARED_LINKER_FLAGS="${FINAL_SHARED_LINKER_FLAGS}"
+            -DCMAKE_SHARED_LINKER_FLAGS="${FINAL_SHARED_LINKER_FLAGS}" \
+            -DCYBERPUNK_ENABLE_COVERAGE=OFF
 
       # -----------------------------------
-      # Clang-Tidy (needs compile_commands.json)
+      # Clang-Tidy
       # -----------------------------------
       - name: Static Analysis
         id: tidy
@@ -205,11 +234,10 @@ jobs:
 
       - name: ccache stats after build
         if: always()
-        run: |
-          ccache --show-stats || true
+        run: ccache --show-stats || true
 
       # -----------------------------------
-      # Run Tests (fail job if tests fail)
+      # Run Tests
       # -----------------------------------
       - name: Run Tests
         id: tests
@@ -224,7 +252,6 @@ jobs:
           set -e
           exit $RC
 
-      # Parse failed tests
       - name: Parse Test Results
         id: testparse
         if: always()
@@ -286,8 +313,8 @@ jobs:
         if: always()
         run: |
           if [ ! -f coverage.info ]; then
-            echo "COVERAGE_PCT=0" >> $GITHUB_ENV
-            echo "LINES_COVERAGE=0" >> $GITHUB_ENV
+            echo "COVERAGE_PCT=0"        >> $GITHUB_ENV
+            echo "LINES_COVERAGE=0"     >> $GITHUB_ENV
             echo "FUNCTIONS_COVERAGE=0" >> $GITHUB_ENV
             {
               echo "## Coverage Report"
@@ -304,16 +331,18 @@ jobs:
 
           lcov --summary coverage.info --ignore-errors inconsistent | tee coverage_summary.txt
 
-          LINES=$(grep -E '^  lines\.*:' coverage_summary.txt | sed -E 's/.*: ([0-9]+(\.[0-9]+)?)%.*/\1/' | head -n1)
-          FUNCS=$(grep -E '^  functions\.*:' coverage_summary.txt | sed -E 's/.*: ([0-9]+(\.[0-9]+)?)%.*/\1/' | head -n1)
+          LINES=$(grep -E '^  lines\.*:' coverage_summary.txt \
+            | sed -E 's/.*: ([0-9]+(\.[0-9]+)?)%.*/\1/' | head -n1)
+          FUNCS=$(grep -E '^  functions\.*:' coverage_summary.txt \
+            | sed -E 's/.*: ([0-9]+(\.[0-9]+)?)%.*/\1/' | head -n1)
 
           LINES=${LINES:-0}
           FUNCS=${FUNCS:-0}
           WORST=$(awk "BEGIN { if ($LINES < $FUNCS) print $LINES; else print $FUNCS; }")
 
-          echo "LINES_COVERAGE=$LINES" >> $GITHUB_ENV
+          echo "LINES_COVERAGE=$LINES"     >> $GITHUB_ENV
           echo "FUNCTIONS_COVERAGE=$FUNCS" >> $GITHUB_ENV
-          echo "COVERAGE_PCT=$WORST" >> $GITHUB_ENV
+          echo "COVERAGE_PCT=$WORST"       >> $GITHUB_ENV
 
           {
             echo "## Coverage Report"
@@ -329,19 +358,17 @@ jobs:
       - name: Validate Coverage Threshold
         if: always()
         run: |
-          THRESHOLD="${COVERAGE_THRESHOLD}"
-
-          echo "Threshold: ${THRESHOLD}%"
-          echo "Lines coverage: ${LINES_COVERAGE:-0}%"
+          echo "Threshold:          ${COVERAGE_THRESHOLD}%"
+          echo "Lines coverage:     ${LINES_COVERAGE:-0}%"
           echo "Functions coverage: ${FUNCTIONS_COVERAGE:-0}%"
 
-          if ! awk "BEGIN {exit !(${LINES_COVERAGE:-0} >= ${THRESHOLD})}"; then
-            echo "FAILED: Lines coverage is lower than ${THRESHOLD}%"
+          if ! awk "BEGIN {exit !(${LINES_COVERAGE:-0} >= ${COVERAGE_THRESHOLD})}"; then
+            echo "FAILED: Lines coverage ${LINES_COVERAGE:-0}% < ${COVERAGE_THRESHOLD}%"
             exit 1
           fi
 
-          if ! awk "BEGIN {exit !(${FUNCTIONS_COVERAGE:-0} >= ${THRESHOLD})}"; then
-            echo "FAILED: Functions coverage is lower than ${THRESHOLD}%"
+          if ! awk "BEGIN {exit !(${FUNCTIONS_COVERAGE:-0} >= ${COVERAGE_THRESHOLD})}"; then
+            echo "FAILED: Functions coverage ${FUNCTIONS_COVERAGE:-0}% < ${COVERAGE_THRESHOLD}%"
             exit 1
           fi
 
@@ -408,10 +435,7 @@ jobs:
             const issue_number = context.issue.number;
 
             const comments = await github.rest.issues.listComments({
-              owner,
-              repo,
-              issue_number,
-              per_page: 100
+              owner, repo, issue_number, per_page: 100
             });
 
             const previous = comments.data.find(c =>
@@ -420,38 +444,32 @@ jobs:
 
             if (previous) {
               await github.rest.issues.updateComment({
-                owner,
-                repo,
-                comment_id: previous.id,
-                body
+                owner, repo, comment_id: previous.id, body
               });
             } else {
               await github.rest.issues.createComment({
-                owner,
-                repo,
-                issue_number,
-                body
+                owner, repo, issue_number, body
               });
             }
 
       # -----------------------------------
-      # PR Bot with Smart Feedback
+      # PR Bot
       # -----------------------------------
       - name: 🤖 PR Bot (smart, ES)
         if: always() && github.event_name == 'pull_request'
         uses: actions/github-script@v7
         env:
-          STYLE_OUTCOME: ${{ steps.style.outcome }}
+          STYLE_OUTCOME:     ${{ steps.style.outcome }}
           CONFIGURE_OUTCOME: ${{ steps.configure.outcome }}
-          BUILD_OUTCOME: ${{ steps.build.outcome }}
-          TESTS_OUTCOME: ${{ steps.tests.outcome }}
-          DOCS_OUTCOME: ${{ steps.docs.outcome }}
-          COV_OUTCOME: ${{ steps.cov.outcome }}
-          LINES_COVERAGE: ${{ env.LINES_COVERAGE }}
+          BUILD_OUTCOME:     ${{ steps.build.outcome }}
+          TESTS_OUTCOME:     ${{ steps.tests.outcome }}
+          DOCS_OUTCOME:      ${{ steps.docs.outcome }}
+          COV_OUTCOME:       ${{ steps.cov.outcome }}
+          LINES_COVERAGE:    ${{ env.LINES_COVERAGE }}
           FUNCTIONS_COVERAGE: ${{ env.FUNCTIONS_COVERAGE }}
-          COVERAGE_PCT: ${{ env.COVERAGE_PCT }}
-          TIDY_WARNINGS: ${{ env.TIDY_WARNINGS }}
-          FAILED_TESTS: ${{ env.FAILED_TESTS }}
+          COVERAGE_PCT:      ${{ env.COVERAGE_PCT }}
+          TIDY_WARNINGS:     ${{ env.TIDY_WARNINGS }}
+          FAILED_TESTS:      ${{ env.FAILED_TESTS }}
         with:
           script: |
             const styleOk = process.env.STYLE_OUTCOME === "success";
@@ -461,9 +479,9 @@ jobs:
             const docsOk  = (process.env.DOCS_OUTCOME || "success") === "success";
             const covOk   = (process.env.COV_OUTCOME || "success") === "success";
 
-            const cov = parseFloat(process.env.COVERAGE_PCT || "0");
-            const lineCov = parseFloat(process.env.LINES_COVERAGE || "0");
-            const funcCov = parseFloat(process.env.FUNCTIONS_COVERAGE || "0");
+            const cov      = parseFloat(process.env.COVERAGE_PCT || "0");
+            const lineCov  = parseFloat(process.env.LINES_COVERAGE || "0");
+            const funcCov  = parseFloat(process.env.FUNCTIONS_COVERAGE || "0");
             const tidyWarn = parseInt(process.env.TIDY_WARNINGS || "0", 10);
             const failedTests = process.env.FAILED_TESTS || "0 tests failed";
 
@@ -475,20 +493,21 @@ jobs:
             score += (tidyWarn === 0 ? 20 : tidyWarn <= 10 ? 15 : tidyWarn <= 30 ? 10 : 0);
 
             let failed = null;
-            if (!styleOk) failed = "style";
-            else if (!cfgOk) failed = "configure";
+            if (!styleOk)  failed = "style";
+            else if (!cfgOk)   failed = "configure";
             else if (!buildOk) failed = "build";
             else if (!testsOk) failed = "tests";
-            else if (!covOk) failed = "coverage";
-            else if (!docsOk) failed = "docs";
+            else if (!covOk)   failed = "coverage";
+            else if (!docsOk)  failed = "docs";
 
             const hints = {
               style: [
-                "Ejecutá clang-format localmente y verificá que todos usen la misma configuración.",
-                "Formateá solo los archivos del PR en src/, include/ y tests/."
+                "Ejecutá `clang-format-18 --dry-run --Werror` localmente sobre src/, include/ y tests/.",
+                "Verificá que tu editor use el .clang-format del repo (BreakBeforeBraces: Allman, IndentWidth: 4).",
+                "Tip: `clang-format-18 -i $(find src include tests -name '*.cpp' -o -name '*.hpp')` para formatear todo."
               ],
               configure: [
-                "Revisá VCPKG_ROOT, dependencias y CMakeLists.txt.",
+                "Revisá VCPKG_ROOT, dependencias en vcpkg.json y CMakeLists.txt.",
                 "Probá borrar build/ y reconfigurar desde cero."
               ],
               build: [
@@ -501,7 +520,8 @@ jobs:
               ],
               coverage: [
                 "Agregá tests para caminos felices y casos borde.",
-                "Revisá coverage_list.txt para ver qué archivos quedaron con baja cobertura."
+                "Revisá coverage_list.txt para ver qué archivos quedaron con baja cobertura.",
+                "El threshold es 100% — cada línea y función debe tener al menos un test."
               ],
               docs: [
                 "Si hay cambios en API o comportamiento, actualizá documentación y comentarios."
@@ -513,41 +533,41 @@ jobs:
             }
 
             let body = "## 🤖 Reporte de CI — Cyberpunk Córdoba 2077\n\n";
-            body += `**Quality Score:** **${score}/100**\n`;
-            body += `- 🧪 Tests: **${testsOk ? "OK" : "FALLÓ"}**\n`;
-            body += `- 🎨 Estilo (clang-format): **${styleOk ? "OK" : "FALLÓ"}**\n`;
-            body += `- 🧼 clang-tidy warnings: **${tidyWarn}**\n`;
-            body += `- 📈 Coverage mínimo: **${cov.toFixed(1)}%**\n`;
-            body += `- 📏 Lines coverage: **${lineCov.toFixed(1)}%**\n`;
-            body += `- 🧩 Functions coverage: **${funcCov.toFixed(1)}%**\n\n`;
+            body += `**Quality Score:** **${score}/100**\n\n`;
+            body += `| Check | Estado |\n`;
+            body += `|---|---|\n`;
+            body += `| 🎨 Estilo (clang-format-18) | ${styleOk ? "✅" : "❌"} |\n`;
+            body += `| ⚙️ Configure + Build | ${(cfgOk && buildOk) ? "✅" : "❌"} |\n`;
+            body += `| 🧪 Tests | ${testsOk ? "✅" : "❌"} |\n`;
+            body += `| 📈 Coverage mínimo | ${cov.toFixed(1)}% |\n`;
+            body += `| 📏 Lines coverage | ${lineCov.toFixed(1)}% |\n`;
+            body += `| 🧩 Functions coverage | ${funcCov.toFixed(1)}% |\n`;
+            body += `| 🧼 clang-tidy warnings | ${tidyWarn} |\n\n`;
 
             if (!failed) {
               body += "✅ **Todo OK.** Tu PR pasó el pipeline completo.\n\n";
               body += "> En 2077, tu código sobrevivió.\n";
             } else {
               const titles = {
-                style: "🎨 Estilo / Formato",
+                style:     "🎨 Estilo / Formato",
                 configure: "⚙️ Configuración (CMake/vcpkg)",
-                build: "🏗️ Compilación / Linkeo",
-                tests: "🧪 Tests",
-                coverage: "📈 Coverage",
-                docs: "📚 Documentación"
+                build:     "🏗️ Compilación / Linkeo",
+                tests:     "🧪 Tests",
+                coverage:  "📈 Coverage",
+                docs:      "📚 Documentación"
               };
 
               body += `❌ **Falló la etapa:** **${titles[failed] || failed}**\n\n`;
               body += "### Pistas para arreglarlo\n";
               body += take(hints[failed], 5) + "\n\n";
-              body += "📌 Revisá los logs del step fallido en GitHub Actions: ahí está el error exacto.\n";
+              body += "📌 Revisá los logs del step fallido en GitHub Actions para el error exacto.\n";
             }
 
             const { owner, repo } = context.repo;
             const issue_number = context.issue.number;
 
             const comments = await github.rest.issues.listComments({
-              owner,
-              repo,
-              issue_number,
-              per_page: 100
+              owner, repo, issue_number, per_page: 100
             });
 
             const marker = "## 🤖 Reporte de CI — Cyberpunk Córdoba 2077";
@@ -557,16 +577,10 @@ jobs:
 
             if (previous) {
               await github.rest.issues.updateComment({
-                owner,
-                repo,
-                comment_id: previous.id,
-                body
+                owner, repo, comment_id: previous.id, body
               });
             } else {
               await github.rest.issues.createComment({
-                owner,
-                repo,
-                issue_number,
-                body
+                owner, repo, issue_number, body
               });
             }
