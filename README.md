@@ -71,6 +71,7 @@ Es un laboratorio vivo donde cada estructura que implementes tendrá impacto rea
 - Santiago Agustin Zuñiga Castro ([@santizuu](https://github.com/Santizuu)) - Desarrollador
 - Sharon Blatter ([@sharonblatter-jpg](https://github.com/sharonblatter-jpg)) - Desarrollador 
 - Sofía Sivila ([@Nazarena12](https://github.com/Nazarena12)) - Desarrollador
+- Macarena Nieva ([@macarena-nieva](https://github.com/macarena-nieva)) - Desarrollador
 
 ---
 
