@@ -32,6 +32,7 @@ Es un laboratorio vivo donde cada estructura que implementes tendrá impacto rea
 - Santiago Fernandez ([@SantiFernandezGit](https://github.com/SantiFernandezGit)) - Desarrollador
 - Alejo Sosa Luna ([@asosalunaa](https://github.com/asosalunaa)) - Desarrollador
 - Lautaro Perez ([@Lautazz11](https://github.com/Lautazz11)) - Desarrollador
+- Alejo Sosa Luna ([@asosalunaa](https://github.com/asosalunaa)) - Desarrollador 
 - Luka Brian Jones([@lukajones544](https://github.com/lukajones544)) - Desarrollador.
 - Melisa Verdu ([@melisaverdu](https://github.com/melisaverdu)) - Desarrollador 
 - Juani Aguero ([@juaniaguero](https://github.com/juaniaguero)) - Desarrollador
@@ -70,6 +71,7 @@ Es un laboratorio vivo donde cada estructura que implementes tendrá impacto rea
 - Santiago Agustin Zuñiga Castro ([@santizuu](https://github.com/Santizuu)) - Desarrollador
 - Sharon Blatter ([@sharonblatter-jpg](https://github.com/sharonblatter-jpg)) - Desarrollador 
 - Sofía Sivila ([@Nazarena12](https://github.com/Nazarena12)) - Desarrollador
+- Macarena Nieva ([@macarena-nieva](https://github.com/macarena-nieva)) - Desarrollador
 
 ---
 
