@@ -74,6 +74,7 @@ Es un laboratorio vivo donde cada estructura que implementes tendrá impacto rea
 - Sofía Sivila ([@Nazarena12](https://github.com/Nazarena12)) - Desarrollador
 - Macarena Nieva ([@macarena-nieva](https://github.com/macarena-nieva)) - Desarrollador
 - Alfredo Binaghi([@alfredobinaghi](https://github.com/alfredobinaghi)) - Desarrollador
+- Bruno Altamirano([@brunoaltamirano](https://github.com/brunoaltamirano)) - Desarrollador
 
 ---
 
