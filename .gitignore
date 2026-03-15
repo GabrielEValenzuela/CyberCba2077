@@ -46,3 +46,4 @@ build/
 .idea/
 cmake-build-*/
 compile_commands.json
+_assets/
