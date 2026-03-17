@@ -75,6 +75,8 @@ Es un laboratorio vivo donde cada estructura que implementes tendrá impacto rea
 - Macarena Nieva ([@macarena-nieva](https://github.com/macarena-nieva)) - Desarrollador
 - Alfredo Binaghi([@alfredobinaghi](https://github.com/alfredobinaghi)) - Desarrollador
 - Villalba Lautaro([@Lauty58](https://github.com/lauty58)) - Desarrollador
+- Andrea Hurtado ([@andreahurtado-cpu](https://github.com/andreahurtado-cpu)) - Desarrollador
+
 ---
 
 ## 🎮 ¿Qué es Cyberpunk Córdoba 2077?
