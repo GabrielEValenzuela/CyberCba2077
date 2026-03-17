@@ -72,6 +72,7 @@ Es un laboratorio vivo donde cada estructura que implementes tendrá impacto rea
 - Villalba Lautaro([@Lauty58](https://github.com/lauty58)) - Desarrollador
 - Maldonado Felipe ([@felipemaldonado-700](https://github.com/felipemaldonado-700)) - Desarrollador
 - Campos Dana ([@Dana-Campos](https://github.com/Dana-Campos)) - Desarrollador
+- Selena Lamas ( [@whenlenafallsinlove] (https://github.com/whenlenafallsinlove)) - Desarrollador
 
 ---
 
