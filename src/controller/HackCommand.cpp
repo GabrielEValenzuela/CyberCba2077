@@ -1,28 +1,51 @@
 #include "HackCommand.h"
+#include "model/gameModel.hpp"
 #include <iostream>
-using namespace std;
 
-class HackCommand : public Command
+namespace CyberpunkCba
 {
-    public:
-    void Execute(GameModel& model) override
-    bool casoBorde = false;
+    std::string HackCommand::name() const
     {
-        if (model.credits() >= model.hackCost() && model.hackAttempts() > 0)
-        {
-            cout << "OK" << endl;
-        }
-        else if model.credits() < model.hackCost() && model.hackAttempts() == 0){
-            cout << "Sin creditos ni intentos" << endl;
-            casoBorde = true;
-        }
-        else if (model.credits() < model.hackCost() && basoBorde == false)
-        {
-            cout << "Sin creditos" << endl;
-        }
-        else if (model.hackAttempts() == 0 && casoBorde == false)
-        {
-            cout << "Sin intentos" << endl;
-        }
+        return "hack";
     }
-};
+    std::string HackCommand::description() const
+    {
+        return "Verifica disponibilidad de hackeo.";
+    }
+    std::string HackCommand::category() const
+    {
+        return "runner";
+    }
+	std::string HackCommand::difficultyBar() const
+	{
+		switch (m_difficulty)
+	{
+    case HackDifficulty::EASY: return "[■□□] FACIL";
+    case HackDifficulty::MEDIUM: return "[■■□] MEDIO";
+    case HackDifficulty::HARD: return "[■■■] DIFICIL";
+	}
+	return "[■■□] MEDIO";
+	}
+	void HackCommand::execute(GameModel& model)
+	{
+    	bool sinCreditos = model.credits() < model.hackCost();
+		bool sinIntentos = model.hackAttempts() == 0;
+
+			if (sinCreditos && sinIntentos)
+			{
+				std::cout << "SIN CREDITOS NI INTENTOS" << std::endl;
+			}
+			else if (sinCreditos&& !sinIntentos)
+			{
+        	std::cout << "SIN CREDITOS" << std::endl;
+			}
+			else if (!sinCreditos && sinIntentos)
+			{
+			std::cout << "SIN INTENTOS" << std::endl;
+			}
+			else if (!sinCreditos && !sinIntentos)
+			{
+			std::cout << "OK\n" << difficultyBar() << std::endl;
+			}
+	}
+}
