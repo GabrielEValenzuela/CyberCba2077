@@ -70,6 +70,9 @@ Es un laboratorio vivo donde cada estructura que implementes tendrá impacto rea
 - Alfredo Binaghi([@alfredobinaghi](https://github.com/alfredobinaghi)) - Desarrollador
 - Juan Ignacio Martinez ([@Juanimart51](https://github.com/Juanimart51)) - Desarrollador
 - Villalba Lautaro([@Lauty58](https://github.com/lauty58)) - Desarrollador
+- Campos Dana ([@Dana-Campos](https://github.com/Dana-Campos)) - Desarrollador
+
+---
 
 --
 
