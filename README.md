@@ -79,6 +79,7 @@ Es un laboratorio vivo donde cada estructura que implementes tendrá impacto rea
 - Andrea Hurtado ([@andreahurtado-cpu](https://github.com/andreahurtado-cpu)) - Desarrollador
 - Maldonado Felipe ([@felipemaldonado-700](https://github.com/felipemaldonado-700)) - Desarrollador
 - Campos Dana ([@Dana-Campos](https://github.com/Dana-Campos)) - Desarrollador
+- Tobias Cruz ([@tobiasunc](https://github.com/tobiasunc)) - Desarrollador
 - Selena Lamas ([@whenlenafallsinlove](https://github.com/whenlenafallsinlove)) - Desarrollador
 
 ---
