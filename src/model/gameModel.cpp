@@ -1,4 +1,6 @@
 #include "model/gameModel.hpp"
+
+#include "common/inventoryUtils.hpp"
 #include "common/types.hpp"
 
 #include <cassert>
@@ -163,6 +165,11 @@ namespace CyberpunkCba
     bool GameModel::isInventoryFull() const noexcept
     {
         return static_cast<int>(m_inventory.size()) >= m_inventoryCapacity;
+    }
+
+    int GameModel::inventoryTotalValue() const
+    {
+        return CyberPunkCba::inventoryValueRec(m_inventory, 0);
     }
 
     // =============================================================================
