@@ -296,6 +296,14 @@ namespace CyberpunkCba
          */
         void quit() noexcept;
 
+        /**
+         * @brief Valor total del inventario en creditos
+         * @details Delega la logica a inventoryValueRec() de inventoryUtils.hpp
+         *
+         * @return Suma del price * quantity de todos los items. >= 0.
+         * */
+        int inventoryTotalValue() const;
+
         /// @}
 
     private:
