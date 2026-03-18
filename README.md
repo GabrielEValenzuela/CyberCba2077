@@ -1,4 +1,4 @@
-# 🌆 Cyberpunk Córdoba 2077 ![CI](https://github.com/<owner>/<repo>/actions/workflows/ci.yml/badge.svg)
+# 🌆 Cyberpunk Córdoba 2077 ![CI](https://github.com/GabrielEValenzuela/CyberCba2077/actions/workflows/ci.yml/badge.svg)
 
 > Año 2077.  
 > Córdoba ya no es la que conocías.  
@@ -17,15 +17,12 @@ Es un laboratorio vivo donde cada estructura que implementes tendrá impacto rea
 ## 👥 Equipo de desarrollo
 
 - Gabi Valenzuela ([@GabrielEValenzuela](https://github.com/GabrielEValenzuela)) - Lider de proyecto.
-- Ramiro Navarro ([@RamiroNavarro01](https://github.com/RamiroNavarro01)) - Desarrollador.
 - Marcos Rusconi ([@b0nusonline](https://github.com/b0nusonline)) - Desarrollador
 - Erick Economou ([@ErickEconomou](https://github.com/ErickEconomou)) - Desarrollador
 - Lautaro Flores ([@lautyfg](https://github.com/lautyfg)) - Desarrollador
 - Alejandro Kodjadelian ([@Alejandro-unc](https://github.com/Alejandro-unc)) - Desarrollador
-- Diego Romero ([@diego3435](https://github.com/diego3435)) - Desarrollador
-- Martin Compagnucci ([@Martin2026-AyE](https://github.com/Martin2026-AyE)) - Desarrollador
 - Marcos Bravin ([@marcosbravin7](https://github.com/marcosbravin7)) - Desarrollador
-- Leandro Bassi ([@LeandroBassi](https://github.com/LeandroBassi)) - Desarrollador
+- Leandro Bassi ([@LeandroBassi] (https://github.com/LeandroBassi)) - Desarrollador
 - Agustina Marasini ([@agustinaa-arch](https://github.com/agustinaa-arch)) - Desarrollador
 - Marcos Bravin ([@marcosbravin7](https://github.com/marcosbravin7)) - Desarrollador
 - Agustin Mella Romero ([@mellantastico](https://github.com/Mellantastico)) - Desarrollador
@@ -33,6 +30,8 @@ Es un laboratorio vivo donde cada estructura que implementes tendrá impacto rea
 - Alejo Sosa Luna ([@asosalunaa](https://github.com/asosalunaa)) - Desarrollador
 - Lautaro Perez ([@Lautazz11](https://github.com/Lautazz11)) - Desarrollador
 - Alejo Sosa Luna ([@asosalunaa](https://github.com/asosalunaa)) - Desarrollador
+- Santiago Fernandez (@SantiFernandezGit) - Desarrollador
+- Alejo Sosa Luna ([@asosalunaa](https://github.com/asosalunaa)) - Desarrollador 
 - Luka Brian Jones([@lukajones544](https://github.com/lukajones544)) - Desarrollador.
 - Melisa Verdu ([@melisaverdu](https://github.com/melisaverdu)) - Desarrollador
 - Juani Aguero ([@juaniaguero](https://github.com/juaniaguero)) - Desarrollador
@@ -74,10 +73,16 @@ Es un laboratorio vivo donde cada estructura que implementes tendrá impacto rea
 - Sofía Sivila ([@Nazarena12](https://github.com/Nazarena12)) - Desarrollador
 - Macarena Nieva ([@macarena-nieva](https://github.com/macarena-nieva)) - Desarrollador
 - Alfredo Binaghi([@alfredobinaghi](https://github.com/alfredobinaghi)) - Desarrollador
+- Juan Ignacio Martinez ([@Juanimart51](https://github.com/Juanimart51)) - Desarrollador
 - Villalba Lautaro([@Lauty58](https://github.com/lauty58)) - Desarrollador
 - Andrea Hurtado ([@andreahurtado-cpu](https://github.com/andreahurtado-cpu)) - Desarrollador
+- Maldonado Felipe ([@felipemaldonado-700](https://github.com/felipemaldonado-700)) - Desarrollador
+- Campos Dana ([@Dana-Campos](https://github.com/Dana-Campos)) - Desarrollador
+- Selena Lamas ([@whenlenafallsinlove](https://github.com/whenlenafallsinlove)) - Desarrollador
 
 ---
+
+--
 
 ## 🎮 ¿Qué es Cyberpunk Córdoba 2077?
 
