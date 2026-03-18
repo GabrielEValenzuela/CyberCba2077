@@ -169,7 +169,7 @@ namespace CyberpunkCba
 
     int GameModel::inventoryTotalValue() const
     {
-        return CyberPunkCba::inventoryValueRec(m_inventory,0);
+        return CyberPunkCba::inventoryValueRec(m_inventory, 0);
     }
 
     // =============================================================================

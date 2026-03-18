@@ -25,6 +25,6 @@ namespace CyberPunkCba
      * @return Valor total en creditos. 0 si el inventario esta vacio
      */
     int inventoryValueRec(const std::vector<CyberpunkCba::Item>& inventory, const std::size_t index);
-}
+} // namespace CyberPunkCba
 
 #endif // CYBERPUNK_CORDOBA_2077_INVENTORYUTILS_HPP
