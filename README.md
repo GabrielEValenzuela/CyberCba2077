@@ -1,4 +1,4 @@
-# 🌆 Cyberpunk Córdoba 2077 ![CI](https://github.com/<owner>/<repo>/actions/workflows/ci.yml/badge.svg)
+# 🌆 Cyberpunk Córdoba 2077 ![CI](https://github.com/GabrielEValenzuela/CyberCba2077/actions/workflows/ci.yml/badge.svg)
 
 > Año 2077.  
 > Córdoba ya no es la que conocías.  
@@ -17,24 +17,23 @@ Es un laboratorio vivo donde cada estructura que implementes tendrá impacto rea
 ## 👥 Equipo de desarrollo
 
 - Gabi Valenzuela ([@GabrielEValenzuela](https://github.com/GabrielEValenzuela)) - Lider de proyecto.
-- Ramiro Navarro ([@RamiroNavarro01](https://github.com/RamiroNavarro01)) - Desarrollador.
 - Marcos Rusconi ([@b0nusonline](https://github.com/b0nusonline)) - Desarrollador
 - Erick Economou ([@ErickEconomou](https://github.com/ErickEconomou)) - Desarrollador
 - Lautaro Flores ([@lautyfg](https://github.com/lautyfg)) - Desarrollador
 - Alejandro Kodjadelian ([@Alejandro-unc](https://github.com/Alejandro-unc)) - Desarrollador
-- Diego Romero ([@diego3435](https://github.com/diego3435)) - Desarrollador
-- Martin Compagnucci ([@Martin2026-AyE](https://github.com/Martin2026-AyE)) - Desarrollador
 - Marcos Bravin ([@marcosbravin7](https://github.com/marcosbravin7)) - Desarrollador
-- Leandro Bassi ([@LeandroBassi](https://github.com/LeandroBassi)) - Desarrollador
+- Leandro Bassi ([@LeandroBassi] (https://github.com/LeandroBassi)) - Desarrollador
 - Agustina Marasini ([@agustinaa-arch](https://github.com/agustinaa-arch)) - Desarrollador
 - Marcos Bravin ([@marcosbravin7](https://github.com/marcosbravin7)) - Desarrollador
 - Agustin Mella Romero ([@mellantastico](https://github.com/Mellantastico)) - Desarrollador
 - Santiago Fernandez ([@SantiFernandezGit](https://github.com/SantiFernandezGit)) - Desarrollador
 - Alejo Sosa Luna ([@asosalunaa](https://github.com/asosalunaa)) - Desarrollador
 - Lautaro Perez ([@Lautazz11](https://github.com/Lautazz11)) - Desarrollador
+- Alejo Sosa Luna ([@asosalunaa](https://github.com/asosalunaa)) - Desarrollador
+- Santiago Fernandez (@SantiFernandezGit) - Desarrollador
 - Alejo Sosa Luna ([@asosalunaa](https://github.com/asosalunaa)) - Desarrollador 
 - Luka Brian Jones([@lukajones544](https://github.com/lukajones544)) - Desarrollador.
-- Melisa Verdu ([@melisaverdu](https://github.com/melisaverdu)) - Desarrollador 
+- Melisa Verdu ([@melisaverdu](https://github.com/melisaverdu)) - Desarrollador
 - Juani Aguero ([@juaniaguero](https://github.com/juaniaguero)) - Desarrollador
 - Valentin Suppo ([@valesppo](https://github.com/valesppo)) - Desarrollador
 - Mateo Agustín Ahivar ([@Mateo-Ahivar](https://github.com/Mateo-Ahivar)) - Desarrollador
@@ -45,10 +44,10 @@ Es un laboratorio vivo donde cada estructura que implementes tendrá impacto rea
 - Alexis Garay([@Garay1913](https://github.com/Garay1913)) - Desarrollador
 - Ivan Pastrana ([@ivanpastrana-dev](https://github.com/ivanpastrana-dev)) - Desarrollador
 - Facundo Michaud ([@FacuM225](https://github.com/FacuM225)) - Desarrollador
-- Camila Soto ([@camila-soto](https://github.com/camila-soto)) - Desarrollador 
+- Camila Soto ([@camila-soto](https://github.com/camila-soto)) - Desarrollador
 - Santiago Bertocco ([@santi-bertocco](https://github.com/santi-bertocco)) - Desarrollador
 - Leonardo Rincon ([@LeoRincon03](https://github.com/LeoRincon03)) - Desarrolador
-- Juan Ignacio Fernandez([@JuanIFSB](https://github.com/JuanIFSB)) - Desarrollador 
+- Juan Ignacio Fernandez([@JuanIFSB](https://github.com/JuanIFSB)) - Desarrollador
 - Luis Enrique Palacio ([@luis-palacio-unc](https://github.com/luis-palacio-unc)) - Desarrollador
 - Pilar Fernandez Bonilla([@Pilarfbonilla](https://github.com/Pilarfbonilla))-Desarrollador
 - Ángela Marioni ([@Angela-M-01](https://github.com/Angela-M-01)) - Desarrollador
@@ -67,16 +66,24 @@ Es un laboratorio vivo donde cada estructura que implementes tendrá impacto rea
 - Santiago Nicolau ([@Santi695174](https://github.com/Santi695174)) - Desarrollador
 - Claudia Yon ([@clau-yon](https://github.com/clau-yon)) - Desarrollador
 - Santiago Barboza ([@santybarboza](https://github.com/santybarboza)) - Desarrollador
-- Bruno Ottonello ([@Motomoto17](https://github.com/Motomoto17)) - Desarrollador 
-- Nicolás Ludueña ([@nicoluduena04](https://github.com/nicoluduena04)) - Desarrollador 
+- Bruno Ottonello ([@Motomoto17](https://github.com/Motomoto17)) - Desarrollador
+- Nicolás Ludueña ([@nicoluduena04](https://github.com/nicoluduena04)) - Desarrollador
 - Santiago Agustin Zuñiga Castro ([@santizuu](https://github.com/Santizuu)) - Desarrollador
-- Sharon Blatter ([@sharonblatter-jpg](https://github.com/sharonblatter-jpg)) - Desarrollador 
+- Sharon Blatter ([@sharonblatter-jpg](https://github.com/sharonblatter-jpg)) - Desarrollador
 - Sofía Sivila ([@Nazarena12](https://github.com/Nazarena12)) - Desarrollador
 - Macarena Nieva ([@macarena-nieva](https://github.com/macarena-nieva)) - Desarrollador
 - Alfredo Binaghi([@alfredobinaghi](https://github.com/alfredobinaghi)) - Desarrollador
+- Juan Ignacio Martinez ([@Juanimart51](https://github.com/Juanimart51)) - Desarrollador
 - Villalba Lautaro([@Lauty58](https://github.com/lauty58)) - Desarrollador
 - Veronica Canclini ([@veronica568](https://github.com/veronica568)) - Desarrollador
+- Andrea Hurtado ([@andreahurtado-cpu](https://github.com/andreahurtado-cpu)) - Desarrollador
+- Maldonado Felipe ([@felipemaldonado-700](https://github.com/felipemaldonado-700)) - Desarrollador
+- Campos Dana ([@Dana-Campos](https://github.com/Dana-Campos)) - Desarrollador
+- Selena Lamas ([@whenlenafallsinlove](https://github.com/whenlenafallsinlove)) - Desarrollador
+
 ---
+
+--
 
 ## 🎮 ¿Qué es Cyberpunk Córdoba 2077?
 
@@ -238,7 +245,7 @@ mkdir build
 cd build
 cmake ..
 cmake --build .
-````
+```
 
 Para ejecutar:
 
@@ -258,8 +265,8 @@ cmake -DCMAKE_BUILD_TYPE=Debug ..
 
 Recomendamos fuertemente compilar con:
 
-* Address Sanitizer
-* Undefined Behavior Sanitizer
+- Address Sanitizer
+- Undefined Behavior Sanitizer
 
 Ejemplo:
 
@@ -277,9 +284,9 @@ Este repositorio sigue un flujo de trabajo profesional.
 
 ## 🔀 Modelo de ramas
 
-* `main` → versión estable
-* `dev` → rama de integración
-* Ramas por feature → `feature/<nombre>`
+- `main` → versión estable
+- `dev` → rama de integración
+- Ramas por feature → `feature/<nombre>`
 
 Ejemplo:
 
@@ -293,14 +300,13 @@ git checkout -b feature/inventory-list
 
 Cada aporte debe:
 
-* Compilar correctamente
-* Pasar tests
-* Respetar MVC
-* Incluir una breve explicación técnica:
-
-  * Complejidad
-  * Consideraciones de memoria
-  * Decisión de diseño
+- Compilar correctamente
+- Pasar tests
+- Respetar MVC
+- Incluir una breve explicación técnica:
+  - Complejidad
+  - Consideraciones de memoria
+  - Decisión de diseño
 
 Formato sugerido para títulos:
 
@@ -314,10 +320,10 @@ Formato sugerido para títulos:
 
 Toda estructura implementada debe incluir tests de:
 
-* Construcción / destrucción
-* Insert / Remove
-* Casos borde
-* Correctitud de memoria (sin leaks)
+- Construcción / destrucción
+- Insert / Remove
+- Casos borde
+- Correctitud de memoria (sin leaks)
 
 Si solo funciona en el “happy path”, no funciona.
 
@@ -329,11 +335,11 @@ Este proyecto incluye un leaderboard de rendimiento y calidad.
 
 Podés ganar badges por:
 
-* ⚡ Implementación más rápida (benchmark medido)
-* 🧠 Mejor justificación de complejidad
-* 🧼 Arquitectura más limpia
-* 🔒 Cero memory leaks
-* 🔥 Optimización destacada
+- ⚡ Implementación más rápida (benchmark medido)
+- 🧠 Mejor justificación de complejidad
+- 🧼 Arquitectura más limpia
+- 🔒 Cero memory leaks
+- 🔥 Optimización destacada
 
 Las mejores implementaciones se mostrarán en clase.
 
@@ -381,20 +387,25 @@ cyberpunk-cordoba-2077/
 ## 🧠 Convenciones importantes
 
 ### 📦 `model/`
+
 Aquí viven las estructuras de datos y la lógica algorítmica.  
 No deben depender de la vista.
 
 ### 🎮 `controller/`
+
 Coordina entradas del usuario y actualiza el modelo.
 
 ### 🖼 `assets/`
+
 Contiene recursos gráficos.  
 No modificar sin autorización.
 
 ### 🧪 `tests/`
+
 Cada estructura debe tener su archivo de test correspondiente.
 
 ### 🚫 `build/`
+
 Nunca se versiona.  
 Debe estar en el `.gitignore`.
 
