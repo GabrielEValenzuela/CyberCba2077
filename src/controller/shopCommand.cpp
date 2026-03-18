@@ -8,18 +8,7 @@
 
 namespace CyberpunkCba
 {
-    class ShopCommand final : public Command{ // final: no se puede heredar de esta clase
-        public:
-              //implementacion de la interfaz command, son private porque solo se usan dentro de esta clase
-            void execute(GameModel& model) override;
-            std::string name() const override;
-            std::string description() const override;
-            std::string category() const override;
-        private:
-            const bool isAffordable(const Item& item, int playerMoney); // función para verificar si el jugador puede comprar un item
-            std::vector<Item> m_catalog; // catálogo de items disponibles en la tienda
-    };
-    
+
     ShopCommand::ShopCommand(){
         m_catalog = { {"Ciberimplante de brazo", ItemType::Tech, 500, 1},
                       {"Ciberimplante de pierna", ItemType::Tech, 300, 1},
@@ -78,18 +67,8 @@ namespace CyberpunkCba
         return "mundo";
     }
 
-    const bool ShopCommand::isAffordable(const Item& item, int playerMoney){
+    bool ShopCommand::isAffordable(const Item& item, int credits)const{
             // Verifica si el jugador tiene suficiente dinero para comprar el item
-        return playerMoney >= item.price;
+        return credits >= item.price;
     }
-
-
-    
-    
-
-
-
-
-
-
-} // namespace CyberpunkCba
+} // namespahelpce CyberpunkCba

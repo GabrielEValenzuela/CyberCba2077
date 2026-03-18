@@ -1,5 +1,5 @@
-#ifndef _SHOP_COMMAND_HPP
-#define _SHOP_COMMAND_HPP
+#ifndef SHOP_COMMAND_HPP
+#define SHOP_COMMAND_HPP
 //evita inclusiones múltiples
 
 #include "controller/command.hpp" // incluyo clase base Command, para heredar
@@ -10,7 +10,7 @@
 
 
 /**
-* @file ShopCommand.hpp
+* @file shopCommand.hpp
 * @brief Header privado de ShopCommand.
 *
 * @details
@@ -33,14 +33,14 @@ namespace CyberpunkCba {
             ~ShopCommand() override = default; // destructor virtual, override: asegura que se sobreescribe el método de la clase base
              //implementacion de la interfaz command, son private porque solo se usan dentro de esta clase
             void execute(GameModel& model) override;
-            std::string name() const override;
-            std::string description() const override;
-            std::string category() const override;
+            [[nodiscard]]std::string name() const override;
+            [[nodiscard]]std::string description() const override;
+            [[nodiscard]]std::string category() const override;
             
         private:
-             bool isAffordable(const Item& item, int playerMoney); // función para verificar si el jugador puede comprar un item
+             [[nodiscard]]bool isAffordable(const Item& item, int playerMoney)const; // función para verificar si el jugador puede comprar un item
              std::vector<Item> m_catalog; // catálogo de items disponibles en la tienda
     };
 }
-#endif // _SHOP_COMMAND_HPP
+#endif // SHOP_COMMAND_HPP
 
