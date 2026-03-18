@@ -24,22 +24,23 @@ namespace CyberpunkCba
 
     void ShopCommand::execute(GameModel& model){
         // Lógica para mostrar el catálogo de la tienda y permitir al jugador comprar items
-        std::cout << "Bienvenido a la tienda. Aquí está nuestro catálogo:\n";
+        //std::cout << "Bienvenido a la tienda. Aquí está nuestro catálogo:\n";
+        const int credits = model.credits();
         int asequibles = 0;
-        // 1 - Mostrar catálogo con indicación de qué items puede comprar el jugador
+
+
+        //Calcular cuantos items son asequibles antes de imprimir
         for (const auto& item : m_catalog) {
-            if(isAffordable(item, model.credits())){
-                std::cout << "(✓) ";
+            if(isAffordable(item, credits)){
                 asequibles++;
-            } 
-            else std::cout << "(✗) ";
-            std::cout << item.name << " (Precio: " << item.price << " créditos)\n";
+            }
         }
+
         // 2 - Inventario lleno
         if(model.isInventoryFull()){
             std::cout << "======================================================\n";
             std::cout << "Tu inventario está lleno. No puedes comprar más items.\n";
-            std::cout << "======================================================\n";    
+            std::cout << "======================================================\n";
             return;
         }
         // 3 - No tiene créditos para comprar nada
@@ -49,8 +50,19 @@ namespace CyberpunkCba
             std::cout << "========================================================\n";
             return;
         }
+
+        //Estado del catalogo normal
+        for(const auto& item : m_catalog) {
+            if(isAffordable(item, credits)){
+                std::cout << "(✓) ";
+            }
+            else std::cout << "(✗) ";
+            std::cout << item.name << " (Precio: " << item.price << " créditos)\n";
+        }
+        std::cout << "Items asequibles: " << asequibles << '\n';
+        }
         
-    }
+
 
     std::string ShopCommand::name() const{
         // Retorna el nombre del comando, que se usará para invocarlo
@@ -71,4 +83,4 @@ namespace CyberpunkCba
             // Verifica si el jugador tiene suficiente dinero para comprar el item
         return credits >= item.price;
     }
-} // namespahelpce CyberpunkCba
+} // namespace CyberpunkCba
