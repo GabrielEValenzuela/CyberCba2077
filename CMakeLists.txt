@@ -44,6 +44,8 @@ target_include_directories(cyberpunk_lib
 add_executable(cyberpunk2077
   src/main.cpp
   src/ui/console.cpp
+        src/controller/exitCommand.cpp
+        include/controller/exitCommand.hpp
 )
 
 target_include_directories(cyberpunk2077 PRIVATE include)
@@ -61,6 +63,8 @@ if(CYBERPUNK_BUILD_TESTS)
     tests/common/types_test.cpp
     tests/model/gameModel_test.cpp
     tests/controller/commandRegistry_test.cpp
+          src/controller/exitCommand.cpp
+          include/controller/exitCommand.hpp
   )
 
   target_include_directories(unit_tests PRIVATE
