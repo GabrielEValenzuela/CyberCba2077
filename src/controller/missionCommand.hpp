@@ -32,6 +32,6 @@ namespace CyberpunkCba
         void renderBar(int percent, int width) const;
     };
 
-} // namespace CyberpunkCba
+}
 
-#endif // _MISSION_COMMAND_HPP
+#endif

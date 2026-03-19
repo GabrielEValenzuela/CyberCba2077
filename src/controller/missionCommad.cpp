@@ -1,30 +1,31 @@
-#ifndef CYBERPUNK_CORDOBA_2077_MISSIONCOMMAND_H
-#define CYBERPUNK_CORDOBA_2077_MISSIONCOMMAND_H
-
-#include "controller/missionCommand.hpp"
+#include "controller/MissionCommand.hpp"
+#include "model/gameModel.hpp"           // para el model
+#include "model/mission.hpp"             // para los datos de la misión
 #include <iostream>
 #include <iomanip>
 
-void missionCommand::execute(CyberpunkCba::GameModel& model)
+namespace CyberpunkCba
 {
-    const CyberpunkCba::Mission* active = model.activeMission();
-    const CyberpunkCba::Mission* lastFailed = model.lastFailedMission();
+    void MissionCommand::execute(GameModel& model)
+    {
+        const Mission* active = model.activeMission();
+        const Mission* lastFailed = model.lastFailedMission();
 
-    // Tres estados de salida
-    if (active != nullptr)
-    {
-        std::cout << ">>> Misión Actual: " << active->getName() <<std::endl;
-        renderBar(active->getProgress(), 20);
-    }
-    else if (lastFailed != nullptr)
-    {
-        std::cout << "Aviso: Ultimo fallo en " << lastFailed->getName() << std::endl;
-    }
-    else
-    {
-        std::cout << "Aviso: Sin misiones."<<std::endl;
-    }
+        // Tres estados de salida
+        if (active != nullptr)
+        {
+            std::cout << ">>> Misión Actual: " << active->getName() <<std::endl;
+            renderBar(active->getProgress(), 20);
+        }
+        else if (lastFailed != nullptr)
+        {
+            std::cout << "Aviso: Ultimo fallo en " << lastFailed->getName() << std::endl;
+        }
+        else
+        {
+            std::cout << "Aviso: Sin misiones."<<std::endl;
+        }
 
-    //AGREGAR LA FUNCION CALCULATESUCCESSRATE¿?
+        //AGREGAR LA FUNCION CALCULATESUCCESSRATE¿?
+    }
 }
-#endif // CYBERPUNK_CORDOBA_2077_MISSIONCOMMAND_H
