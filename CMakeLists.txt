@@ -32,7 +32,7 @@ add_library(cyberpunk_lib STATIC
   src/controller/statusCommand.cpp
   src/controller/unknownCommand.cpp
         src/controller/missionCommand.hpp
-        src/controller/missionCommad.cpp
+        src/controller/missionCommand.cpp
 )
 
 target_include_directories(cyberpunk_lib

@@ -1,6 +1,6 @@
-#include "controller/MissionCommand.hpp"
+#include "missionCommand.hpp"
 #include "model/gameModel.hpp"           // para el model
-#include "model/mission.hpp"             // para los datos de la misión
+#include "common/types.hpp"             // para los datos de la misión
 #include <iostream>
 #include <iomanip>
 
