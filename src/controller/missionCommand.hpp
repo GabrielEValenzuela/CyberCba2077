@@ -1,30 +1,37 @@
 //
 // Created by lucii on 19/3/26.
 //
-#ifndef MISSION_COMMAND_HPP
-#define MISSION_COMMAND_HPP
+#ifndef _MISSION_COMMAND_HPP
+#define _MISSION_COMMAND_HPP
+
 #include "controller/command.hpp"
-#include "model/gameModel.hpp"
+#include <string>
 
-class missionCommand : public CyberpunkCba::Command //hereda command
+namespace CyberpunkCba 
 {
-public:
-    missionCommand() = default;
-    ~missionCommand() override = default; //destructor
-    void execute( CyberpunkCba::GameModel& model) override;
-    std::string name() const override;
-    std::string description() const override;
-    std::string category() const override;
-private:
-    float calculateSuccessRate(int completed, int failed) const; //tasa de exito
-    void renderBar(int percent, int width) const; //barra de progreso
-};
+    // Optimizacion: esto evita usar #include para gameModel.hpp, reduciendo tiempos de compilacion.
+    class GameModel;
 
+    // clase heredada
+    class MissionCommand : public Command 
+    {
+    public:
+        // Constructor y destructor explícitos en default, lo explicital command.hpp
+        MissionCommand() = default;
+        ~MissionCommand() override = default;
 
+        // Métodos heredados con override
+        void execute(GameModel& model) override;
+        std::string name() const override;
+        std::string description() const override;
+        std::string category() const override;
 
+    private:
+        // Métodos privados solicitados en el issue
+        float calculateSuccessRate(int completed, int failed) const;
+        void renderBar(int percent, int width) const;
+    };
 
-#endif
-// Created by lucii on 19/3/26.
-//
+} // namespace CyberpunkCba
 
-
+#endif // _MISSION_COMMAND_HPP
