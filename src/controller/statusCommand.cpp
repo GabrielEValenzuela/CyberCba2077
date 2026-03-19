@@ -39,7 +39,7 @@ namespace CyberpunkCba
                   << "  Créditos: " << COLOR_YELLOW << model.credits() << " cr" << COLOR_RESET << "\n"
                   << "\n"
                   << "  Zona    : " << model.currentZone() << "\n"
-                  << "  Alerta  : " << COLOR_RED << alertBar << "  " << alertStr << "\n"
+                  << "  Alerta  : " << COLOR_RED << alertBar << " " << alertStr << "\n"
                   << COLOR_RESET << "  Turno   : " << todStr << "  (" << std::setw(2) << std::setfill('0')
                   << model.currentHour() << ":" << std::setw(2) << std::setfill('0') << model.currentMinute() << ")\n"
                   << "\n"
