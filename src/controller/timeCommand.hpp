@@ -1,14 +1,10 @@
-//
-// Created by USUARIO on 17/03/2026.
-//
-
 #ifndef CYBERPUNK_CORDOBA_2077_TIMECOMMAND_HPP
 #define CYBERPUNK_CORDOBA_2077_TIMECOMMAND_HPP
 #include "controller/command.hpp"
 
 /*
  * @class TimeCommand
- * @brief
+ * @brief Muestra la hora de simulación, el turno y el tiempo restante hasta el próximo turno.
  * @author lorem ipsum Team
  */
 namespace CyberpunkCba

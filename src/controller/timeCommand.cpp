@@ -1,7 +1,3 @@
-//
-// Created by USUARIO on 17/03/2026.
-//
-
 #include "timeCommand.hpp"
 #include "common/types.hpp"
 #include "model/gameModel.hpp"
