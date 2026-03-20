@@ -28,7 +28,20 @@ namespace CyberpunkCba
                   << COLOR_RESET << "  Escribí 'help' para ver los comandos disponibles.\n\n";
         
         // caso white-only
-        
+        bool esSoloBlancos = true; // declaro boolenao para saber si el input es solo espacios en blanco
+        for (std:: size_t i =0; i<m_input.size(); i++){
+            if (m_input[i] != ' ')  //si por lo menos uno es distinto de espacio
+            {
+                esSoloBlancos = false;   //entonces no tiene solo blancos
+                break;
+            }
+        }
+        if(esSoloBlancos){
+            std::cout << COLOR_RED << "  Comando en blanco.\n"
+                  << COLOR_RESET << "  Escribí 'help' para ver los comandos disponibles.\n\n";  //mensaje diferente al vacio
+        }
+        //caso comando desconocido
+
     }
 
     std::string UnknownCommand::name() const
