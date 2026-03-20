@@ -29,6 +29,7 @@ namespace CyberpunkCba
      * Lee entidades observadas desde GameModel::nearbyEntities(),
      * las ordena por distanceMeters ascendente y muestra salida compacta.
      * Si detecta al menos una entidad Hostile, incrementa la alerta del modelo.
+     * El nivel de alerta estará en función de la cantidad de Hostile.
      */
     class ScanCommand final : public Command
     {

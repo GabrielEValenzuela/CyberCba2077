@@ -62,15 +62,16 @@ TEST_F(ScanCommandTest, EntitiesAreSortedByDistance)
     EXPECT_LT(idxMid, idxFar);
 }
 
-TEST_F(ScanCommandTest, HostileIncrementsAlert)
+TEST_F(ScanCommandTest, AlertDoesNotChangeWhenAlreadyAtExpectedLevel)
 {
     setNearbyEntities(m_model, {{"Corporativo Militech", EntityDisposition::Hostile, 25}});
     const auto before {m_model.alertLevel()};
+    const auto beforeCause {m_model.lastAlertCause()};
 
     captureOutput();
 
-    EXPECT_EQ(m_model.alertLevel(), incrementAlertLevel(before));
-    EXPECT_FALSE(m_model.lastAlertCause().empty());
+    EXPECT_EQ(m_model.alertLevel(), before);
+    EXPECT_EQ(m_model.lastAlertCause(), beforeCause);
 }
 
 TEST_F(ScanCommandTest, EmptyZoneDoesNotModifyModel)
@@ -112,4 +113,46 @@ TEST_F(ScanCommandTest, OutputContainsEachDisposition)
     EXPECT_NE(output.find("[AMIGABLE]"), std::string::npos);
     EXPECT_NE(output.find("[NEUTRAL]"), std::string::npos);
     EXPECT_NE(output.find("[HOSTIL]"), std::string::npos);
+}
+
+TEST_F(ScanCommandTest, ScanRaisesAlertUpToTargetByHostileCount)
+{
+    setNearbyEntities(m_model,
+                      {{"Hostile A", EntityDisposition::Hostile, 10},
+                       {"Hostile B", EntityDisposition::Hostile, 20},
+                       {"Hostile C", EntityDisposition::Hostile, 30}});
+
+    captureOutput();
+
+    EXPECT_EQ(m_model.alertLevel(), AlertLevel::High);
+    EXPECT_FALSE(m_model.lastAlertCause().empty());
+}
+
+TEST_F(ScanCommandTest, ScanSaturatesAtMaximumWhenHostilesAreFourOrMore)
+{
+    setNearbyEntities(m_model,
+                      {{"Hostile A", EntityDisposition::Hostile, 10},
+                       {"Hostile B", EntityDisposition::Hostile, 20},
+                       {"Hostile C", EntityDisposition::Hostile, 30},
+                       {"Hostile D", EntityDisposition::Hostile, 40},
+                       {"Hostile E", EntityDisposition::Hostile, 50}});
+
+    captureOutput();
+
+    EXPECT_EQ(m_model.alertLevel(), AlertLevel::Maximum);
+}
+
+TEST_F(ScanCommandTest, ScanDoesNotDecreaseAlertWhenHostileCountDrops)
+{
+    m_model.incrementAlert("Escalada previa");
+    m_model.incrementAlert("Escalada previa");
+    EXPECT_EQ(m_model.alertLevel(), AlertLevel::High);
+
+    setNearbyEntities(m_model, {{"Civil", EntityDisposition::Neutral, 15}});
+    const auto beforeCause {m_model.lastAlertCause()};
+
+    captureOutput();
+
+    EXPECT_EQ(m_model.alertLevel(), AlertLevel::High);
+    EXPECT_EQ(m_model.lastAlertCause(), beforeCause);
 }
