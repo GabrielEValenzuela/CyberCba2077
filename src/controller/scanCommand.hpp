@@ -14,7 +14,7 @@
  * Solo debe ser incluido por ScanCommand.cpp.
  * La API pública es Command.hpp.
  *
- * @author Equipo 02 — Exodus Systems Inc.
+ * @author Equipo Now Hiring — Exodus Systems Inc.
  * @version 0.1.0
  */
 
