@@ -215,7 +215,7 @@ jobs:
             -DCMAKE_CXX_FLAGS="${FINAL_CXX_FLAGS}" \
             -DCMAKE_EXE_LINKER_FLAGS="${FINAL_EXE_LINKER_FLAGS}" \
             -DCMAKE_SHARED_LINKER_FLAGS="${FINAL_SHARED_LINKER_FLAGS}" \
-            -DCYBERPUNK_ENABLE_COVERAGE=ON
+            -DCYBERPUNK_ENABLE_COVERAGE=OFF
 
       # -----------------------------------
       # Clang-Tidy
