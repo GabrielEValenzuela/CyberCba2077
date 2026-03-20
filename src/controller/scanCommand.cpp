@@ -21,14 +21,10 @@ namespace CyberpunkCba
 
             switch (hostileCount)
             {
-                case 1:
-                    return AlertLevel::Low;
-                case 2:
-                    return AlertLevel::Medium;
-                case 3:
-                    return AlertLevel::High;
-                default:
-                    return AlertLevel::None;
+                case 1: return AlertLevel::Low;
+                case 2: return AlertLevel::Medium;
+                case 3: return AlertLevel::High;
+                default: return AlertLevel::None;
             }
         }
     } // namespace
