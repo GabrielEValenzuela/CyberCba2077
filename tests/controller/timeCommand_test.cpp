@@ -1,5 +1,5 @@
-#include "timeCommand.hpp"
 #include "model/gameModel.hpp"
+#include "timeCommand.hpp"
 
 #include <gtest/gtest.h>
 
