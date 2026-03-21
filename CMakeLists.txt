@@ -14,7 +14,7 @@ enable_testing()
 # =============================================================================
 option(CYBERPUNK_BUILD_TESTS "Build unit tests" ON)
 option(CYBERPUNK_BUILD_BENCHMARKS "Build benchmarks" ON)
-option(CYBERPUNK_ENABLE_COVERAGE "Enable coverage flags (local only)" OFF)
+option(CYBERPUNK_ENABLE_COVERAGE "Enable coverage flags (local only)" ON)
 
 # =============================================================================
 # Flags de compilación
@@ -65,6 +65,7 @@ if(CYBERPUNK_BUILD_TESTS)
     tests/controller/commandRegistry_test.cpp
           src/controller/timeCommand.cpp
           src/controller/timeCommand.hpp
+          tests/controller/timeCommand_test.cpp
   )
 
   target_include_directories(unit_tests PRIVATE
