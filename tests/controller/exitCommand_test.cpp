@@ -10,9 +10,7 @@ using namespace CyberpunkCba;
 class ExitCommandTest : public ::testing::Test
 {
 protected:
-    void SetUp() override
-    {
-    }
+    void SetUp() override {}
 
     std::string captureOutput(Command& cmd)
     {

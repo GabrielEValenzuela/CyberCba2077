@@ -113,7 +113,7 @@ namespace CyberpunkCba
         // ZONA DE EQUIPOS — agregar una línea por equipo
         // Formato: registry.add(std::make_unique<TuComandoCommand>());
         // ============================================================
-        //puntero inteligente que se destruye solo cuando ya no se necesita.
+        // puntero inteligente que se destruye solo cuando ya no se necesita.
         registry.add(std::make_unique<ExitCommand>());
         // ============================================================
         // FIN ZONA DE EQUIPOS
