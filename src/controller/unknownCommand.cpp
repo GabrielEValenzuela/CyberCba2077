@@ -38,10 +38,26 @@ namespace CyberpunkCba
         }
         if(esSoloBlancos){
             std::cout << COLOR_RED << "  Comando en blanco.\n"
-                  << COLOR_RESET << "  Escribí 'help' para ver los comandos disponibles.\n\n";  //mensaje diferente al vacio
+                      << COLOR_RESET << "  Escribí 'help' para ver los comandos disponibles.\n\n";  //mensaje diferente al vacio
         }
         //caso comando desconocido
-        
+        // como la consigna dice que la sugerencia debe venir de los dos primeros caracteres iguales
+        // entonces, primero nos aseguramos de que el input tenga al menos 2 caracteres 
+        if(m_input.size() >=2){
+            std:: string sugerencia = m_input.substr(0,2); // el substring de los dos primeros caracteres del input
+            for( const Command* cmd : m_registry.commands()){   // por cada puntero cmd a la lista de comanddos del registry
+                 std:: string nombreComando = cmd->name();       // guardo el nombre del comando :P
+                 if(nombreComando.size() >= 2 && nombreComando.substr(0,2) == sugerencia){ //nos aseguramos que el comando tenga almenos dos caracteres y los comparamos con el de la sugerencia
+                    std::cout << COLOR_RED << " ¿Quizás quisite decir... \"" << nombreComando << "\"?\n"
+                      << COLOR_RESET;
+                    break;
+                 }
+
+            }
+
+        }
+
+    
 
     }
 
