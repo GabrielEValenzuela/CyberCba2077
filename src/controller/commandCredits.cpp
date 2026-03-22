@@ -8,6 +8,17 @@
 #include <iomanip>
 #include <algorithm>
 
+/**
+ * @file commandCredits.cpp
+ * @brief Implementación de CommandCredits.
+ *
+ * @details
+ * Muestra el equipo de desarrollo con padding dinámico de columnas
+ * y métricas de sesión leídas desde GameModel.
+ *
+ */
+
+
 namespace CyberpunkCba
 {
     CommandCredits::CommandCredits(std::vector<TeamMember> team, std::string teamName)
