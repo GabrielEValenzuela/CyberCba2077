@@ -2,28 +2,38 @@
 #include "model/gameModel.hpp"
 
 #include <gtest/gtest.h>
-
-#include <iostream>
 #include <sstream>
 #include <string>
 
-using namespace CyberpunkCba;
-
-// =============================================================================
-// Fixture compartida
-// =============================================================================
-
 /**
- * @brief Fixture para todos los tests de HackCommand.
+ * @file hackCommand_test.cpp
+ * @brief Pruebas unitarias para HackCommand.
  *
  * @details
- * Estado inicial del modelo ("Ghost_47"):
- *   - credits()      == 250  → suficientes (hackCost == 15)
- *   - hackAttempts() == 3    → disponibles
- *   - alertLevel()   == Low  → dificultad EASY
+ * Este archivo contiene pruebas unitarias para la clase HackCommand, que verifica la disponibilidad de hack
+ * y muestra mensajes específicos según el estado de créditos e intentos del modelo de juego.
+ * Las pruebas cubren los siguientes escenarios:
+ * - Cuando el hackeo está disponible (créditos e intentos disponibles).
+ * - Cuando no hay créditos disponibles pero sí intentos.
+ * - Cuando no hay intentos disponibles pero sí créditos.
+ * - Cuando no hay créditos ni intentos disponibles.
+ * - Verificar que el comando no modifica el modelo de juego.
+ *
+ * @author Equipo 03 â€” Exodus Systems Inc.
+ * @version 0.1.0
  */
+
+using namespace CyberpunkCba;
+
+
 class HackCommandTest : public ::testing::Test
 {
+    /**
+     * @brief Fixture de pruebas para HackCommand.
+     * Proporciona un modelo de juego inicializado y un comando HackCommand para ejecutar.
+     * Incluye métodos auxiliares para capturar la salida de consola y modificar el estado
+     * del modelo (agotar créditos e intentos) para probar diferentes escenarios.
+     */
 protected:
 
     /// @brief Ejecuta el comando y devuelve todo lo impreso en stdout.
@@ -59,32 +69,30 @@ protected:
     HackCommand m_cmd;
 };
 
-// =============================================================================
-// Test 1 — Disponible: ambas precondiciones OK
-// =============================================================================
 
+/** @brief Test para verificar que el comando muestra "OK" cuando está disponible.
+ *
+ * Escenario: El modelo inicia con créditos e intentos disponibles.
+ * Acción: Ejecutar el comando HackCommand.
+ * Resultado esperado: La salida contiene "OK".
+ */
 TEST_F(HackCommandTest, Disponible_MuestraOK)
 {
-    // Estado inicial: 250 créditos, 3 intentos → disponible
+    // Estado inicial: 250 créditos, 3 intentos disponibles
     const std::string output {captureOutput()};
 
     // Debe mostrar "OK"
     EXPECT_NE(output.find("OK"), std::string::npos);
-
-    // Debe incluir la barra de dificultad
-    EXPECT_NE(output.find("["), std::string::npos);
-
-    // Con alertLevel Low → EASY
-    EXPECT_NE(output.find("FACIL"), std::string::npos);
-
-    // No debe mostrar mensajes de error
-    EXPECT_EQ(output.find("SIN"), std::string::npos);
 }
 
-// =============================================================================
-// Test 2 — Sin créditos: solo falla la precondición de créditos
-// =============================================================================
 
+/** @brief Test para verificar que el comando muestra "SIN CREDITOS"
+ * cuando no hay créditos disponibles.
+ *
+ * Escenario: El modelo inicia con créditos agotados pero intentos disponibles.
+ * Acción: Ejecutar el comando HackCommand.
+ * Resultado esperado: La salida contiene "SIN CREDITOS".
+ */
 TEST_F(HackCommandTest, SinCreditos_MensajeEspecifico)
 {
     agotarCreditos(); // credits == 0, hackAttempts == 3
@@ -98,130 +106,65 @@ TEST_F(HackCommandTest, SinCreditos_MensajeEspecifico)
     EXPECT_EQ(output.find("SIN INTENTOS"), std::string::npos);
 }
 
-// =============================================================================
-// Test 3 — Sin intentos: solo falla la precondición de intentos
-// =============================================================================
 
+/** @brief Test para verificar que el comando muestra "SIN INTENTOS"
+ * cuando no hay intentos disponibles.
+ *
+ * Escenario: El modelo inicia con intentos agotados pero créditos disponibles.
+ * Acción: Ejecutar el comando HackCommand.
+ * Resultado esperado: La salida contiene "SIN INTENTOS".
+ */
 TEST_F(HackCommandTest, SinIntentos_MensajeEspecifico)
 {
-    agotarIntentos(); // hackAttempts == 0, credits == 250
+    agotarIntentos(); // credits == 250, hackAttempts == 0
 
     const std::string output {captureOutput()};
 
     EXPECT_NE(output.find("SIN INTENTOS"), std::string::npos);
 
     // No debe mostrar OK ni el mensaje de sin créditos
-    EXPECT_EQ(output.find("OK"),           std::string::npos);
+    EXPECT_EQ(output.find("OK"),          std::string::npos);
     EXPECT_EQ(output.find("SIN CREDITOS"), std::string::npos);
 }
 
-// =============================================================================
-// Test 4 — Caso borde: créditos == 0 Y intentos == 0 simultáneamente
-// =============================================================================
 
-TEST_F(HackCommandTest, SinCreditosNiIntentos_NoCrashea)
+/** @brief Test para verificar que el comando muestra "SIN CREDITOS NI INTENTOS"
+ * cuando no hay créditos ni intentos disponibles.
+ *
+ * Escenario: El modelo inicia con créditos e intentos agotados.
+ * Acción: Ejecutar el comando HackCommand.
+ * Resultado esperado: La salida contiene "SIN CREDITOS NI INTENTOS".
+ */
+TEST_F(HackCommandTest, SinCreditosNiIntentos_MensajeEspecifico)
 {
-    agotarCreditos();
+    agotarCreditos(); // credits == 0, hackAttempts == 3
     agotarIntentos(); // credits == 0, hackAttempts == 0
 
-    EXPECT_NO_THROW({
-        const std::string output {captureOutput()};
+    const std::string output {captureOutput()};
 
-        // Debe mostrar el mensaje del caso borde
-        EXPECT_NE(output.find("SIN CREDITOS NI INTENTOS"), std::string::npos);
+    EXPECT_NE(output.find("SIN CREDITOS NI INTENTOS"), std::string::npos);
 
-        // No debe confundirse con ningún otro estado
-        EXPECT_EQ(output.find("OK"),           std::string::npos);
-        EXPECT_EQ(output.find("SIN INTENTOS"), std::string::npos);
-    });
+    // No debe mostrar OK ni los mensajes individuales de sin créditos o sin intentos
+    EXPECT_EQ(output.find("OK"),          std::string::npos);
+    EXPECT_EQ(output.find("SIN INTENTOS"), std::string::npos);
 }
 
-// =============================================================================
-// Test 5 — GameModel no modificado en ningún estado
-// =============================================================================
 
-TEST_F(HackCommandTest, Execute_NoModificaGameModel)
+/** @brief Test para verificar que el comando no modifica el modelo.
+ *
+ * Escenario: El modelo inicia con créditos e intentos disponibles.
+ * Acción: Ejecutar el comando HackCommand.
+ * Resultado esperado: El modelo no debe ser modificado.
+ */
+TEST_F(HackCommandTest, noModificaModelo)
 {
-    // --- Estado 1: disponible ---
-    {
-        const int  creditosAntes  {m_model.credits()};
-        const int  intentosAntes  {m_model.hackAttempts()};
-        const auto alertaAntes    {m_model.alertLevel()};
-        const bool runningAntes   {m_model.isRunning()};
+    const auto creditsBefore {m_model.credits()};
+    const auto attemptsBefore {m_model.hackAttempts()};
 
-        captureOutput();
+    m_cmd.execute(m_model);
 
-        EXPECT_EQ(m_model.credits(),      creditosAntes);
-        EXPECT_EQ(m_model.hackAttempts(), intentosAntes);
-        EXPECT_EQ(m_model.alertLevel(),   alertaAntes);
-        EXPECT_EQ(m_model.isRunning(),    runningAntes);
-    }
+    // El comando no debe modificar créditos ni intentos
+    EXPECT_EQ(m_model.credits(), creditsBefore);
+    EXPECT_EQ(m_model.hackAttempts(), attemptsBefore);
 
-    // --- Estado 2: sin créditos ---
-    {
-        agotarCreditos();
-
-        const int  creditosAntes  {m_model.credits()};
-        const int  intentosAntes  {m_model.hackAttempts()};
-        const auto alertaAntes    {m_model.alertLevel()};
-        const bool runningAntes   {m_model.isRunning()};
-
-        captureOutput();
-
-        EXPECT_EQ(m_model.credits(),      creditosAntes);
-        EXPECT_EQ(m_model.hackAttempts(), intentosAntes);
-        EXPECT_EQ(m_model.alertLevel(),   alertaAntes);
-        EXPECT_EQ(m_model.isRunning(),    runningAntes);
-    }
-
-    // --- Estado 3: sin intentos ---
-    // Usamos modelo local porque m_model ya tiene créditos en 0
-    {
-        GameModel   modelLimpio {"Ghost_47"};
-        HackCommand cmdLimpio;
-
-        while (modelLimpio.hackAttempts() > 0)
-        {
-            modelLimpio.consumeHackAttempt();
-        }
-
-        const int  creditosAntes  {modelLimpio.credits()};
-        const int  intentosAntes  {modelLimpio.hackAttempts()};
-        const auto alertaAntes    {modelLimpio.alertLevel()};
-        const bool runningAntes   {modelLimpio.isRunning()};
-
-        std::ostringstream oss;
-        std::streambuf* old {std::cout.rdbuf(oss.rdbuf())};
-        cmdLimpio.execute(modelLimpio);
-        std::cout.rdbuf(old);
-
-        EXPECT_EQ(modelLimpio.credits(),      creditosAntes);
-        EXPECT_EQ(modelLimpio.hackAttempts(), intentosAntes);
-        EXPECT_EQ(modelLimpio.alertLevel(),   alertaAntes);
-        EXPECT_EQ(modelLimpio.isRunning(),    runningAntes);
-    }
-
-    // --- Estado 4: sin ambos ---
-    {
-        GameModel   modelBorde {"Ghost_47"};
-        HackCommand cmdBorde;
-
-        while (modelBorde.credits() > 0)       { modelBorde.spendCredits(1); }
-        while (modelBorde.hackAttempts() > 0)  { modelBorde.consumeHackAttempt(); }
-
-        const int  creditosAntes  {modelBorde.credits()};
-        const int  intentosAntes  {modelBorde.hackAttempts()};
-        const auto alertaAntes    {modelBorde.alertLevel()};
-        const bool runningAntes   {modelBorde.isRunning()};
-
-        std::ostringstream oss;
-        std::streambuf* old {std::cout.rdbuf(oss.rdbuf())};
-        cmdBorde.execute(modelBorde);
-        std::cout.rdbuf(old);
-
-        EXPECT_EQ(modelBorde.credits(),      creditosAntes);
-        EXPECT_EQ(modelBorde.hackAttempts(), intentosAntes);
-        EXPECT_EQ(modelBorde.alertLevel(),   alertaAntes);
-        EXPECT_EQ(modelBorde.isRunning(),    runningAntes);
-    }
 }

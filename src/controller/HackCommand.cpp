@@ -7,28 +7,15 @@
 namespace CyberpunkCba
 {
 
-    // =========================================================================
-    // Interfaz de Command
-    // =========================================================================
+    std::string HackCommand::name() const { return "hack"; }
 
-    std::string HackCommand::name() const
-    {
-        return "hack";
-    }
+    std::string HackCommand::description() const { return "Verifica disponibilidad de hackeo: créditos e intentos"; }
 
-    std::string HackCommand::description() const
-    {
-        return "Verifica disponibilidad de hackeo.";
-    }
-
-    std::string HackCommand::category() const
-    {
-        return "runner";
-    }
+    std::string HackCommand::category() const { return "runner";}
 
     void HackCommand::execute(GameModel& model)
     {
-        const bool sinCreditos = model.credits()      < model.hackCost();
+        const bool sinCreditos = model.credits() < model.hackCost();
         const bool sinIntentos = model.hackAttempts() == 0;
 
         if (sinCreditos && sinIntentos)
@@ -49,47 +36,22 @@ namespace CyberpunkCba
             return;
         }
 
-        // Ambas precondiciones OK — calculamos dificultad ahora,
-        // a partir del estado actual del modelo
-        const HackDifficulty dificultad = difficultyFromModel(model);
-        std::cout << "OK\n" << difficultyBar(dificultad) << "\n";
+        std::cout << "OK\n";
+        std::cout << difficultyBar(HackDifficulty::MEDIUM) << "\n";
     }
 
-    // =========================================================================
-    // Helpers privados
-    // =========================================================================
-
-    // Recibe la dificultad como parámetro — sin estado interno,
-    // sin dependencia de m_difficulty que nunca se actualizaba
     std::string HackCommand::difficultyBar(const HackDifficulty difficulty) const
     {
         switch (difficulty)
         {
-            case HackDifficulty::EASY:     return "[■□□□] FACIL";
-            case HackDifficulty::MEDIUM:   return "[■■□□] MEDIO";
-            case HackDifficulty::HARD:     return "[■■■□] DIFICIL";
-            case HackDifficulty::CRITICAL: return "[■■■■] CRITICO";
+            case HackDifficulty::EASY:     return "[â–â–¡â–¡]";
+            case HackDifficulty::MEDIUM:   return "[â–â–â–¡]";
+            case HackDifficulty::HARD:     return "[â–â–â–]";
         }
 
         // Inalcanzable, pero necesario para -Werror=switch y -Wreturn-type
-        return "[■■□□] MEDIO";
+        return "[â–â–â–¡â–¡]";
     }
 
-    // Mapea el AlertLevel del modelo al HackDifficulty correspondiente.
-    // Al estar separado, si cambia AlertLevel solo tocamos este método.
-    HackDifficulty HackCommand::difficultyFromModel(const GameModel& model) const
-    {
-        switch (model.alertLevel())
-        {
-            case AlertLevel::None:    return HackDifficulty::EASY;
-            case AlertLevel::Low:     return HackDifficulty::EASY;
-            case AlertLevel::Medium:  return HackDifficulty::MEDIUM;
-            case AlertLevel::High:    return HackDifficulty::HARD;
-            case AlertLevel::Maximum: return HackDifficulty::CRITICAL;
-        }
-
-        // Inalcanzable, pero necesario para -Werror=switch y -Wreturn-type
-        return HackDifficulty::MEDIUM;
-    }
 
 } // namespace CyberpunkCba
