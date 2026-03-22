@@ -14,7 +14,7 @@ enable_testing()
 # =============================================================================
 option(CYBERPUNK_BUILD_TESTS "Build unit tests" ON)
 option(CYBERPUNK_BUILD_BENCHMARKS "Build benchmarks" ON)
-option(CYBERPUNK_ENABLE_COVERAGE "Enable coverage flags (local only)" ON)
+option(CYBERPUNK_ENABLE_COVERAGE "Enable coverage flags (local only)" OFF)
 
 
 # =============================================================================
