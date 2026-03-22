@@ -1,7 +1,4 @@
-/**
- * @file commandCredits.cpp
- * @brief Implementación de la clase CommandCredits.
- */
+
 #include "controller/commandCredits.hpp"
 #include "model/gameModel.hpp" 
 #include <iostream>
@@ -46,8 +43,8 @@ namespace CyberpunkCba
                       << member.role << " | " << member.name << "\n";
         }
         std::cout << "\n--- ESTADISTICAS DE LA SESION ---\n";
-        std::cout << "Sprints Finalizados: " << model.sprintsCompleted() << "\n";
-        std::cout << "PRs Mergeados:      " << model.mergedPRs() << "\n";
+        std::cout << "Comandos ejecutados: " << model.commandCount() << "\n";
+        std::cout << "HP actual:           " << model.hp() << "\n";
     }
 
     std::string CommandCredits::name() const 
