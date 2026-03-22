@@ -10,25 +10,6 @@
 
 namespace CyberpunkCba
 {
-    namespace
-    {
-        AlertLevel alertLevelFromHostileCount(const int hostileCount) noexcept
-        {
-            if (hostileCount >= 4)
-            {
-                return AlertLevel::Maximum;
-            }
-
-            switch (hostileCount)
-            {
-                case 1: return AlertLevel::Low;
-                case 2: return AlertLevel::Medium;
-                case 3: return AlertLevel::High;
-                default: return AlertLevel::None;
-            }
-        }
-    } // namespace
-
     void ScanCommand::execute(GameModel& model)
     {
         const auto& nearby {model.nearbyEntities()};
@@ -74,7 +55,8 @@ namespace CyberpunkCba
             }
         }
 
-        const auto targetLevel {alertLevelFromHostileCount(hostileCount)};
+        const int capped {std::min(hostileCount, static_cast<int>(AlertLevel::Maximum))};
+        const auto targetLevel {static_cast<AlertLevel>(capped)};
         while (model.alertLevel() < targetLevel)
         {
             model.incrementAlert("Hostiles detectados durante escaneo de zona.");
