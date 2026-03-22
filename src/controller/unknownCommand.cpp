@@ -48,7 +48,7 @@ namespace CyberpunkCba
             for( const Command* cmd : m_registry.commands()){   // por cada puntero cmd a la lista de comanddos del registry
                  std:: string nombreComando = cmd->name();       // guardo el nombre del comando :P
                  if(nombreComando.size() >= 2 && nombreComando.substr(0,2) == sugerencia){ //nos aseguramos que el comando tenga almenos dos caracteres y los comparamos con el de la sugerencia
-                    std::cout << COLOR_RED << " ¿Quizás quisite decir... \"" << nombreComando << "\"?\n"
+                    std::cout << COLOR_RED << "¿Quizás quisiste decir..." << nombreComando << "\n"
                       << COLOR_RESET;
                     break;
                  }
