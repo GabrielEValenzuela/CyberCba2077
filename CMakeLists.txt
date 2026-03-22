@@ -91,6 +91,8 @@ if(CYBERPUNK_BUILD_BENCHMARKS)
 
   add_executable(benchmarks_run
     benchmarks/bench_gamemodel.cpp
+          src/controller/logCommand.cpp
+          src/controller/logCommand.hpp
   )
 
   target_include_directories(benchmarks_run PRIVATE include)
