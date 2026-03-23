@@ -4,6 +4,7 @@
 #include "model/gameModel.hpp"
 
 #include <algorithm>
+#include <cassert>
 #include <iostream>
 #include <string>
 #include <vector>
@@ -18,6 +19,7 @@ namespace CyberpunkCba
 
         for (const auto* pEntity : nearby)
         {
+            assert(pEntity != nullptr);
             if (pEntity == nullptr)
             {
                 continue;
