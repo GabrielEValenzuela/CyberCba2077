@@ -13,7 +13,6 @@
 
 // Truco de testing para poder armar el caso "inventario lleno"
 // Solo usar en este archivo de test.
-#define private public
 
 #include "shopCommand.hpp"
 
