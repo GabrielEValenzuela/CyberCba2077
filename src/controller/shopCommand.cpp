@@ -8,8 +8,8 @@ namespace CyberpunkCba
 {
 
     ShopCommand::ShopCommand()
-    {
-        m_catalog = {{"Ciberimplante de brazo", ItemType::Tech, 500, 1},
+    
+       : m_catalog{{"Ciberimplante de brazo", ItemType::Tech, 500, 1},
                      {"Ciberimplante de pierna", ItemType::Tech, 300, 1},
                      {"Ciberimplante ocular", ItemType::Tech, 400, 1},
                      {"Ciberimplante neural", ItemType::Tech, 800, 1},
@@ -17,9 +17,9 @@ namespace CyberpunkCba
                      {"Rifle de asalto", ItemType::Weapon, 600, 1},
                      {"Granada de fragmentación", ItemType::Weapon, 150, 1},
                      {"Kit de primeros auxilios", ItemType::Consumable, 100, 1},
-                     {"Software de hackeo avanzado", ItemType::Tech, 450, 1}};
-    }
-
+                     {"Software de hackeo avanzado", ItemType::Tech, 450, 1}}
+    
+    
     void ShopCommand::execute(GameModel& model)
     {
         // Lógica para mostrar el catálogo de la tienda y permitir al jugador comprar items
@@ -60,9 +60,10 @@ namespace CyberpunkCba
             {
                 std::cout << "(✓) ";
             }
-            else
+            else{
                 std::cout << "(✗) ";
-            std::cout << item.name << " (Precio: " << item.price << " créditos)\n";
+            }
+            
         }
         std::cout << "Items asequibles: " << asequibles << '\n';
     }
@@ -89,5 +90,6 @@ namespace CyberpunkCba
     {
         // Verifica si el jugador tiene suficiente dinero para comprar el item
         return credits >= item.price;
+
     }
 } // namespace CyberpunkCba
