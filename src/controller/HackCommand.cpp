@@ -44,13 +44,13 @@ namespace CyberpunkCba
     {
         switch (difficulty)
         {
-            case HackDifficulty::EASY:     return "[â–â–¡â–¡]";
-            case HackDifficulty::MEDIUM:   return "[â–â–â–¡]";
-            case HackDifficulty::HARD:     return "[â–â–â–]";
+            case HackDifficulty::EASY:     return "[■□□]";
+            case HackDifficulty::MEDIUM:   return "[■■□]";
+            case HackDifficulty::HARD:     return "[■■■]";
         }
 
         // Inalcanzable, pero necesario para -Werror=switch y -Wreturn-type
-        return "[â–â–â–¡â–¡]";
+        return "[■■□□]";
     }
 
 
