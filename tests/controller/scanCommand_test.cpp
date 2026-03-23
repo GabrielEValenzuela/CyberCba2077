@@ -16,7 +16,7 @@ using namespace CyberpunkCba;
 class ScanCommandTest : public ::testing::Test
 {
 protected:
-    static void setNearbyEntities(GameModel& model, std::vector<WorldEntity> entities)
+    void setNearbyEntities(GameModel& model, std::vector<WorldEntity> entities)
     {
         auto& nearby {const_cast<std::vector<const WorldEntity*>&>(model.nearbyEntities())};
         nearby.clear();
@@ -30,17 +30,33 @@ protected:
 
     std::string captureOutput()
     {
+        struct CoutRedirectGuard
+        {
+            explicit CoutRedirectGuard(std::ostream& os, std::streambuf* newBuffer)
+                : m_stream(os)
+                , m_oldBuffer(os.rdbuf(newBuffer))
+            {
+            }
+
+            ~CoutRedirectGuard()
+            {
+                m_stream.rdbuf(m_oldBuffer);
+            }
+
+            std::ostream& m_stream;
+            std::streambuf* m_oldBuffer;
+        };
+
         std::ostringstream oss;
-        std::streambuf* old {std::cout.rdbuf(oss.rdbuf())};
+        CoutRedirectGuard guard {std::cout, oss.rdbuf()};
         Command& commandRef {m_command};
         commandRef.execute(m_model);
-        std::cout.rdbuf(old);
         return oss.str();
     }
 
     GameModel m_model {"Ghost_47"};
     ScanCommand m_command;
-    inline static std::vector<WorldEntity> m_testEntities;
+    std::vector<WorldEntity> m_testEntities;
 };
 
 TEST_F(ScanCommandTest, EntitiesAreSortedByDistance)
