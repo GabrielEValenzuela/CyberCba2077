@@ -23,25 +23,28 @@
 
 namespace CyberpunkCba
 {
-    /**
-     * @class ShopCommand
-     * @brief Comando para interactuar con la tienda del juego.
-     */
-    class ShopCommand final : public Command
-    { // final: no se puede heredar de esta clase
-    public:
-        ShopCommand(); // constructor por defecto
-        ~ShopCommand() override = default; // destructor virtual, override: asegura que se sobreescribe el método de la clase base
-                     // implementacion de la interfaz command, son private porque solo se usan dentro de esta clase
-    private:
-        void execute(GameModel& model) override;
-        [[nodiscard]] std::string name() const override;
-        [[nodiscard]] std::string description() const override;
-        [[nodiscard]] std::string category() const override;
+/**
+ * @class ShopCommand
+ * @brief Comando para interactuar con la tienda del juego.
+ */
+class ShopCommand final : public Command
+{ // final: no se puede heredar de esta clase
+public:
+    ShopCommand(); // constructor por defecto
+    ~ShopCommand() override = default; // destructor virtual, override: asegura que se
+                                       // sobreescribe el método de la clase base
+    // implementacion de la interfaz command, son private porque solo se usan dentro de
+    // esta clase
+private:
+    void execute(GameModel& model) override;
+    [[nodiscard]] std::string name() const override;
+    [[nodiscard]] std::string description() const override;
+    [[nodiscard]] std::string category() const override;
 
-        [[nodiscard]] bool isAffordable(const Item& item, int playerMoney) const; // función para verificar si el jugador puede comprar un item
-        
-        std::vector<Item> m_catalog;         // catálogo de items disponibles en la tienda
-    };
+    [[nodiscard]] bool isAffordable(const Item& item, int playerMoney)
+        const; // función para verificar si el jugador puede comprar un item
+
+    std::vector<Item> m_catalog; // catálogo de items disponibles en la tienda
+};
 } // namespace CyberpunkCba
 #endif // _SHOP_COMMAND_HPP
