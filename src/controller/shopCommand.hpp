@@ -39,7 +39,9 @@ namespace CyberpunkCba
         [[nodiscard]] std::string description() const override;
         [[nodiscard]] std::string category() const override;
 
-        [[nodiscard]] bool isAffordable(const Item& item, int playerMoney) const; // función para verificar si el jugador puede comprar un item
+        [[nodiscard]] bool
+        isAffordable(const Item& item,
+                     int playerMoney) const; // función para verificar si el jugador puede comprar un item
 
         std::vector<Item> m_catalog; // catálogo de items disponibles en la tienda
     };

@@ -5,7 +5,6 @@
 #include "statusCommand.hpp"
 #include "unknownCommand.hpp"
 
-
 // ============================================================
 // ZONA DE EQUIPOS — agregar un #include por equipo
 // ============================================================
