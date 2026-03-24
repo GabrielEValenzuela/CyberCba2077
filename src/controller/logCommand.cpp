@@ -22,8 +22,8 @@ namespace CyberpunkCba
         // REQUISITO: Log vacío muestra mensaje apropiado
         if (totalentradas1 == 0)
         {
-            std::cout << "El registro del sistema esta vacio. No hay eventos recientes." << std::endl;
-            return; // Cortamos la ejecución acá, no hay nada más que hacer
+            std::cout << "El historial de actividad esta vacio." << std::endl;
+            return;
         }
 
         size_t inicio = 0;
@@ -31,7 +31,7 @@ namespace CyberpunkCba
         {
             inicio = totalentradas1 - 10;
             // REQUISITO: Texto de aviso exacto
-            std::cout << "Mostrando ultimas 10 de " << totalentradas1 << " entradas:" << std::endl;
+            std::cout << "Mostrando ultimas 10 de " << totalentradas1 << " entradas" << std::endl;
             std::cout << "---------" << std::endl;
         }
 

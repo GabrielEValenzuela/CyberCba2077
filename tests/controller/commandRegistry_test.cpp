@@ -4,7 +4,7 @@
 #include "model/gameModel.hpp"
 #include "statusCommand.hpp"
 #include "unknownCommand.hpp"
-
+#include "logCommand.hpp"
 #include <gtest/gtest.h>
 #include <iostream>
 #include <sstream>
@@ -25,6 +25,7 @@ protected:
         auto spHelp {std::make_unique<HelpCommand>(m_registry)};
         m_registry.add(std::move(spHelp));
         m_registry.add(std::make_unique<StatusCommand>());
+        m_registry.add(std::make_unique<logCommand>());
     }
 
     /// @brief Captura stdout durante la ejecución de un comando.
@@ -211,4 +212,89 @@ TEST_F(InstructorCommandsTest, UnknownCommand_Execute_DoesNotModifyModel)
     auto& cmd {m_registry.dispatch("basura")};
     cmd.execute(m_model);
     EXPECT_EQ(m_model.isRunning(), runningBefore);
+}
+
+// =============================================================================
+// LogCommand — Contrato y Lógica (Issue #96)
+// =============================================================================
+
+// 1. Identidad: Verifica nombre y categoría (Requisito de Registro)
+TEST_F(InstructorCommandsTest, LogCommand_Identity) {
+    auto& cmd {m_registry.dispatch("log")};
+    EXPECT_EQ(cmd.name(), "log");
+    EXPECT_EQ(cmd.category(), "system");
+    EXPECT_FALSE(cmd.description().empty());
+}
+
+// 2. Paginación: Verifica el aviso de "últimas 10 de 15" (Requisito Lógico)
+TEST_F(InstructorCommandsTest, LogCommand_Pagination) {
+    for(int i = 0; i < 15; i++) {
+        m_model.logAction("Entrada " + std::to_string(i));
+    }
+    auto& cmd {m_registry.dispatch("log")};
+    const auto output {captureOutput(cmd)};
+    // Buscamos sin tildes para evitar errores de codificación
+    EXPECT_NE(output.find("Mostrando ultimas 10 de 15 entradas"), std::string::npos);
+}
+
+// 3. Fallback: Verifica que no crashea y maneja timestamps (Requisito Acceptance)
+TEST_F(InstructorCommandsTest, LogCommand_TimestampFormat) {
+    m_model.logAction("Evento de prueba");
+    auto& cmd {m_registry.dispatch("log")};
+    const auto output {captureOutput(cmd)};
+    // Verifica que exista al menos un ":" o el fallback "--:--"
+    EXPECT_TRUE(output.find(":") != std::string::npos || output.find("--:--") != std::string::npos);
+}
+
+// 4. Log Vacío: Verifica el mensaje de error amistoso (Requisito Acceptance)
+TEST_F(InstructorCommandsTest, LogCommand_EmptyLog) {
+    GameModel emptyModel("FreshRunner");
+    auto& cmd {m_registry.dispatch("log")};
+
+    std::ostringstream oss;
+    std::streambuf* old {std::cout.rdbuf(oss.rdbuf())};
+    cmd.execute(emptyModel);
+    std::cout.rdbuf(old);
+
+    EXPECT_NE(oss.str().find("vacio"), std::string::npos);
+}
+
+// 5. Sesión: Verifica formato HH:MM:SS y presencia de texto (Requisito Context)
+TEST_F(InstructorCommandsTest, LogCommand_SessionDuration) {
+    auto& cmd {m_registry.dispatch("log")};
+    const auto output {captureOutput(cmd)};
+    EXPECT_NE(output.find("Tiempo de sesion"), std::string::npos);
+
+    int dots = 0;
+    for(char c : output) if(c == ':') dots++;
+    EXPECT_GE(dots, 2); // Al menos dos ":" para el formato HH:MM:SS
+}
+
+// 6. Invariabilidad: Verifica que GameModel no cambie (Requisito de Integridad)
+TEST_F(InstructorCommandsTest, LogCommand_NoModification) {
+    const auto creditsBefore {m_model.credits()};
+    const auto sizeBefore {m_model.actionLog().size()};
+
+    auto& cmd {m_registry.dispatch("log")};
+    cmd.execute(m_model);
+
+    EXPECT_EQ(m_model.credits(), creditsBefore);
+    EXPECT_EQ(m_model.actionLog().size(), sizeBefore);
+}
+
+// 7. Caso Límite: Exactamente 10 entradas (No debe paginar)
+TEST_F(InstructorCommandsTest, LogCommand_Execute_Exactamente10) {
+    for (int i = 0; i < 10; i++) {
+        m_model.logAction("Entrada " + std::to_string(i));
+    }
+
+    auto& cmd {m_registry.dispatch("log")};
+    const auto output {captureOutput(cmd)};
+
+    // REQUISITO: Con 10 entradas NO debe mostrar el aviso de "Mostrando ultimas..."
+    EXPECT_EQ(output.find("Mostrando ultimas 10"), std::string::npos);
+
+    // Debe mostrar la primera y la última
+    EXPECT_NE(output.find("Entrada 0"), std::string::npos);
+    EXPECT_NE(output.find("Entrada 9"), std::string::npos);
 }
