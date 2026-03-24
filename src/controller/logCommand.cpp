@@ -22,7 +22,7 @@ namespace CyberpunkCba
         // REQUISITO: Log vacío muestra mensaje apropiado
         if (totalentradas1 == 0)
         {
-            std::cout << "El historial de actividad esta vacio." << std::endl;
+            std::cout << "El historial de actividad esta vacio" << std::endl;
             return;
         }
 
