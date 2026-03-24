@@ -1,34 +1,17 @@
-//
-// Created by diego on 22/3/26.
-//
+#pragma once
 
-#ifndef _LOG_COMMAND_HPP
-#define _LOG_COMMAND_HPP
-
+#include "../../include/controller/command.hpp"
 #include <string>
-#include <chrono>
-#include"controller/command.hpp"
 
 namespace CyberpunkCba
 {
-    class logCommand final: public Command{
-
+    class logCommand : public Command
+    {
     public:
-        logCommand()=default;
+        [[nodiscard]] std::string name() const override;
+        [[nodiscard]] std::string description() const override;
+        [[nodiscard]] std::string category() const override;
 
-
-        ~logCommand() override = default;
-
-
-    private:
-
-        std::string name() const override;
-
-        std::string description() const override;
-        std::string category() const override;
-        std::string formatTimestamp(int hour, int minute) const;
-        std::string formatDuration(std::chrono::seconds duration) const;
         void execute(GameModel& model) override;
     };
 }
-#endif // _LOG_COMMAND_HPP
