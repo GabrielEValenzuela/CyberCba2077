@@ -2,6 +2,7 @@
 #include "../../include/model/gameModel.hpp"
 #include "../../include/common/types.hpp"
 #include <iomanip>
+#include <sstream>
 #include <iostream>
 #include <vector>
 
@@ -9,7 +10,7 @@ namespace CyberpunkCba
 {
     std::string logCommand::name() const { return "log"; }
 
-    std::string logCommand::description() const { return "Muestra el historial"; }
+    std::string logCommand::description() const { return "Muestra el historial y tiempo de sesion"; }
 
     std::string logCommand::category() const { return "system"; }
 
@@ -18,15 +19,19 @@ namespace CyberpunkCba
         const std::vector<LogEntry>& logComplete = model.actionLog();
         size_t totalentradas1 = logComplete.size();
 
+        // REQUISITO: Log vacío muestra mensaje apropiado
+        if (totalentradas1 == 0)
+        {
+            std::cout << "El registro del sistema esta vacio. No hay eventos recientes." << std::endl;
+            return; // Cortamos la ejecución acá, no hay nada más que hacer
+        }
+
         size_t inicio = 0;
         if (totalentradas1 > 10)
         {
             inicio = totalentradas1 - 10;
-        }
-
-        if (totalentradas1 > 10)
-        {
-            std::cout << "Ultimas 10 de " << totalentradas1 << " entradas totales:" << std::endl;
+            // REQUISITO: Texto de aviso exacto
+            std::cout << "Mostrando ultimas 10 de " << totalentradas1 << " entradas:" << std::endl;
             std::cout << "---------" << std::endl;
         }
 
@@ -34,11 +39,44 @@ namespace CyberpunkCba
         {
             const LogEntry& entrada = logComplete[i];
 
-            // Reemplazamos formatTimestamp por código nativo de C++
-            // setw(2) y setfill('0') aseguran que los números menores a 10 tengan un '0' adelante
-            std::cout << "[" << std::setfill('0') << std::setw(2) << entrada.hour << ":"
-                      << std::setfill('0') << std::setw(2) << entrada.minute << "] "
-                      << entrada.message << std::endl;
+            // Llamamos al metodo privado para formatear la hora
+            std::string time = formatTimestamp(entrada.hour, entrada.minute);
+            std::cout << "[" << time << "] " << entrada.message << std::endl;
         }
+
+        // REQUISITO: Mostrar duración de la sesión
+        std::cout << "---------" << std::endl;
+        std::cout << "Tiempo de sesion: " << formatDuration(model.sessionDuration()) << std::endl;
+    }
+
+    // --- IMPLEMENTACIÓN DE MÉTODOS PRIVADOS ---
+
+    std::string logCommand::formatTimestamp(int hour, int minute) const
+    {
+        // REQUISITO: Fallback para -1
+        if (hour == -1)
+        {
+            return "--:--";
+        }
+
+        std::ostringstream oss;
+        oss << std::setfill('0') << std::setw(2) << hour << ":"
+            << std::setfill('0') << std::setw(2) << minute;
+        return oss.str();
+    }
+
+    std::string logCommand::formatDuration(std::chrono::seconds duration) const
+    {
+        // Matemática para convertir segundos totales a formato HH:MM:SS
+        auto hrs = std::chrono::duration_cast<std::chrono::hours>(duration);
+        duration -= hrs;
+        auto mins = std::chrono::duration_cast<std::chrono::minutes>(duration);
+        duration -= mins;
+
+        std::ostringstream oss;
+        oss << std::setfill('0') << std::setw(2) << hrs.count() << ":"
+            << std::setfill('0') << std::setw(2) << mins.count() << ":"
+            << std::setfill('0') << std::setw(2) << duration.count();
+        return oss.str();
     }
 }
