@@ -1,6 +1,4 @@
-//
-// Created by tobia on 3/22/2026.
-//
+
 
 #ifndef CYBERCBA2077_MAPCOMMAND_H
 #define CYBERCBA2077_MAPCOMMAND_H
