@@ -31,6 +31,7 @@ add_library(cyberpunk_lib STATIC
   src/controller/helpCommand.cpp
   src/controller/statusCommand.cpp
   src/controller/unknownCommand.cpp
+  src/controller/commandCredits.cpp
 )
 
 target_include_directories(cyberpunk_lib
@@ -61,6 +62,7 @@ if(CYBERPUNK_BUILD_TESTS)
     tests/common/types_test.cpp
     tests/model/gameModel_test.cpp
     tests/controller/commandRegistry_test.cpp
+          tests/controller/commandCredits_test.cpp
   )
 
   target_include_directories(unit_tests PRIVATE
