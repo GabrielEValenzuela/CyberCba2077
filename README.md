@@ -81,7 +81,7 @@ Es un laboratorio vivo donde cada estructura que implementes tendrá impacto rea
 - Campos Dana ([@Dana-Campos](https://github.com/Dana-Campos)) - Desarrollador
 - Tobias Cruz ([@tobiasunc](https://github.com/tobiasunc)) - Desarrollador
 - Selena Lamas ([@whenlenafallsinlove](https://github.com/whenlenafallsinlove)) - Desarrollador
-
+- Bruno Altamirano ([@brunoaltamirano](https://github.com/brunoaltamirano)) - Desarrollador
 ---
 
 --
