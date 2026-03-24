@@ -31,6 +31,12 @@ add_library(cyberpunk_lib STATIC
   src/controller/helpCommand.cpp
   src/controller/statusCommand.cpp
   src/controller/unknownCommand.cpp
+        src/controller/mapCommand.cpp
+        src/controller/mapCommand.h
+        src/controller/mapCommand.h
+        src/controller/mapCommand.cpp
+        src/controller/mapCommand.cpp
+        src/controller/mapCommand.cpp
 )
 
 target_include_directories(cyberpunk_lib
@@ -44,6 +50,12 @@ target_include_directories(cyberpunk_lib
 add_executable(cyberpunk2077
   src/main.cpp
   src/ui/console.cpp
+        src/controller/mapCommand.cpp
+        src/controller/mapCommand.h
+        src/controller/mapCommand.h
+        src/controller/mapCommand.cpp
+        src/controller/mapCommand.cpp
+        src/controller/mapCommand.cpp
 )
 
 target_include_directories(cyberpunk2077 PRIVATE include)
@@ -61,6 +73,12 @@ if(CYBERPUNK_BUILD_TESTS)
     tests/common/types_test.cpp
     tests/model/gameModel_test.cpp
     tests/controller/commandRegistry_test.cpp
+          src/controller/mapCommand.cpp
+          src/controller/mapCommand.h
+          src/controller/mapCommand.h
+          src/controller/mapCommand.cpp
+          src/controller/mapCommand.cpp
+          src/controller/mapCommand.cpp
   )
 
   target_include_directories(unit_tests PRIVATE
@@ -91,6 +109,7 @@ if(CYBERPUNK_BUILD_BENCHMARKS)
 
   add_executable(benchmarks_run
     benchmarks/bench_gamemodel.cpp
+          src/controller/mapCommand.cpp
   )
 
   target_include_directories(benchmarks_run PRIVATE include)

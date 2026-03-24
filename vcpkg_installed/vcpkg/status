@@ -1,0 +1,33 @@
+Package: vcpkg-cmake-config
+Version: 2024-05-23
+Architecture: x64-windows
+Multi-Arch: same
+Abi: 30cd99b9f5ca8620950766796f3c59a3b792e4f6f411746b8a8ffb4b37d11763
+Status: install ok installed
+
+Package: vcpkg-cmake
+Version: 2024-04-23
+Architecture: x64-windows
+Multi-Arch: same
+Abi: 345a12b4ffe46f6f3d065a3630a27f7596b2fda559979cd52a76e015d6c55769
+Status: install ok installed
+
+Package: benchmark
+Version: 1.9.5
+Depends: vcpkg-cmake, vcpkg-cmake-config
+Architecture: x64-windows
+Multi-Arch: same
+Abi: b0c87444466bd3f5828edfdda3ff11982c2b6e4d5d00ef5672c9c5733d921b8f
+Description: A library to benchmark code snippets, similar to unit tests.
+Status: install ok installed
+
+Package: gtest
+Version: 1.17.0
+Port-Version: 2
+Depends: vcpkg-cmake, vcpkg-cmake-config
+Architecture: x64-windows
+Multi-Arch: same
+Abi: 797f69c3be814eaade3c50d1052b1bbe18c917f52335b17afe6a1ee68c82d488
+Description: Google Testing and Mocking Framework
+Status: install ok installed
+
