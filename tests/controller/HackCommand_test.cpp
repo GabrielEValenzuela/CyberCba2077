@@ -25,7 +25,6 @@
 
 using namespace CyberpunkCba;
 
-
 class HackCommandTest : public ::testing::Test
 {
     /**
@@ -35,7 +34,6 @@ class HackCommandTest : public ::testing::Test
      * del modelo (agotar créditos e intentos) para probar diferentes escenarios.
      */
 protected:
-
     /// @brief Ejecuta el comando y devuelve todo lo impreso en stdout.
     std::string captureOutput()
     {
@@ -65,10 +63,9 @@ protected:
         }
     }
 
-    GameModel   m_model {"Ghost_47"};
+    GameModel m_model {"Ghost_47"};
     HackCommand m_cmd;
 };
-
 
 /** @brief Test para verificar que el comando muestra "OK" cuando está disponible.
  *
@@ -84,7 +81,6 @@ TEST_F(HackCommandTest, Disponible_MuestraOK)
     // Debe mostrar "OK"
     EXPECT_NE(output.find("OK"), std::string::npos);
 }
-
 
 /** @brief Test para verificar que el comando muestra "SIN CREDITOS"
  * cuando no hay créditos disponibles.
@@ -102,10 +98,9 @@ TEST_F(HackCommandTest, SinCreditos_MensajeEspecifico)
     EXPECT_NE(output.find("SIN CREDITOS"), std::string::npos);
 
     // No debe mostrar OK ni el mensaje de sin intentos
-    EXPECT_EQ(output.find("OK"),          std::string::npos);
+    EXPECT_EQ(output.find("OK"), std::string::npos);
     EXPECT_EQ(output.find("SIN INTENTOS"), std::string::npos);
 }
-
 
 /** @brief Test para verificar que el comando muestra "SIN INTENTOS"
  * cuando no hay intentos disponibles.
@@ -123,10 +118,9 @@ TEST_F(HackCommandTest, SinIntentos_MensajeEspecifico)
     EXPECT_NE(output.find("SIN INTENTOS"), std::string::npos);
 
     // No debe mostrar OK ni el mensaje de sin créditos
-    EXPECT_EQ(output.find("OK"),          std::string::npos);
+    EXPECT_EQ(output.find("OK"), std::string::npos);
     EXPECT_EQ(output.find("SIN CREDITOS"), std::string::npos);
 }
-
 
 /** @brief Test para verificar que el comando muestra "SIN CREDITOS NI INTENTOS"
  * cuando no hay créditos ni intentos disponibles.
@@ -145,10 +139,9 @@ TEST_F(HackCommandTest, SinCreditosNiIntentos_MensajeEspecifico)
     EXPECT_NE(output.find("SIN CREDITOS NI INTENTOS"), std::string::npos);
 
     // No debe mostrar OK ni los mensajes individuales de sin créditos o sin intentos
-    EXPECT_EQ(output.find("OK"),          std::string::npos);
+    EXPECT_EQ(output.find("OK"), std::string::npos);
     EXPECT_EQ(output.find("SIN INTENTOS"), std::string::npos);
 }
-
 
 /** @brief Test para verificar que el comando no modifica el modelo.
  *
@@ -166,5 +159,4 @@ TEST_F(HackCommandTest, noModificaModelo)
     // El comando no debe modificar créditos ni intentos
     EXPECT_EQ(m_model.credits(), creditsBefore);
     EXPECT_EQ(m_model.hackAttempts(), attemptsBefore);
-
 }

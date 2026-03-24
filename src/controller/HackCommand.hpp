@@ -7,15 +7,15 @@ namespace CyberpunkCba
 {
 
     /**
-    * @class HackCommand
-    * @brief Verifica disponibilidad de hackeo.
-    *
-    * @details
-    * Verifica si el jugador tiene créditos e intentos de hackeo disponibles.
-    * Muestra mensajes específicos para cada caso: sin créditos, sin intentos, o ambos.
-    * No modifica el modelo de juego.
-    * Complejidad: O(1).
-    */
+     * @class HackCommand
+     * @brief Verifica disponibilidad de hackeo.
+     *
+     * @details
+     * Verifica si el jugador tiene créditos e intentos de hackeo disponibles.
+     * Muestra mensajes específicos para cada caso: sin créditos, sin intentos, o ambos.
+     * No modifica el modelo de juego.
+     * Complejidad: O(1).
+     */
 
     class HackCommand final : public Command
     {
@@ -37,22 +37,25 @@ namespace CyberpunkCba
          * @param model No modificado por este comando.
          */
         void execute(GameModel& model) override;
-        std::string name()        const override;
+        std::string name() const override;
         std::string description() const override;
-        std::string category()    const override;
+        std::string category() const override;
 
     private:
         /// @brief Dificultad de hackeo para representación visual.
-        enum class HackDifficulty { EASY, MEDIUM, HARD };
+        enum class HackDifficulty
+        {
+            EASY,
+            MEDIUM,
+            HARD
+        };
         /**
          * @brief Representación visual de la dificultad de hackeo.
          * @details Devuelve una barra de dificultad basada en el enum HackDifficulty.
          */
 
         std::string difficultyBar(HackDifficulty difficulty) const;
-
     };
 
 } // namespace CyberpunkCba
 #endif // HACKCOMMAND_HPP
-

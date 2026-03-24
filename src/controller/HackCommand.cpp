@@ -7,11 +7,20 @@
 namespace CyberpunkCba
 {
 
-    std::string HackCommand::name() const { return "hack"; }
+    std::string HackCommand::name() const
+    {
+        return "hack";
+    }
 
-    std::string HackCommand::description() const { return "Verifica disponibilidad de hackeo: créditos e intentos"; }
+    std::string HackCommand::description() const
+    {
+        return "Verifica disponibilidad de hackeo: créditos e intentos";
+    }
 
-    std::string HackCommand::category() const { return "runner";}
+    std::string HackCommand::category() const
+    {
+        return "runner";
+    }
 
     void HackCommand::execute(GameModel& model)
     {
@@ -44,14 +53,13 @@ namespace CyberpunkCba
     {
         switch (difficulty)
         {
-            case HackDifficulty::EASY:     return "[■□□]";
-            case HackDifficulty::MEDIUM:   return "[■■□]";
-            case HackDifficulty::HARD:     return "[■■■]";
+            case HackDifficulty::EASY: return "[■□□]";
+            case HackDifficulty::MEDIUM: return "[■■□]";
+            case HackDifficulty::HARD: return "[■■■]";
         }
 
         // Inalcanzable, pero necesario para -Werror=switch y -Wreturn-type
         return "[■■□□]";
     }
-
 
 } // namespace CyberpunkCba
