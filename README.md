@@ -1,4 +1,4 @@
-# 🌆 Cyberpunk Córdoba 2077 ![CI](https://github.com/GabrielEValenzuela/CyberCba2077/actions/workflows/ci.yml/badge.svg)
+# 🌆 Cyberpunk Córdoba 2077 ![CI](https://github.com/<owner>/<repo>/actions/workflows/ci.yml/badge.svg)
 
 > Año 2077.  
 > Córdoba ya no es la que conocías.  
@@ -55,6 +55,7 @@ Es un laboratorio vivo donde cada estructura que implementes tendrá impacto rea
 - Matias Martin Fenizi ([@matiasfenizi-a11y](https://github.com/matiasfenizi-a11y)) - Desarrollador
 - Geronimo Borda Bossana([@granitsilber-e36](https://github.com/granitsilber-e36)) - Desarrollador
 - Fabricio Lucero([@fabriciobit](https://github.com/fabriciobit)) - Desarrollador
+- Giuliana Bettera L. ([@giulibettera](https://github.com/giulibettera)) - Desarrollador
 - Franco Ibarra ([@francoibarra26](https://github.com/francoibarra26)) - Desarrollador
 - Juana Castellano ([@juanacast](https://github.com/juanacast)) - Desarrollador
 - Franco Diaz ([@LeoFranco02](https://github.com/LeoFranco02)) - Desarrollador
@@ -71,7 +72,9 @@ Es un laboratorio vivo donde cada estructura que implementes tendrá impacto rea
 - Santiago Agustin Zuñiga Castro ([@santizuu](https://github.com/Santizuu)) - Desarrollador
 - Sharon Blatter ([@sharonblatter-jpg](https://github.com/sharonblatter-jpg)) - Desarrollador 
 - Sofía Sivila ([@Nazarena12](https://github.com/Nazarena12)) - Desarrollador
-
+- Macarena Nieva ([@macarena-nieva](https://github.com/macarena-nieva)) - Desarrollador
+- Alfredo Binaghi([@alfredobinaghi](https://github.com/alfredobinaghi)) - Desarrollador
+- Villalba Lautaro([@Lauty58](https://github.com/lauty58)) - Desarrollador
 ---
 
 ## 🎮 ¿Qué es Cyberpunk Córdoba 2077?
