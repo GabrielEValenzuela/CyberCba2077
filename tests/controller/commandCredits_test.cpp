@@ -1,29 +1,33 @@
-#include <gtest/gtest.h>
 #include "controller/commandCredits.hpp"
 #include "model/gameModel.hpp"
-#include <vector>
-#include <string>
-#include <sstream>
+#include <gtest/gtest.h>
 #include <iostream>
+#include <sstream>
+#include <string>
+#include <vector>
 
 using namespace CyberpunkCba;
 
-class CommandCreditsTest : public ::testing::Test {
+class CommandCreditsTest : public ::testing::Test
+{
 protected:
-    GameModel model{"RunnerTest"};
+    GameModel model {"RunnerTest"};
     std::stringstream buffer;
     std::streambuf* oldCout;
 
-    void SetUp() override {
+    void SetUp() override
+    {
         oldCout = std::cout.rdbuf(buffer.rdbuf());
     }
 
-    void TearDown() override {
+    void TearDown() override
+    {
         std::cout.rdbuf(oldCout);
     }
 };
 
-TEST_F(CommandCreditsTest, VectorVacioNoCrashea) {
+TEST_F(CommandCreditsTest, VectorVacioNoCrashea)
+{
     std::vector<TeamMember> emptyTeam;
     CommandCredits cmd(emptyTeam, "TeamTest");
     Command& baseCmd = cmd;
@@ -32,7 +36,8 @@ TEST_F(CommandCreditsTest, VectorVacioNoCrashea) {
     EXPECT_TRUE(output.find("Error") != std::string::npos || output.find("No hay miembros") != std::string::npos);
 }
 
-TEST_F(CommandCreditsTest, EquipoIncompletoMuestraAdvertencia) {
+TEST_F(CommandCreditsTest, EquipoIncompletoMuestraAdvertencia)
+{
     std::vector<TeamMember> team = {{"Juan", "Dev"}};
     CommandCredits cmd(team, "TeamTest");
     Command& baseCmd = cmd;
@@ -40,10 +45,9 @@ TEST_F(CommandCreditsTest, EquipoIncompletoMuestraAdvertencia) {
     EXPECT_TRUE(buffer.str().find("ADVERTENCIA") != std::string::npos);
 }
 
-TEST_F(CommandCreditsTest, HappyPathEquipoCompleto) {
-    std::vector<TeamMember> team = {
-        {"A", "Dev"}, {"B", "QA"}, {"C", "PM"}, {"D", "UI"}
-    };
+TEST_F(CommandCreditsTest, HappyPathEquipoCompleto)
+{
+    std::vector<TeamMember> team = {{"A", "Dev"}, {"B", "QA"}, {"C", "PM"}, {"D", "UI"}};
     CommandCredits cmd(team, "DreamTeam");
     Command& baseCmd = cmd;
     baseCmd.execute(model);
@@ -52,11 +56,9 @@ TEST_F(CommandCreditsTest, HappyPathEquipoCompleto) {
     EXPECT_TRUE(output.find("ADVERTENCIA") == std::string::npos);
 }
 
-TEST_F(CommandCreditsTest, PaddingCalculadoCorrectamente) {
-    std::vector<TeamMember> team = {
-        {"Ana", "Dev"},
-        {"Carlos", "Senior Software Engineer"}
-    };
+TEST_F(CommandCreditsTest, PaddingCalculadoCorrectamente)
+{
+    std::vector<TeamMember> team = {{"Ana", "Dev"}, {"Carlos", "Senior Software Engineer"}};
     CommandCredits cmd(team, "TeamTest");
     Command& baseCmd = cmd;
     baseCmd.execute(model);
@@ -67,7 +69,8 @@ TEST_F(CommandCreditsTest, PaddingCalculadoCorrectamente) {
     EXPECT_TRUE(output.find(lineaEsperada) != std::string::npos);
 }
 
-TEST_F(CommandCreditsTest, GameModelNoEsModificado) {
+TEST_F(CommandCreditsTest, GameModelNoEsModificado)
+{
     int hpAntes = model.hp();
     int creditsAntes = model.credits();
     int alertAntes = static_cast<int>(model.alertLevel());

@@ -5,9 +5,9 @@
  * @file commandCredits.hpp
  * @brief Define el comando encargado de mostrar la información del equipo de desarrollo y las métricas de la sesión.
  */
-#include "controller/command.hpp" 
-#include <vector>
+#include "controller/command.hpp"
 #include <string>
+#include <vector>
 
 namespace CyberpunkCba
 {
@@ -17,7 +17,8 @@ namespace CyberpunkCba
      * @struct TeamMember
      * @brief Representa a un miembro del equipo de desarrollo.
      */
-    struct TeamMember {
+    struct TeamMember
+    {
         std::string name;
         std::string role;
     };
@@ -26,12 +27,12 @@ namespace CyberpunkCba
      * @class CommandCredits
      * @brief Comando que muestra los créditos del equipo de desarrollo y el estado actual del juego.
      */
-    class CommandCredits final : public Command 
+    class CommandCredits final : public Command
     {
     public:
         /**
          * @brief Constructor de la clase CommandCredits.
-         * Inicializa el comando almacenando la lista de los miembros del equipo 
+         * Inicializa el comando almacenando la lista de los miembros del equipo
          * y el nombre del grupo de desarrollo.
          * @param team Vector que contiene a los miembros del equipo
          * @param teamName Nombre asignado al equipo de desarrollo
@@ -43,7 +44,7 @@ namespace CyberpunkCba
          */
         ~CommandCredits() override = default;
 
-    private: 
+    private:
         // Métodos con override heredan de la clase Command
         void execute(GameModel& model) override;
         std::string name() const override;
@@ -53,6 +54,6 @@ namespace CyberpunkCba
         std::vector<TeamMember> m_team;
         std::string m_teamName;
     };
-}
+} // namespace CyberpunkCba
 
 #endif
