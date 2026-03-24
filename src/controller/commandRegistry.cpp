@@ -13,8 +13,6 @@
 // FIN ZONA DE EQUIPOS
 // ============================================================
 
-#include "clearCommand.hpp"
-
 #include <cassert>
 
 namespace CyberpunkCba

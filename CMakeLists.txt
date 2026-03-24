@@ -33,7 +33,6 @@ add_library(cyberpunk_lib STATIC
   src/controller/unknownCommand.cpp
         src/controller/clearCommand.hpp
         src/controller/clearCommand.cpp
-        tests/controller/clearCommand_test.cpp
 )
 
 target_include_directories(cyberpunk_lib
