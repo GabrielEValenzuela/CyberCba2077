@@ -25,7 +25,20 @@ namespace CyberpunkCba
         {
             std::cout << "Aviso: Sin misiones."<<std::endl;
         }
-
         //AGREGAR LA FUNCION CALCULATESUCCESSRATE¿?
+    }
+    float calculateSuccessRate(int completed, int failed)
+    {
+        int total = completedMissions() + failedMissions();
+
+        if (total == 0)
+        {
+            throw std::invalid_argument("Tasa de exito imposible");
+
+        }
+        else
+        {
+            return ((completeMissions() / total)*100);
+        }
     }
 }
