@@ -15,52 +15,51 @@
 namespace CyberpunkCba
 {
 
-/**
- * @class locationCommand
- * @brief Muestra la ubicacion, peligro, red y salidas de la zona actual
- */
-
-class locationCommand : public Command
-{
-public:
-    /// @brief Constructor por defecto
-    locationCommand() = default;
-
-    /// @brief Destructor por defecto
-    ~locationCommand() override = default;
-
     /**
-     * @brief Muesstra la ubicacion del Runner por consola
+     * @class locationCommand
+     * @brief Muestra la ubicacion, peligro, red y salidas de la zona actual
      */
-    void execute(GameModel& model) override;
 
-    /**
-     * @brief Identificador del comando
-     * @return "location"
-     */
-    std::string name() const override;
+    class locationCommand : public Command
+    {
+    public:
+        /// @brief Constructor por defecto
+        locationCommand() = default;
 
-    /**
-     * @brief Descripcion corta para el menu de ayuda
-     * @return String no vacio
-     */
-    std::string description() const override;
-    
-    /**
-     * @brief Categoria del comando
-     * @return "mundo"
-     */
-    std::string category() const override;
+        /// @brief Destructor por defecto
+        ~locationCommand() override = default;
 
-private:
+        /**
+         * @brief Muesstra la ubicacion del Runner por consola
+         */
+        void execute(GameModel& model) override;
 
-    /**
-     * @brief Genera una barra visual del nivel del peligro
-     * @return String con la barra formateada, no vacio
-     */
-    std::string buildDangerBar(AlertLevel level) const;
-};
+        /**
+         * @brief Identificador del comando
+         * @return "location"
+         */
+        std::string name() const override;
 
-}
+        /**
+         * @brief Descripcion corta para el menu de ayuda
+         * @return String no vacio
+         */
+        std::string description() const override;
 
-#endif  // _LOCATION_COMMAND_HPP
+        /**
+         * @brief Categoria del comando
+         * @return "mundo"
+         */
+        std::string category() const override;
+
+    private:
+        /**
+         * @brief Genera una barra visual del nivel del peligro
+         * @return String con la barra formateada, no vacio
+         */
+        std::string buildDangerBar(AlertLevel level) const;
+    };
+
+} // namespace CyberpunkCba
+
+#endif // _LOCATION_COMMAND_HPP

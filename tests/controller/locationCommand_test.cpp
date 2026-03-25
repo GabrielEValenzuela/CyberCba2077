@@ -1,7 +1,7 @@
-#include <gtest/gtest.h>
-#include <sstream>
 #include "controller/locationCommand.hpp"
 #include "model/gameModel.hpp"
+#include <gtest/gtest.h>
+#include <sstream>
 
 using namespace CyberpunkCba;
 
@@ -55,14 +55,14 @@ TEST(locationCommand, BarraPeligroMaxima)
 TEST(LocationCommand, GameModelNoModificado)
 {
     GameModel model("Runner");
-    int creditsBefore  = model.credits();
+    int creditsBefore = model.credits();
     int commandsBefore = model.commandCount();
     AlertLevel alertAntes = model.alertLevel();
 
     locationCommand cmd;
     cmd.execute(model);
 
-    EXPECT_EQ(model.credits(),      creditsBefore);
+    EXPECT_EQ(model.credits(), creditsBefore);
     EXPECT_EQ(model.commandCount(), commandsBefore);
     EXPECT_EQ(model.alertLevel(), alertAntes);
 }
