@@ -4,6 +4,7 @@
 #include "model/gameModel.hpp"
 #include "statusCommand.hpp"
 #include "unknownCommand.hpp"
+#include "mapCommand.h"
 
 #include <gtest/gtest.h>
 #include <iostream>
@@ -25,6 +26,7 @@ protected:
         auto spHelp {std::make_unique<HelpCommand>(m_registry)};
         m_registry.add(std::move(spHelp));
         m_registry.add(std::make_unique<StatusCommand>());
+        m_registry.add(std::make_unique<MapCommand>());
     }
 
     /// @brief Captura stdout durante la ejecución de un comando.
@@ -210,5 +212,70 @@ TEST_F(InstructorCommandsTest, UnknownCommand_Execute_DoesNotModifyModel)
     const auto runningBefore {m_model.isRunning()};
     auto& cmd {m_registry.dispatch("basura")};
     cmd.execute(m_model);
+    EXPECT_EQ(m_model.isRunning(), runningBefore);
+}
+
+// =============================================================================
+//  Mapcommand — contrato
+// =============================================================================
+
+TEST_F(InstructorCommandsTest, MapCommand_Name)
+{
+    auto& cmd {m_registry.dispatch("map")};
+    EXPECT_EQ(cmd.name(), "map");
+}
+
+TEST_F(InstructorCommandsTest, MapCommand_Category)
+{
+    auto& cmd {m_registry.dispatch("map")};
+    EXPECT_EQ(cmd.category(), "mundo");
+}
+
+TEST_F(InstructorCommandsTest, MapCommand_DescriptionNotEmpty)
+{
+    auto& cmd {m_registry.dispatch("map")};
+    EXPECT_FALSE(cmd.description().empty());
+}
+
+TEST_F(InstructorCommandsTest, MapCommand_Execute_ProducesOutput)
+{
+    auto& cmd {m_registry.dispatch("map")};
+    const auto output {captureOutput(cmd)};
+    EXPECT_FALSE(output.empty());
+}
+
+TEST_F(InstructorCommandsTest, MapCommand_Execute_ContainsMapKeyword)
+{
+    auto& cmd {m_registry.dispatch("map")};
+    const auto output {captureOutput(cmd)};
+    // El output debe mencionar "map" entre los comandos listados o en la info que genera
+    EXPECT_NE(output.find("map"), std::string::npos);
+}
+
+TEST_F(InstructorCommandsTest, MapCommand_Execute_EmptyRegistry_NoCrash)
+{
+    // Registry vacío — map no debe crashear
+    CommandRegistry emptyReg;
+    emptyReg.add(std::make_unique<UnknownCommand>(""));
+    auto spMap {std::make_unique<MapCommand>()};
+    Command& cmd {*spMap};
+    std::ostringstream oss;
+    std::streambuf* old {std::cout.rdbuf(oss.rdbuf())};
+    cmd.execute(m_model);
+    std::cout.rdbuf(old);
+    EXPECT_FALSE(oss.str().empty());
+}
+
+TEST_F(InstructorCommandsTest, MapCommand_Execute_DoesNotModifyModel)
+{
+    const auto creditsBefore {m_model.credits()};
+    const auto alertBefore {m_model.alertLevel()};
+    const auto runningBefore {m_model.isRunning()};
+
+    auto& cmd {m_registry.dispatch("map")};
+    cmd.execute(m_model);
+
+    EXPECT_EQ(m_model.credits(), creditsBefore);
+    EXPECT_EQ(m_model.alertLevel(), alertBefore);
     EXPECT_EQ(m_model.isRunning(), runningBefore);
 }
