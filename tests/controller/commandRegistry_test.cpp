@@ -20,7 +20,7 @@ class InstructorCommandsTest : public ::testing::Test
 protected:
     void SetUp() override
     {
-        m_registry.add(std::make_unique<UnknownCommand>(""));
+        m_registry.add(std::make_unique<UnknownCommand>("", m_registry));
 
         auto spHelp {std::make_unique<HelpCommand>(m_registry)};
         m_registry.add(std::move(spHelp));
@@ -89,7 +89,7 @@ TEST_F(InstructorCommandsTest, HelpCommand_Execute_EmptyRegistry_NoOutput)
 {
     // Registry vacío — help no debe crashear
     CommandRegistry emptyReg;
-    emptyReg.add(std::make_unique<UnknownCommand>(""));
+    emptyReg.add(std::make_unique<UnknownCommand>("", emptyReg));
     auto spHelp {std::make_unique<HelpCommand>(emptyReg)};
     Command& cmd {*spHelp};
     std::ostringstream oss;
@@ -211,4 +211,49 @@ TEST_F(InstructorCommandsTest, UnknownCommand_Execute_DoesNotModifyModel)
     auto& cmd {m_registry.dispatch("basura")};
     cmd.execute(m_model);
     EXPECT_EQ(m_model.isRunning(), runningBefore);
+}
+// =============================================================================
+// NUEVOS TESTS AGREGADOS POR EL EQUIPO (Issue UnknownCommand)
+// =============================================================================
+
+TEST_F(InstructorCommandsTest, UnknownCommand_Execute_WhitespaceOnly_DifferentMessage)
+{
+    // 1. Despachamos un comando que sea puro espacio
+    auto& cmd {m_registry.dispatch("   ")};
+    
+    // 2. Capturamos lo que imprime en pantalla
+    const auto output {captureOutput(cmd)};
+    
+    // 3. Verificamos que imprima algo
+    EXPECT_FALSE(output.empty());
+    
+    // 4. Verificamos que contenga nuestro mensaje específico
+    EXPECT_NE(output.find("Comando en blanco"), std::string::npos);
+}
+
+TEST_F(InstructorCommandsTest, UnknownCommand_Execute_PrefixSuggestion_Works)
+{
+    // Sabemos que el comando "status" existe porque se agrega en el SetUp.
+    // Despachamos algo que comparta los primeros 2 caracteres ("st").
+    auto& cmd {m_registry.dispatch("starwars")};
+    
+    const auto output {captureOutput(cmd)};
+    
+    EXPECT_FALSE(output.empty());
+    
+    // Verificamos que la salida contenga la sugerencia correcta
+    // Usamos "status" porque es el comando que debería haber encontrado
+    EXPECT_NE(output.find("status"), std::string::npos);
+    EXPECT_NE(output.find("¿Quizás quisiste decir..."), std::string::npos);
+}
+
+TEST_F(InstructorCommandsTest, UnknownCommand_Execute_NoSuggestionForOneChar)
+{
+    // Test extra de seguridad: Verificamos que si mandamos 1 sola letra no crashea 
+    // y no sugiere nada (porque nuestra lógica pide size >= 2)
+    auto& cmd {m_registry.dispatch("s")};
+    const auto output {captureOutput(cmd)};
+    
+    EXPECT_FALSE(output.empty());
+    EXPECT_EQ(output.find("¿Quizás quisiste decir..."), std::string::npos); // No debe encontrar la frase
 }

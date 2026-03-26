@@ -103,7 +103,7 @@ namespace CyberpunkCba
         CommandRegistry registry;
 
         // Comandos del instructor — no tocar
-        registry.add(std::make_unique<UnknownCommand>(""));
+        registry.add(std::make_unique<UnknownCommand>("", registry));
 
         auto spHelp {std::make_unique<HelpCommand>(registry)};
         registry.add(std::move(spHelp));

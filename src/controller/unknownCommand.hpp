@@ -18,6 +18,7 @@
 
 namespace CyberpunkCba
 {
+    class CommandRegistry;  //avisarle al compilador que existe CommandRegistry, para usarlo en los comentarios de CommandRegistry::dispatch().
 
     class UnknownCommand final : public Command
     {
@@ -25,8 +26,9 @@ namespace CyberpunkCba
         /**
          * @brief Construye con el input que generó el fallo.
          * @param input Input original del usuario.
+         * @param registry Referencia a la tabla de comandos.
          */
-        explicit UnknownCommand(std::string input);
+        explicit UnknownCommand(std::string input, const CommandRegistry& registry);
         ~UnknownCommand() override = default;
 
         /// @brief Actualiza el input para la siguiente ejecución.
@@ -39,6 +41,7 @@ namespace CyberpunkCba
         std::string category() const override;
 
         std::string m_input;
+        const CommandRegistry& m_registry; //guardo la referencia a la tabla de comandos para mostrarla en el mensaje de error, si es que el usuario escribió un comando similar a uno conocido.
     };
 
 } // namespace CyberpunkCba
