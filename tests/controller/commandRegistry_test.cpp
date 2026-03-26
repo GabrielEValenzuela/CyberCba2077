@@ -220,36 +220,8 @@ TEST_F(InstructorCommandsTest, UnknownCommand_Execute_DoesNotModifyModel)
     EXPECT_EQ(m_model.isRunning(), runningBefore);
 }
 
-//=============================================================================
-// ShopCommand Test
-//=============================================================================
-
-namespace CyberpunkCba
+TEST_F(ShopCommandTest, MarksAffordableAndUnaffordableItemsCorrectly)
 {
-    namespace
-    {
-        std::string captureShopOutput(ShopCommand& command, GameModel& model)
-        {
-            std::ostringstream captured;
-            std::streambuf* oldBuffer {std::cout.rdbuf(captured.rdbuf())};
-
-            command.execute(model);
-
-            std::cout.rdbuf(oldBuffer);
-            return captured.str();
-        }
-
-        void fillInventoryToCapacity(GameModel& model)
-        {
-            while (static_cast<int>(model.m_inventory.size()) < model.m_inventoryCapacity)
-            {
-                model.m_inventory.push_back({"Item dummy", ItemType::Consumable, 1, 1});
-            }
-        }
-    } // namespace
-
-    TEST(ShopCommandTest, MarksAffordableAndUnaffordableItemsCorrectly)
-    {
         GameModel model {"Runner_001"}; // por defecto arranca con 250 créditos
         ShopCommand command;
 
@@ -257,10 +229,10 @@ namespace CyberpunkCba
 
         EXPECT_NE(output.find("(✓) Kit de primeros auxilios"), std::string::npos);
         EXPECT_NE(output.find("(✗) Ciberimplante de brazo"), std::string::npos);
-    }
+}
 
-    TEST(ShopCommandTest, ShowsInventoryFullMessageWhenInventoryIsFull)
-    {
+    TEST_F(ShopCommandTest, ShowsInventoryFullMessageWhenInventoryIsFull)
+{
         GameModel model {"Runner_001"};
         ShopCommand command;
 
@@ -270,10 +242,10 @@ namespace CyberpunkCba
 
         EXPECT_NE(output.find("Tu inventario"), std::string::npos);
         EXPECT_EQ(output.find("Items asequibles:"), std::string::npos);
-    }
+}
 
-    TEST(ShopCommandTest, ShowsNoCreditsMessageWhenPlayerCannotBuyAnything)
-    {
+    TEST_F(ShopCommandTest, ShowsNoCreditsMessageWhenPlayerCannotBuyAnything)
+{
         GameModel model {"Runner_001"};
         ShopCommand command;
 
@@ -283,20 +255,20 @@ namespace CyberpunkCba
 
         EXPECT_NE(output.find("No tienes suficientes"), std::string::npos);
         EXPECT_EQ(output.find("Items asequibles:"), std::string::npos);
-    }
+}
 
-    TEST(ShopCommandTest, ShowsCorrectAffordableItemsCount)
-    {
+    TEST_F(ShopCommandTest, ShowsCorrectAffordableItemsCount)
+{
         GameModel model {"Runner_001"}; // 250 créditos por defecto
         ShopCommand command;
 
         const std::string output {captureShopOutput(command, model)};
 
         EXPECT_NE(output.find("Items asequibles: 2"), std::string::npos);
-    }
+}
 
-    TEST(ShopCommandTest, ExecuteDoesNotModifyGameModel)
-    {
+    TEST_F(ShopCommandTest, ExecuteDoesNotModifyGameModel)
+{
         GameModel model {"Runner_001"};
         ShopCommand command;
 
@@ -313,6 +285,6 @@ namespace CyberpunkCba
         EXPECT_EQ(static_cast<int>(model.inventory().size()), inventorySizeBefore);
         EXPECT_EQ(model.commandCount(), commandCountBefore);
         EXPECT_EQ(model.isRunning(), runningBefore);
-    }
+}
 
-} // namespace CyberpunkCba
+
