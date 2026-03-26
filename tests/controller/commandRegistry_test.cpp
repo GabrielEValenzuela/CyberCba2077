@@ -231,7 +231,7 @@ TEST_F(ShopCommandTest, MarksAffordableAndUnaffordableItemsCorrectly)
     EXPECT_NE(output.find("(✗) Ciberimplante de brazo"), std::string::npos);
 }
 
-    TEST_F(ShopCommandTest, ShowsInventoryFullMessageWhenInventoryIsFull)
+TEST_F(ShopCommandTest, ShowsInventoryFullMessageWhenInventoryIsFull)
 {
     GameModel model {"Runner_001"};
     ShopCommand command;
@@ -244,7 +244,7 @@ TEST_F(ShopCommandTest, MarksAffordableAndUnaffordableItemsCorrectly)
     EXPECT_EQ(output.find("Items asequibles:"), std::string::npos);
 }
 
-    TEST_F(ShopCommandTest, ShowsNoCreditsMessageWhenPlayerCannotBuyAnything)
+TEST_F(ShopCommandTest, ShowsNoCreditsMessageWhenPlayerCannotBuyAnything)
 {
     GameModel model {"Runner_001"};
     ShopCommand command;
@@ -257,7 +257,7 @@ TEST_F(ShopCommandTest, MarksAffordableAndUnaffordableItemsCorrectly)
     EXPECT_EQ(output.find("Items asequibles:"), std::string::npos);
 }
 
-    TEST_F(ShopCommandTest, ShowsCorrectAffordableItemsCount)
+TEST_F(ShopCommandTest, ShowsCorrectAffordableItemsCount)
 {
     GameModel model {"Runner_001"}; // 250 créditos por defecto
     ShopCommand command;
@@ -267,7 +267,7 @@ TEST_F(ShopCommandTest, MarksAffordableAndUnaffordableItemsCorrectly)
     EXPECT_NE(output.find("Items asequibles: 2"), std::string::npos);
 }
 
-    TEST_F(ShopCommandTest, ExecuteDoesNotModifyGameModel)
+TEST_F(ShopCommandTest, ExecuteDoesNotModifyGameModel)
 {
     GameModel model {"Runner_001"};
     ShopCommand command;
