@@ -27,7 +27,7 @@ namespace CyberpunkCba
     private:
         // Métodos privados solicitados en el issue
         float calculateSuccessRate( int completed, int failed) const;
-        void renderBar(int percent, int width) const;
+        void renderBar(int porcentaje, int ancho) const;
     };
 
 }
