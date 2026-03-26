@@ -58,7 +58,7 @@ namespace CyberpunkCba
     }
 
     // renderbar
-    void renderBar(int porcentaje, int ancho)
+    void MissionCommand::renderBar(int porcentaje, int ancho) const
     {
         int filled = (porcentaje * ancho) / 100;
 
