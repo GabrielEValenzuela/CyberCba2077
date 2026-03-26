@@ -4,6 +4,7 @@
 #include "helpCommand.hpp"
 #include "statusCommand.hpp"
 #include "unknownCommand.hpp"
+#include "logCommand.hpp"
 
 // ============================================================
 // ZONA DE EQUIPOS — agregar un #include por equipo
@@ -113,7 +114,7 @@ namespace CyberpunkCba
         // ZONA DE EQUIPOS — agregar una línea por equipo
         // Formato: registry.add(std::make_unique<TuComandoCommand>());
         // ============================================================
-
+        registry.add(std::make_unique<logCommand>());
         // ============================================================
         // FIN ZONA DE EQUIPOS
         // ============================================================
