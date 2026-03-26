@@ -222,69 +222,67 @@ TEST_F(InstructorCommandsTest, UnknownCommand_Execute_DoesNotModifyModel)
 
 TEST_F(ShopCommandTest, MarksAffordableAndUnaffordableItemsCorrectly)
 {
-        GameModel model {"Runner_001"}; // por defecto arranca con 250 créditos
-        ShopCommand command;
+    GameModel model {"Runner_001"}; // por defecto arranca con 250 créditos
+    ShopCommand command;
 
-        const std::string output {captureShopOutput(command, model)};
+    const std::string output {captureShopOutput(command, model)};
 
-        EXPECT_NE(output.find("(✓) Kit de primeros auxilios"), std::string::npos);
-        EXPECT_NE(output.find("(✗) Ciberimplante de brazo"), std::string::npos);
+    EXPECT_NE(output.find("(✓) Kit de primeros auxilios"), std::string::npos);
+    EXPECT_NE(output.find("(✗) Ciberimplante de brazo"), std::string::npos);
 }
 
     TEST_F(ShopCommandTest, ShowsInventoryFullMessageWhenInventoryIsFull)
 {
-        GameModel model {"Runner_001"};
-        ShopCommand command;
+    GameModel model {"Runner_001"};
+    ShopCommand command;
 
-        fillInventoryToCapacity(model);
+    fillInventoryToCapacity(model);
 
-        const std::string output {captureShopOutput(command, model)};
+    const std::string output {captureShopOutput(command, model)};
 
-        EXPECT_NE(output.find("Tu inventario"), std::string::npos);
-        EXPECT_EQ(output.find("Items asequibles:"), std::string::npos);
+    EXPECT_NE(output.find("Tu inventario"), std::string::npos);
+    EXPECT_EQ(output.find("Items asequibles:"), std::string::npos);
 }
 
     TEST_F(ShopCommandTest, ShowsNoCreditsMessageWhenPlayerCannotBuyAnything)
 {
-        GameModel model {"Runner_001"};
-        ShopCommand command;
+    GameModel model {"Runner_001"};
+    ShopCommand command;
 
-        model.spendCredits(model.credits()); // deja créditos en 0
+    model.spendCredits(model.credits()); // deja créditos en 0
 
-        const std::string output {captureShopOutput(command, model)};
+    const std::string output {captureShopOutput(command, model)};
 
-        EXPECT_NE(output.find("No tienes suficientes"), std::string::npos);
-        EXPECT_EQ(output.find("Items asequibles:"), std::string::npos);
+    EXPECT_NE(output.find("No tienes suficientes"), std::string::npos);
+    EXPECT_EQ(output.find("Items asequibles:"), std::string::npos);
 }
 
     TEST_F(ShopCommandTest, ShowsCorrectAffordableItemsCount)
 {
-        GameModel model {"Runner_001"}; // 250 créditos por defecto
-        ShopCommand command;
+    GameModel model {"Runner_001"}; // 250 créditos por defecto
+    ShopCommand command;
 
-        const std::string output {captureShopOutput(command, model)};
+    const std::string output {captureShopOutput(command, model)};
 
-        EXPECT_NE(output.find("Items asequibles: 2"), std::string::npos);
+    EXPECT_NE(output.find("Items asequibles: 2"), std::string::npos);
 }
 
     TEST_F(ShopCommandTest, ExecuteDoesNotModifyGameModel)
 {
-        GameModel model {"Runner_001"};
-        ShopCommand command;
+    GameModel model {"Runner_001"};
+    ShopCommand command;
 
-        const int creditsBefore {model.credits()};
-        const int inventorySizeBefore {static_cast<int>(model.inventory().size())};
-        const int commandCountBefore {model.commandCount()};
-        const bool runningBefore {model.isRunning()};
+    const int creditsBefore {model.credits()};
+    const int inventorySizeBefore {static_cast<int>(model.inventory().size())};
+    const int commandCountBefore {model.commandCount()};
+    const bool runningBefore {model.isRunning()};
 
-        const std::string output {captureShopOutput(command, model)};
+    const std::string output {captureShopOutput(command, model)};
 
-        (void)output;
+    (void)output;
 
-        EXPECT_EQ(model.credits(), creditsBefore);
-        EXPECT_EQ(static_cast<int>(model.inventory().size()), inventorySizeBefore);
-        EXPECT_EQ(model.commandCount(), commandCountBefore);
-        EXPECT_EQ(model.isRunning(), runningBefore);
+    EXPECT_EQ(model.credits(), creditsBefore);
+    EXPECT_EQ(static_cast<int>(model.inventory().size()), inventorySizeBefore);
+    EXPECT_EQ(model.commandCount(), commandCountBefore);
+    EXPECT_EQ(model.isRunning(), runningBefore);
 }
-
-

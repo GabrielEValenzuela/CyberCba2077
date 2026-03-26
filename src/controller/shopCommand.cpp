@@ -23,7 +23,7 @@ namespace CyberpunkCba
     void ShopCommand::execute(GameModel& model)
     {
         // Lógica para mostrar el catálogo de la tienda y permitir al jugador comprar items
-        // std::cout << "Bienvenido a la tienda. Aquí está nuestro catálogo:\n";
+        std::cout << "Bienvenido a la tienda. Aquí está nuestro catálogo:\n";
         const int credits = model.credits();
         int asequibles = 0;
 
@@ -45,27 +45,29 @@ namespace CyberpunkCba
             return;
         }
         // 3 - No tiene créditos para comprar nada
-        if (asequibles == 0)
+        else if (asequibles == 0)
         {
             std::cout << "========================================================\n";
             std::cout << "No tienes suficientes créditos para comprar ningún item.\n";
             std::cout << "========================================================\n";
             return;
         }
-
-        // Estado del catalogo normal
-        for (const auto& item : m_catalog)
+        else
         {
-            if (isAffordable(item, credits))
+            // Estado del catalogo normal
+            for (const auto& item : m_catalog)
             {
-                std::cout << "(✓) ";
-            }
-            else
-            {
-                std::cout << "(✗) ";
+                if (isAffordable(item, credits))
+                {
+                    std::cout << "(✓) ";
+                }
+                else
+                {
+                    std::cout << "(✗) ";
+                }
+                std::cout << item.name << " (Precio: " << item.price << " créditos)\n";
             }
         }
-        std::cout << "Items asequibles: " << asequibles << '\n';
     }
 
     std::string ShopCommand::name() const
