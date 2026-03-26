@@ -6,39 +6,57 @@
 
 namespace CyberpunkCba
 {
+    std::string MissionCommand::name() const { return "mission"; }
+    std::string MissionCommand::description() const { return "Muestra el estado de misiones."; }
+    std::string MissionCommand::category() const { return "Status"; }
+
     void MissionCommand::execute(GameModel& model)
     {
+        // raw pointers sin ownership
         const Mission* active = model.activeMission();
         const Mission* lastFailed = model.lastFailedMission();
+
+
+        // pedimos los int del gameModel
+        int terminadas = model.completedMissions();
+        int falladas = model.failedMissions();
+
+        std::cout << ">>> Tasa de éxito: " << calculateSuccessRate(terminadas, falladas) << "%\n";
 
         // Tres estados de salida
         if (active != nullptr)
         {
-            std::cout << ">>> Misión Actual: " << active->getName() <<std::endl;
-            renderBar(active->getProgress(), 20);
+            std::cout << ">>> Misión Actual: " << active->name << std::endl;
+            renderBar(active->progressPercent, 20);
         }
         else if (lastFailed != nullptr)
         {
-            std::cout << "Aviso: Ultimo fallo en " << lastFailed->getName() << std::endl;
+            std::cout << "Aviso: Ultimo fallo en " << lastFailed->name << std::endl;
         }
         else
         {
-            std::cout << "Aviso: Sin misiones."<<std::endl;
+            std::cout << "Aviso: Sin misiones."<< std::endl;
         }
-        //AGREGAR LA FUNCION CALCULATESUCCESSRATE¿?
+
     }
-    float calculateSuccessRate(int completed, int failed)
+
+    // succesRate
+
+    float MissionCommand::calculateSuccessRate(int completed, int failed) const
     {
-        int total = completedMissions() + failedMissions();
+        int total = completed + failed;
 
         if (total == 0)
         {
-            throw std::invalid_argument("Tasa de exito imposible");
+            return 0.0f;
 
         }
         else
         {
-            return ((completeMissions() / total)*100);
+            return ((completed * 100.0f) / total);
         }
     }
+
+    // renderbar
+
 }
