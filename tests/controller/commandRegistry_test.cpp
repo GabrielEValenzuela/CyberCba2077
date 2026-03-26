@@ -4,7 +4,7 @@
 #include "model/gameModel.hpp"
 #include "statusCommand.hpp"
 #include "unknownCommand.hpp"
-
+#include "missionCommand.hpp"
 #include <gtest/gtest.h>
 #include <iostream>
 #include <sstream>
@@ -211,4 +211,96 @@ TEST_F(InstructorCommandsTest, UnknownCommand_Execute_DoesNotModifyModel)
     auto& cmd {m_registry.dispatch("basura")};
     cmd.execute(m_model);
     EXPECT_EQ(m_model.isRunning(), runningBefore);
+}
+
+// =============================================================================
+// MissionCommand — contrato
+// =============================================================================
+
+TEST_F(InstructorCommandsTest, MissionCommand_Name)
+{
+    m_registry.add(std::make_unique<MissionCommand>());
+    auto& cmd {m_registry.dispatch("mission")};
+    EXPECT_EQ(cmd.name(), "mission");
+}
+
+TEST_F(InstructorCommandsTest, MissionCommand_Category)
+{
+    m_registry.add(std::make_unique<MissionCommand>());
+    auto& cmd {m_registry.dispatch("mission")};
+    EXPECT_EQ(cmd.category(), "Status");
+}
+
+TEST_F(InstructorCommandsTest, MissionCommand_DescriptionNotEmpty)
+{
+    m_registry.add(std::make_unique<MissionCommand>());
+    auto& cmd {m_registry.dispatch("mission")};
+    EXPECT_FALSE(cmd.description().empty());
+}
+
+TEST_F(InstructorCommandsTest, MissionCommand_Execute_ProducesOutput)
+{
+    m_registry.add(std::make_unique<MissionCommand>());
+    auto& cmd {m_registry.dispatch("mission")};
+    const auto output {captureOutput(cmd)};
+    EXPECT_FALSE(output.empty());
+}
+
+TEST_F(InstructorCommandsTest, MissionCommand_Execute_SiempreMuestraTasa)
+{
+    m_registry.add(std::make_unique<MissionCommand>());
+    auto& cmd {m_registry.dispatch("mission")};
+    const auto output {captureOutput(cmd)};
+    EXPECT_NE(output.find("Tasa"), std::string::npos);
+}
+
+TEST_F(InstructorCommandsTest, MissionCommand_Execute_ActiveMission_MuestraNombre)
+{
+    // El constructor carga "Infiltración Militech" como misión activa
+    m_registry.add(std::make_unique<MissionCommand>());
+    auto& cmd {m_registry.dispatch("mission")};
+    const auto output {captureOutput(cmd)};
+    EXPECT_NE(output.find("Infiltraci"), std::string::npos); // evita problemas de encoding con 'ó'
+}
+
+TEST_F(InstructorCommandsTest, MissionCommand_Execute_ActiveMission_MuestraBarra)
+{
+    m_registry.add(std::make_unique<MissionCommand>());
+    auto& cmd {m_registry.dispatch("mission")};
+    const auto output {captureOutput(cmd)};
+    EXPECT_NE(output.find("["), std::string::npos);
+}
+
+TEST_F(InstructorCommandsTest, MissionCommand_Execute_ActiveMission_NoMuestraSinMisiones)
+{
+    m_registry.add(std::make_unique<MissionCommand>());
+    auto& cmd {m_registry.dispatch("mission")};
+    const auto output {captureOutput(cmd)};
+    EXPECT_EQ(output.find("Sin misiones"), std::string::npos);
+}
+
+TEST_F(InstructorCommandsTest, MissionCommand_Execute_NoMissions_TasaEsCero)
+{
+    // Sin completadas ni falladas → tasa 0%
+    // completedMissions y failedMissions arrancan en 0 por constructor
+    m_registry.add(std::make_unique<MissionCommand>());
+    auto& cmd {m_registry.dispatch("mission")};
+    const auto output {captureOutput(cmd)};
+    EXPECT_NE(output.find("0"), std::string::npos);
+}
+
+
+TEST_F(InstructorCommandsTest, MissionCommand_Execute_DoesNotModifyModel)
+{
+    const auto creditsBefore  {m_model.credits()};
+    const auto alertBefore    {m_model.alertLevel()};
+    const auto runningBefore  {m_model.isRunning()};
+
+    m_registry.add(std::make_unique<MissionCommand>());
+    auto& cmd {m_registry.dispatch("mission")};
+    cmd.execute(m_model);
+
+    EXPECT_EQ(m_model.credits(),    creditsBefore);
+    EXPECT_EQ(m_model.alertLevel(), alertBefore);
+    EXPECT_EQ(m_model.isRunning(),  runningBefore);
 }
