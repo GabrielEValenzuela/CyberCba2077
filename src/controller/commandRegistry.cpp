@@ -9,6 +9,7 @@
 // ZONA DE EQUIPOS — agregar un #include por equipo
 // ============================================================
 
+#include "shopCommand.hpp" // comando agregado por el equipo LCS Y MJ
 // ============================================================
 // FIN ZONA DE EQUIPOS
 // ============================================================
@@ -113,6 +114,7 @@ namespace CyberpunkCba
         // ZONA DE EQUIPOS — agregar una línea por equipo
         // Formato: registry.add(std::make_unique<TuComandoCommand>());
         // ============================================================
+        registry.add(std::make_unique<ShopCommand>()); // comando agregado por el equipo LCS Y MJ
 
         // ============================================================
         // FIN ZONA DE EQUIPOS
