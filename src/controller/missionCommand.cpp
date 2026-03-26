@@ -58,5 +58,18 @@ namespace CyberpunkCba
     }
 
     // renderbar
+    void renderBar(int porcentaje, int ancho)
+    {
+        int filled = (porcentaje * ancho) / 100;
+
+        std::cout << "[";
+        for (int i = 0; i < ancho; i++) {
+            if (i < filled)
+                std::cout << "#";
+            else
+                std::cout << "-";
+        }
+        std::cout << "] " << ancho << "%\n";
+    }
 
 }
