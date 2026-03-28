@@ -1,4 +1,5 @@
 #include "common/types.hpp"
+#include "controller/alertCommand.hpp"
 #include "controller/commandRegistry.hpp"
 #include "helpCommand.hpp"
 #include "model/gameModel.hpp"
@@ -25,6 +26,7 @@ protected:
         auto spHelp {std::make_unique<HelpCommand>(m_registry)};
         m_registry.add(std::move(spHelp));
         m_registry.add(std::make_unique<StatusCommand>());
+        m_registry.add(std::make_unique<AlertCommand>());
     }
 
     /// @brief Captura stdout durante la ejecución de un comando.
@@ -211,4 +213,90 @@ TEST_F(InstructorCommandsTest, UnknownCommand_Execute_DoesNotModifyModel)
     auto& cmd {m_registry.dispatch("basura")};
     cmd.execute(m_model);
     EXPECT_EQ(m_model.isRunning(), runningBefore);
+}
+
+// =============================================================================
+// AlertCommand — contrato
+// =============================================================================
+
+TEST_F(InstructorCommandsTest, AlertCommand_Name)
+{
+    auto& cmd {m_registry.dispatch("alert")};
+    EXPECT_EQ(cmd.name(), "alert");
+}
+
+TEST_F(InstructorCommandsTest, AlertCommand_Category)
+{
+    auto& cmd {m_registry.dispatch("alert")};
+    EXPECT_EQ(cmd.category(), "mundo");
+}
+
+TEST_F(InstructorCommandsTest, AlertCommand_DescriptionNotEmpty)
+{
+    auto& cmd {m_registry.dispatch("alert")};
+    EXPECT_FALSE(cmd.description().empty());
+}
+
+// Test 1: alerta None — output correcto (tiene Patrullas, NO tiene Tiempo)
+TEST_F(InstructorCommandsTest, AlertCommand_Execute_NoneLevel_OutputCorrect)
+{
+    // Low tampoco tiene Tiempo — verificamos que Patrullas está y Tiempo no
+    auto& cmd {m_registry.dispatch("alert")};
+    const auto output {captureOutput(cmd)};
+
+    EXPECT_FALSE(output.empty());
+    EXPECT_NE(output.find("Patrullas"), std::string::npos);
+    EXPECT_EQ(output.find("Tiempo"), std::string::npos);
+}
+
+// Test 2: alerta Maximum — todos los campos presentes
+TEST_F(InstructorCommandsTest, AlertCommand_Execute_MaximumLevel_AllFieldsPresent)
+{
+    m_model.incrementAlert("test"); // Low → Medium
+    m_model.incrementAlert("test"); // Medium → High
+    m_model.incrementAlert("test"); // High → Maximum
+
+    auto& cmd {m_registry.dispatch("alert")};
+    const auto output {captureOutput(cmd)};
+
+    EXPECT_NE(output.find("Patrullas"), std::string::npos);
+    EXPECT_NE(output.find("Tiempo"), std::string::npos);
+    EXPECT_NE(output.find("Origen"), std::string::npos);
+    EXPECT_NE(output.find("Consejo"), std::string::npos);
+}
+
+// Test 3: alerta Low — campo despeje AUSENTE
+TEST_F(InstructorCommandsTest, AlertCommand_Execute_LowLevel_NoClearTime)
+{
+    // El modelo ya inicia en Low — no necesita incremento
+    auto& cmd {m_registry.dispatch("alert")};
+    const auto output {captureOutput(cmd)};
+
+    EXPECT_EQ(output.find("Tiempo"), std::string::npos);
+}
+
+// Test 4: alerta Medium — campo despeje PRESENTE
+TEST_F(InstructorCommandsTest, AlertCommand_Execute_MediumLevel_ClearTimePresent)
+{
+    m_model.incrementAlert("test"); // Low → Medium
+
+    auto& cmd {m_registry.dispatch("alert")};
+    const auto output {captureOutput(cmd)};
+
+    EXPECT_NE(output.find("Tiempo"), std::string::npos);
+}
+
+// Test 5: GameModel no modificado
+TEST_F(InstructorCommandsTest, AlertCommand_Execute_DoesNotModifyModel)
+{
+    const auto alertBefore {m_model.alertLevel()};
+    const auto creditsBefore {m_model.credits()};
+    const auto hpBefore {m_model.hp()};
+
+    auto& cmd {m_registry.dispatch("alert")};
+    cmd.execute(m_model);
+
+    EXPECT_EQ(m_model.alertLevel(), alertBefore);
+    EXPECT_EQ(m_model.credits(), creditsBefore);
+    EXPECT_EQ(m_model.hp(), hpBefore);
 }
