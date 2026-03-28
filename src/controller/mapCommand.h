@@ -1,5 +1,3 @@
-
-
 #ifndef CYBERCBA2077_MAPCOMMAND_H
 #define CYBERCBA2077_MAPCOMMAND_H
 
@@ -7,47 +5,69 @@
 #include <string>
 #include <vector>
 
+/**
+ * @file mapCommand.h
+ * @brief Definición del comando de mapeo del entorno.
+ * @author [Tu Nombre/Legajo]
+ */
+
 namespace CyberpunkCba
 {
     /**
-     * @brief Estructura para representar una zona del mapa.
-     * Contiene el nombre y una lista de nombres de zonas adyacentes.
+     * @struct ZoneNode
+     * @brief Representación de un nodo dentro del grafo de navegación de Neo-Córdoba.
      */
     struct ZoneNode
     {
-        std::string name;
-        std::vector<std::string> connections;
+        std::string name;                ///< Identificador único de la zona.
+        std::vector<std::string> connections; ///< Lista de adyacencia de zonas conectadas.
     };
 
     /**
      * @class MapCommand
-     * @brief Comando encargado de renderizar la interfaz visual del mapa.
-     * Uso 'final' para evitar herencia de este comando y optimizar el devirtualizer.
+     * @brief Comando encargado de renderizar la interfaz visual del mapa y estado de exploración.
+     * * @details
+     * Procesa la información del GameModel para proyectar un mapa dinámico que incluye:
+     * - Marcador de posición actual (★).
+     * - Estado de alerta y bloqueos de red.
+     * - Registro de zonas visitadas vs. totales.
+     * * ## Invariantes
+     * - Operación de solo lectura (const-correctness) sobre el modelo.
+     * - El diccionario MAP_ZONES es inmutable post-compilación.
      */
     class MapCommand final : public Command
     {
     public:
-        // Constructor y destructor por defecto (usando RAII).
         MapCommand() = default;
         ~MapCommand() override = default;
 
-    private:
-        // Métodos obligatorios de la interfaz Command, marcados con override.
+        /**
+         * @brief Ejecuta el renderizado del mapa en la salida estándar.
+         * @param model Referencia al GameModel (fuente de verdad).
+         * @pre model debe estar inicializado y poseer una zona válida.
+         */
         void execute(GameModel& model) override;
+
+        /// @brief Identificador único del comando.
         std::string name() const override;
+
+        /// @brief Descripción para el sistema de ayuda.
         std::string description() const override;
+
+        /// @brief Categoría de agrupación del comando.
         std::string category() const override;
 
+    private:
         /**
-         * @brief Diccionario de datos del mapa de Neo-Córdoba.
-         * Es static para que todas las instancias de MapCommand compartan la misma
-         * estructura y no ocupar memoria extra en el stack.
+         * @brief Base de datos estática de la topología del mundo.
+         * @note Compartida por todas las instancias de la clase.
          */
         static const std::vector<ZoneNode> MAP_ZONES;
 
         /**
-         * @brief Método privado de búsqueda para validar la posición del runner.
-         * @return Puntero constante a la zona o nullptr si hay error de señal (zona no existente).
+         * @brief Localiza un nodo de zona por su nombre.
+         * @param zoneName Nombre de la zona a buscar.
+         * @return Puntero constante al nodo o nullptr si hay error de señal.
          */
         const ZoneNode* findZone(const std::string& zoneName) const noexcept;
     };
