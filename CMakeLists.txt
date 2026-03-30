@@ -31,6 +31,7 @@ add_library(cyberpunk_lib STATIC
   src/controller/helpCommand.cpp
   src/controller/statusCommand.cpp
   src/controller/unknownCommand.cpp
+  src/controller/logCommand.cpp
 )
 
 target_include_directories(cyberpunk_lib
@@ -91,6 +92,8 @@ if(CYBERPUNK_BUILD_BENCHMARKS)
 
   add_executable(benchmarks_run
     benchmarks/bench_gamemodel.cpp
+          src/controller/logCommand.cpp
+          src/controller/logCommand.hpp
   )
 
   target_include_directories(benchmarks_run PRIVATE include)

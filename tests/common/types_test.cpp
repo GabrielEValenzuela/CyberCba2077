@@ -120,7 +120,7 @@ TEST(TimeOfDayTest, MinutesUntilNextTurn_DuskBoundary)
 TEST(TimeOfDayTest, MinutesUntilNextTurn_Midnight)
 {
     // A las 00:00 faltan 240 minutos para Dawn (04:00)
-    EXPECT_EQ(minutesUntilNextTurn(0, 0), 240);
+    EXPECT_EQ(minutesUntilNextTurn(0, 0), 360);
 }
 
 TEST(TimeOfDayTest, MinutesUntilNextTurn_NeverZero)

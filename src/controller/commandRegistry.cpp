@@ -2,6 +2,7 @@
 
 // Comandos del instructor — completos
 #include "helpCommand.hpp"
+#include "logCommand.hpp"
 #include "statusCommand.hpp"
 #include "unknownCommand.hpp"
 
@@ -113,7 +114,7 @@ namespace CyberpunkCba
         // ZONA DE EQUIPOS — agregar una línea por equipo
         // Formato: registry.add(std::make_unique<TuComandoCommand>());
         // ============================================================
-
+        registry.add(std::make_unique<logCommand>());
         // ============================================================
         // FIN ZONA DE EQUIPOS
         // ============================================================
