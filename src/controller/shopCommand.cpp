@@ -48,7 +48,7 @@ namespace CyberpunkCba
         else if (asequibles == 0)
         {
             std::cout << "========================================================\n";
-            std::cout << "No tienes suficientes créditos para comprar ningún item.\n";
+            std::cout << "No tienes suficientes creditos.\n";
             std::cout << "========================================================\n";
             return;
         }
@@ -66,7 +66,9 @@ namespace CyberpunkCba
                     std::cout << "(✗) ";
                 }
                 std::cout << item.name << " (Precio: " << item.price << " créditos)\n";
+
             }
+            std::cout << "Items asequibles: " << asequibles << std::endl;
         }
     }
 

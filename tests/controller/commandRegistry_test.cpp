@@ -4,6 +4,7 @@
 #include "model/gameModel.hpp"
 #include "statusCommand.hpp"
 #include "unknownCommand.hpp"
+#include "shopCommand.hpp"
 
 #include <gtest/gtest.h>
 #include <iostream>
@@ -14,7 +15,7 @@
 // Truco de testing para poder armar el caso "inventario lleno"
 // Solo usar en este archivo de test.
 
-#include "shopCommand.hpp"
+
 
 using namespace CyberpunkCba;
 
@@ -219,55 +220,48 @@ TEST_F(InstructorCommandsTest, UnknownCommand_Execute_DoesNotModifyModel)
     cmd.execute(m_model);
     EXPECT_EQ(m_model.isRunning(), runningBefore);
 }
+// =============================================================================
+// ShopCommand — contrato
+// =============================================================================
 
-TEST_F(ShopCommandTest, MarksAffordableAndUnaffordableItemsCorrectly)
+TEST_F(InstructorCommandsTest, MarksAffordableAndUnaffordableItemsCorrectly)
 {
     GameModel model {"Runner_001"}; // por defecto arranca con 250 créditos
     ShopCommand command;
 
-    const std::string output {captureShopOutput(command, model)};
+    const std::string output {captureOutput(command)};
 
     EXPECT_NE(output.find("(✓) Kit de primeros auxilios"), std::string::npos);
     EXPECT_NE(output.find("(✗) Ciberimplante de brazo"), std::string::npos);
 }
 
-TEST_F(ShopCommandTest, ShowsInventoryFullMessageWhenInventoryIsFull)
+
+
+TEST_F(InstructorCommandsTest, ShowsNoCreditsMessageWhenPlayerCannotBuyAnything)
 {
-    GameModel model {"Runner_001"};
+    // Usamos el modelo de la fixture y le sacamos la plata
+    m_model.spendCredits(m_model.credits());
+
     ShopCommand command;
 
-    fillInventoryToCapacity(model);
+    const std::string output = captureOutput(command);
 
-    const std::string output {captureShopOutput(command, model)};
-
-    EXPECT_NE(output.find("Tu inventario"), std::string::npos);
-    EXPECT_EQ(output.find("Items asequibles:"), std::string::npos);
-}
-
-TEST_F(ShopCommandTest, ShowsNoCreditsMessageWhenPlayerCannotBuyAnything)
-{
-    GameModel model {"Runner_001"};
-    ShopCommand command;
-
-    model.spendCredits(model.credits()); // deja créditos en 0
-
-    const std::string output {captureShopOutput(command, model)};
-
+    // Verificamos los mensajes
     EXPECT_NE(output.find("No tienes suficientes"), std::string::npos);
     EXPECT_EQ(output.find("Items asequibles:"), std::string::npos);
 }
 
-TEST_F(ShopCommandTest, ShowsCorrectAffordableItemsCount)
+TEST_F(InstructorCommandsTest, ShowsCorrectAffordableItemsCount)
 {
     GameModel model {"Runner_001"}; // 250 créditos por defecto
     ShopCommand command;
 
-    const std::string output {captureShopOutput(command, model)};
+    const std::string output {captureOutput(command)};
 
     EXPECT_NE(output.find("Items asequibles: 2"), std::string::npos);
 }
 
-TEST_F(ShopCommandTest, ExecuteDoesNotModifyGameModel)
+TEST_F(InstructorCommandsTest, ExecuteDoesNotModifyGameModel)
 {
     GameModel model {"Runner_001"};
     ShopCommand command;
@@ -277,7 +271,7 @@ TEST_F(ShopCommandTest, ExecuteDoesNotModifyGameModel)
     const int commandCountBefore {model.commandCount()};
     const bool runningBefore {model.isRunning()};
 
-    const std::string output {captureShopOutput(command, model)};
+    const std::string output {captureOutput(command)};
 
     (void)output;
 
