@@ -246,7 +246,7 @@ TEST_F(InstructorCommandsTest, LogCommand_TimestampFormat) {
     auto& cmd {m_registry.dispatch("log")};
     const auto output {captureOutput(cmd)};
     // Verifica que exista al menos un ":" o el fallback "--:--"
-    EXPECT_TRUE(output.find(":") != std::string::npos || output.find("--:--") != std::string::npos);
+    EXPECT_TRUE(output.find(':') != std::string::npos || output.find("--:--") != std::string::npos);
 }
 
 // 4. Log Vacío: Verifica el mensaje de error amistoso (Requisito Acceptance)
@@ -290,10 +290,10 @@ TEST_F(InstructorCommandsTest, LogCommand_Execute_Exactamente10)
     GameModel model {"Tester"};
 
     // calcular cuántos logs ya tiene
-    int initialLogs = model.actionLog().size();
+    size_t initialLogs = model.actionLog().size();
 
     // agregar hasta tener exactamente 10
-    for (int i = initialLogs; i < 10; i++) {
+    for (size_t i = initialLogs; i < 10; i++) {
         model.logAction("Entrada " + std::to_string(i));
     }
 
