@@ -2,9 +2,9 @@
 
 // Comandos del instructor — completos
 #include "helpCommand.hpp"
+#include "logCommand.hpp"
 #include "statusCommand.hpp"
 #include "unknownCommand.hpp"
-#include "logCommand.hpp"
 
 // ============================================================
 // ZONA DE EQUIPOS — agregar un #include por equipo

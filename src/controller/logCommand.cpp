@@ -1,18 +1,27 @@
 #include "logCommand.hpp"
-#include "../../include/model/gameModel.hpp"
 #include "../../include/common/types.hpp"
+#include "../../include/model/gameModel.hpp"
 #include <iomanip>
-#include <sstream>
 #include <iostream>
+#include <sstream>
 #include <vector>
 
 namespace CyberpunkCba
 {
-    std::string logCommand::name() const { return "log"; }
+    std::string logCommand::name() const
+    {
+        return "log";
+    }
 
-    std::string logCommand::description() const { return "Muestra el historial y tiempo de sesion"; }
+    std::string logCommand::description() const
+    {
+        return "Muestra el historial y tiempo de sesion";
+    }
 
-    std::string logCommand::category() const { return "system"; }
+    std::string logCommand::category() const
+    {
+        return "system";
+    }
 
     void logCommand::execute(GameModel& model)
     {
@@ -60,8 +69,7 @@ namespace CyberpunkCba
         }
 
         std::ostringstream oss;
-        oss << std::setfill('0') << std::setw(2) << hour << ":"
-            << std::setfill('0') << std::setw(2) << minute;
+        oss << std::setfill('0') << std::setw(2) << hour << ":" << std::setfill('0') << std::setw(2) << minute;
         return oss.str();
     }
 
@@ -74,9 +82,8 @@ namespace CyberpunkCba
         duration -= mins;
 
         std::ostringstream oss;
-        oss << std::setfill('0') << std::setw(2) << hrs.count() << ":"
-            << std::setfill('0') << std::setw(2) << mins.count() << ":"
-            << std::setfill('0') << std::setw(2) << duration.count();
+        oss << std::setfill('0') << std::setw(2) << hrs.count() << ":" << std::setfill('0') << std::setw(2)
+            << mins.count() << ":" << std::setfill('0') << std::setw(2) << duration.count();
         return oss.str();
     }
-}
+} // namespace CyberpunkCba

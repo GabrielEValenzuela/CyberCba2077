@@ -1,10 +1,10 @@
 #include "common/types.hpp"
 #include "controller/commandRegistry.hpp"
 #include "helpCommand.hpp"
+#include "logCommand.hpp"
 #include "model/gameModel.hpp"
 #include "statusCommand.hpp"
 #include "unknownCommand.hpp"
-#include "logCommand.hpp"
 #include <gtest/gtest.h>
 #include <iostream>
 #include <sstream>
@@ -219,7 +219,8 @@ TEST_F(InstructorCommandsTest, UnknownCommand_Execute_DoesNotModifyModel)
 // =============================================================================
 
 // 1. Identidad: Verifica nombre y categoría (Requisito de Registro)
-TEST_F(InstructorCommandsTest, LogCommand_Identity) {
+TEST_F(InstructorCommandsTest, LogCommand_Identity)
+{
     auto& cmd {m_registry.dispatch("log")};
     EXPECT_EQ(cmd.name(), "log");
     EXPECT_EQ(cmd.category(), "system");
@@ -229,7 +230,8 @@ TEST_F(InstructorCommandsTest, LogCommand_Identity) {
 // 2. Paginación: Verifica el aviso de "últimas 10 de 15" (Requisito Lógico)
 TEST_F(InstructorCommandsTest, LogCommand_Pagination)
 {
-    for(int i = 0; i < 15; i++) {
+    for (int i = 0; i < 15; i++)
+    {
         m_model.logAction("Entrada " + std::to_string(i));
     }
     auto& cmd {m_registry.dispatch("log")};
@@ -241,7 +243,8 @@ TEST_F(InstructorCommandsTest, LogCommand_Pagination)
 }
 
 // 3. Fallback: Verifica que no crashea y maneja timestamps (Requisito Acceptance)
-TEST_F(InstructorCommandsTest, LogCommand_TimestampFormat) {
+TEST_F(InstructorCommandsTest, LogCommand_TimestampFormat)
+{
     m_model.logAction("Evento de prueba");
     auto& cmd {m_registry.dispatch("log")};
     const auto output {captureOutput(cmd)};
@@ -262,18 +265,22 @@ TEST_F(InstructorCommandsTest, LogCommand_EmptyLog)
 }
 
 // 5. Sesión: Verifica formato HH:MM:SS y presencia de texto (Requisito Context)
-TEST_F(InstructorCommandsTest, LogCommand_SessionDuration) {
+TEST_F(InstructorCommandsTest, LogCommand_SessionDuration)
+{
     auto& cmd {m_registry.dispatch("log")};
     const auto output {captureOutput(cmd)};
     EXPECT_NE(output.find("Tiempo de sesion"), std::string::npos);
 
     int dots = 0;
-    for(char c : output) if(c == ':') dots++;
+    for (char c : output)
+        if (c == ':')
+            dots++;
     EXPECT_GE(dots, 2); // Al menos dos ":" para el formato HH:MM:SS
 }
 
 // 6. Invariabilidad: Verifica que GameModel no cambie (Requisito de Integridad)
-TEST_F(InstructorCommandsTest, LogCommand_NoModification) {
+TEST_F(InstructorCommandsTest, LogCommand_NoModification)
+{
     const auto creditsBefore {m_model.credits()};
     const auto sizeBefore {m_model.actionLog().size()};
 
@@ -293,7 +300,8 @@ TEST_F(InstructorCommandsTest, LogCommand_Execute_Exactamente10)
     size_t initialLogs = model.actionLog().size();
 
     // agregar hasta tener exactamente 10
-    for (size_t i = initialLogs; i < 10; i++) {
+    for (size_t i = initialLogs; i < 10; i++)
+    {
         model.logAction("Entrada " + std::to_string(i));
     }
 

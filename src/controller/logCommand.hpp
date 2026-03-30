@@ -1,8 +1,8 @@
 #pragma once
 
 #include "../../include/controller/command.hpp"
-#include <string>
 #include <chrono>
+#include <string>
 
 namespace CyberpunkCba
 {
@@ -20,4 +20,4 @@ namespace CyberpunkCba
         [[nodiscard]] std::string formatTimestamp(int hour, int minute) const;
         [[nodiscard]] std::string formatDuration(std::chrono::seconds duration) const;
     };
-}
+} // namespace CyberpunkCba
