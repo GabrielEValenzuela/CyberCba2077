@@ -41,7 +41,7 @@ print(
 if regressions:
     print("REGRESSIONS:")
     for name, t_base, t_pr, ratio in sorted(
-        regressions, key=lambda x: x[3], reverse=True
+            regressions, key=lambda x: x[3], reverse=True
     )[:10]:
         print(
             f"- {name}: {t_base:.2f} -> {t_pr:.2f}  ({(ratio - 1) * 100:.1f}% slower)"

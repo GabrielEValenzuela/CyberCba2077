@@ -66,7 +66,6 @@ namespace CyberpunkCba
                     std::cout << "(✗) ";
                 }
                 std::cout << item.name << " (Precio: " << item.price << " créditos)\n";
-
             }
             std::cout << "Items asequibles: " << asequibles << std::endl;
         }

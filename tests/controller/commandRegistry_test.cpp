@@ -2,9 +2,9 @@
 #include "controller/commandRegistry.hpp"
 #include "helpCommand.hpp"
 #include "model/gameModel.hpp"
+#include "shopCommand.hpp"
 #include "statusCommand.hpp"
 #include "unknownCommand.hpp"
-#include "shopCommand.hpp"
 
 #include <gtest/gtest.h>
 #include <iostream>
@@ -14,8 +14,6 @@
 
 // Truco de testing para poder armar el caso "inventario lleno"
 // Solo usar en este archivo de test.
-
-
 
 using namespace CyberpunkCba;
 
@@ -234,8 +232,6 @@ TEST_F(InstructorCommandsTest, MarksAffordableAndUnaffordableItemsCorrectly)
     EXPECT_NE(output.find("(✓) Kit de primeros auxilios"), std::string::npos);
     EXPECT_NE(output.find("(✗) Ciberimplante de brazo"), std::string::npos);
 }
-
-
 
 TEST_F(InstructorCommandsTest, ShowsNoCreditsMessageWhenPlayerCannotBuyAnything)
 {

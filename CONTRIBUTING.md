@@ -19,8 +19,8 @@ Every code change must follow this lifecycle:
 2. A **developer implements the solution in a branch**
 3. A **Pull Request (PR) is created**
 4. The PR is reviewed by:
-   - a **Tester**
-   - a **Team Lead**
+    - a **Tester**
+    - a **Team Lead**
 5. Once approved, the PR can be merged.
 
 Direct commits to the main branch are not allowed.
@@ -290,8 +290,8 @@ To contribute successfully:
 3. Open a Pull Request
 4. Provide a clear description and testing steps
 5. Obtain approvals from:
-   - Tester
-   - Team Lead
+    - Tester
+    - Team Lead
 6. Merge only after validation
 
 Following this workflow ensures a professional and maintainable development process.

@@ -2,7 +2,7 @@ name: Benchmark Baseline (main)
 
 on:
   push:
-    branches: [main]
+    branches: [ main ]
 
 permissions:
   contents: read
