@@ -2,7 +2,7 @@
 // Created by Shadow on 21/03/2026.
 //
 
-#include "InventoryCommand.h"
+#include "InventoryCommand.hpp"
 #include "model/gameModel.hpp"
 
 #include <iostream>

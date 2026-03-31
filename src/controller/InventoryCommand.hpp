@@ -8,7 +8,7 @@
 #include <vector>
 
 /**
- 
+
 @file InventoryCommand.hpp
 @brief Header privado de InventoryCommand.*
 @details
@@ -22,7 +22,7 @@ namespace CyberpunkCba
 {
 
     /**
-     
+
 @class InventoryCommand
 @brief Muestra el inventario completo del jugador.*
 @details
@@ -38,7 +38,7 @@ InventoryCommand() = default;
         // Wazuh convention: implementaciones de interfaz son private.
 
         /**
-         
+
 @brief Muestra el estado actual del inventario del jugador.
 @details Si el inventario está vacío, muestra mensaje apropiado.
 Complejidad: O(n) donde n = cantidad de ítems.
@@ -47,7 +47,7 @@ Complejidad: O(n) donde n = cantidad de ítems.
 void execute(GameModel& model) override;std::string name() const override;std::string description() const override;std::string category() const override;
 
         /**
-         
+
 @brief Calcula el valor total de todos los ítems del inventario.
 @details Usa double para evitar overflow en la multiplicación
 price * quantity con valores grandes.
@@ -57,7 +57,7 @@ price * quantity con valores grandes.
 double calcularValorTotal(const std::vector<Item>& inventario) const;
 
         /**
-         
+
 @brief Genera una barra de progreso visual en texto.
 @details Si maximo <= 0 devuelve una barra vacía por defecto.
 Ejemplo de salida: [######.........]
