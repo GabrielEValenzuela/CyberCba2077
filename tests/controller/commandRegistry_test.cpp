@@ -1,10 +1,10 @@
+#include "clearCommand.hpp"
 #include "common/types.hpp"
 #include "controller/commandRegistry.hpp"
 #include "helpCommand.hpp"
 #include "model/gameModel.hpp"
 #include "statusCommand.hpp"
 #include "unknownCommand.hpp"
-#include "clearCommand.hpp"
 
 #include <gtest/gtest.h>
 #include <iostream>
