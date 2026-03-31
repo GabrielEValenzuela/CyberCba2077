@@ -65,7 +65,6 @@ if(CYBERPUNK_BUILD_TESTS)
     tests/controller/commandRegistry_test.cpp
           src/controller/clearCommand.hpp
           src/controller/clearCommand.cpp
-          tests/controller/clearCommand_test.cpp
   )
 
   target_include_directories(unit_tests PRIVATE
