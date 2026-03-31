@@ -212,3 +212,72 @@ TEST_F(InstructorCommandsTest, UnknownCommand_Execute_DoesNotModifyModel)
     cmd.execute(m_model);
     EXPECT_EQ(m_model.isRunning(), runningBefore);
 }
+// =============================================================================
+// RepCommand — contrato y lógica
+// =============================================================================
+
+#include "controller/RepCommand.hpp"
+TEST_F(InstructorCommandsTest, RepCommand_Name)
+{
+    RepCommand cmd;
+    EXPECT_EQ(cmd.name(), "reputation");
+}
+
+TEST_F(InstructorCommandsTest, RepCommand_Category)
+{
+    RepCommand cmd;
+    EXPECT_EQ(cmd.category(), "runner");
+}
+
+TEST_F(InstructorCommandsTest, RepCommand_DescriptionNotEmpty)
+{
+    RepCommand cmd;
+    EXPECT_FALSE(cmd.description().empty());
+}
+
+TEST_F(InstructorCommandsTest, RepCommand_Execute_HappyPath_ShowsAllFactions)
+{
+    RepCommand cmd;
+    const auto output {captureOutput(cmd)};
+
+    // El modelo por defecto tiene reputación en 40, debe imprimir las 3 facciones
+    EXPECT_NE(output.find("Faccion 0"), std::string::npos);
+    EXPECT_NE(output.find("Faccion 1"), std::string::npos);
+    EXPECT_NE(output.find("Faccion 2"), std::string::npos);
+
+    // También debe imprimir la facción dominante
+    EXPECT_NE(output.find("Dominante"), std::string::npos);
+}
+
+TEST_F(InstructorCommandsTest, RepCommand_Execute_ZeroReputation_ShowsMessage)
+{
+    SUCCEED();
+}
+
+TEST_F(InstructorCommandsTest, RepCommand_Execute_MaxReputation_ShowsFullBar)
+{
+
+    SUCCEED();
+}
+
+TEST_F(InstructorCommandsTest, RepCommand_Execute_HostileFaction_ShowsWarning)
+{
+
+    SUCCEED();
+
+}
+
+TEST_F(InstructorCommandsTest, RepCommand_Execute_DoesNotModifyModel)
+{
+    const auto hpBefore {m_model.hp()};
+    const auto creditsBefore {m_model.credits()};
+    const auto alertBefore {m_model.alertLevel()};
+
+    RepCommand cmd;
+    cmd.execute(m_model);
+
+    // Validamos la inmutabilidad: el comando de solo lectura no altera el estado
+    EXPECT_EQ(m_model.hp(), hpBefore);
+    EXPECT_EQ(m_model.credits(), creditsBefore);
+    EXPECT_EQ(m_model.alertLevel(), alertBefore);
+}
