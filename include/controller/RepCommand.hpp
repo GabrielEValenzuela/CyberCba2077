@@ -24,6 +24,6 @@ namespace CyberpunkCba {
         std::string renderLabel(RepLevel level) const;
     };
 
-} // namespace CyberpunkCba
+}  // namespace CyberpunkCba
 
 #endif

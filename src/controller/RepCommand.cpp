@@ -57,7 +57,7 @@ namespace CyberpunkCba {
         std::cout << std::endl;
     }
 
-    // Método privado reutilizado para dibujar la barra
+    // Metodo privado reutilizado para dibujar la barra
     std::string RepCommand::renderBar(int value, int maxValue, int width) const {
         if (maxValue <= 0) return ""; // Prevención de división por 0
 
@@ -77,7 +77,7 @@ namespace CyberpunkCba {
         return bar;
     }
 
-    // Mtodo privado reutilizado para las etiquetas (Requisito: no switch en execute)
+    // Metodo privado reutilizado para las etiquetas (Requisito: no switch en execute)
     std::string RepCommand::renderLabel(RepLevel level) const {
         switch (level) {
             case RepLevel::Hostile: return "Hostil";
