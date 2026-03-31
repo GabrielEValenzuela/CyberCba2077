@@ -1,7 +1,7 @@
 #include "common/types.hpp"
 #include "model/gameModel.hpp"
 #include "controller/command.hpp"
-#include "InventoryCommand.h"
+#include "InventoryCommand.hpp"
 
 #include <gtest/gtest.h>
 #include <iostream>
