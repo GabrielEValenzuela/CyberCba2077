@@ -11,7 +11,9 @@
 ---
 
 ## Tipo de cambio
+
 <!-- Marcá al menos una opción para ayudar al reviewer a entender la naturaleza del cambio -->
+
 - [ ] Feature
 - [ ] Bugfix
 - [ ] Refactor
@@ -24,6 +26,7 @@
 ---
 
 ## Issue / tarea relacionada
+
 <!-- Obligatorio: linkear la tarea o issue asociada.
 Usar referencias como:
 - Closes #12
@@ -31,12 +34,14 @@ Usar referencias como:
 - Related #21
 
 Esto ayuda a la trazabilidad y a conectar código con requerimientos. -->
+
 - Closes #
 - Related #
 
 ---
 
 ## Resumen del cambio
+
 <!-- Explicá brevemente qué hace esta PR.
 Pensá esta sección como un TL;DR para que alguien entienda el objetivo sin leer todo el diff.
 Ideal: 2 a 5 líneas. -->
@@ -47,6 +52,7 @@ Este PR:
 ---
 
 ## Problema / motivación
+
 <!-- Explicá qué problema resuelve.
 No describas todavía archivos ni detalles de implementación.
 Respondé:
@@ -66,6 +72,7 @@ Resultado esperado
 ---
 
 ## Solución implementada
+
 <!-- Explicá el enfoque técnico elegido.
 En C++ esto es especialmente importante:
 - ¿qué clases, structs o módulos tocaste?
@@ -89,11 +96,13 @@ Archivos o módulos clave
 ---
 
 ## Cambios incluidos
+
 <!-- Lista concreta y escaneable.
 Ejemplo:
 - se agregó clase Inventory
 - se corrigió validación de comandos
 - se actualizaron tests del parser -->
+
 -
 -
 -
@@ -102,7 +111,9 @@ Ejemplo:
 ---
 
 ## Consideraciones técnicas C++
+
 <!-- Completar si aplica. Esta sección ayuda a revisar calidad técnica propia del lenguaje. -->
+
 - [ ] No aplica
 - [ ] Se respetó const-correctness
 - [ ] Se evitó copiar objetos innecesariamente
@@ -118,6 +129,7 @@ Detalle adicional
 ---
 
 ## Cómo probar este cambio
+
 <!-- Escribí pasos concretos y reproducibles.
 Un reviewer o tester debería poder validar la PR sin preguntarte nada.
 Incluir:
@@ -126,19 +138,23 @@ Incluir:
 - input esperado si aplica
 - caso feliz
 - caso borde / error si aplica -->
+
 1.
 2.
 3.
 
 ### Resultado esperado
+
 <!-- Describí qué debería observar el tester -->
 -
 
 ---
 
 ## Evidencia
+
 <!-- Obligatorio cuando haya cambios visibles, gameplay, consola, logs o salidas relevantes.
 Podés adjuntar screenshots, GIFs, outputs de consola o logs. -->
+
 - [ ] No aplica
 - [ ] Capturas adjuntas
 - [ ] Logs adjuntos
@@ -151,6 +167,7 @@ Evidencia
 ---
 
 ## Riesgos / impacto
+
 <!-- Ayuda al reviewer a enfocar la revisión.
 Marcá si el cambio puede romper otros módulos o alterar contratos existentes. -->
 Impacto esperado:
@@ -177,8 +194,10 @@ Si la respuesta es sí, explicar
 ---
 
 ## Testing realizado
+
 <!-- Marcar lo que realmente se hizo.
 No marcar cosas que no se validaron. -->
+
 - [ ] Compila correctamente en mi entorno
 - [ ] Se agregaron o actualizaron tests unitarios
 - [ ] Los tests existentes siguen pasando
@@ -192,7 +211,9 @@ Detalle
 ---
 
 ## Checklist del autor
+
 <!-- Esta sección es para disciplina profesional mínima antes de pedir review. -->
+
 - [ ] Linkeé la issue / tarea correspondiente
 - [ ] Me asigné esta PR
 - [ ] El cambio tiene un objetivo claro y acotado
@@ -208,7 +229,9 @@ Detalle
 ---
 
 ## Checklist de review
+
 <!-- Esta sección ayuda a formalizar el flujo del equipo. -->
+
 - [ ] Review técnica realizada
 - [ ] Approval de Tester
 - [ ] Approval de Team Lead
@@ -221,12 +244,14 @@ Reviewer(s):
 ---
 
 ## Notas para el reviewer
+
 <!-- Usá esta sección para guiar la revisión y ahorrar tiempo.
 Por ejemplo:
 - empezar por src/engine/command_parser.cpp
 - luego mirar tests/parser_test.cpp
 - tengo dudas sobre ownership en X -->
 Orden sugerido de revisión:
+
 1.
 2.
 3.

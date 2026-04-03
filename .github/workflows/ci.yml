@@ -459,17 +459,17 @@ jobs:
         if: always() && github.event_name == 'pull_request'
         uses: actions/github-script@v7
         env:
-          STYLE_OUTCOME:     ${{ steps.style.outcome }}
+          STYLE_OUTCOME: ${{ steps.style.outcome }}
           CONFIGURE_OUTCOME: ${{ steps.configure.outcome }}
-          BUILD_OUTCOME:     ${{ steps.build.outcome }}
-          TESTS_OUTCOME:     ${{ steps.tests.outcome }}
-          DOCS_OUTCOME:      ${{ steps.docs.outcome }}
-          COV_OUTCOME:       ${{ steps.cov.outcome }}
-          LINES_COVERAGE:    ${{ env.LINES_COVERAGE }}
+          BUILD_OUTCOME: ${{ steps.build.outcome }}
+          TESTS_OUTCOME: ${{ steps.tests.outcome }}
+          DOCS_OUTCOME: ${{ steps.docs.outcome }}
+          COV_OUTCOME: ${{ steps.cov.outcome }}
+          LINES_COVERAGE: ${{ env.LINES_COVERAGE }}
           FUNCTIONS_COVERAGE: ${{ env.FUNCTIONS_COVERAGE }}
-          COVERAGE_PCT:      ${{ env.COVERAGE_PCT }}
-          TIDY_WARNINGS:     ${{ env.TIDY_WARNINGS }}
-          FAILED_TESTS:      ${{ env.FAILED_TESTS }}
+          COVERAGE_PCT: ${{ env.COVERAGE_PCT }}
+          TIDY_WARNINGS: ${{ env.TIDY_WARNINGS }}
+          FAILED_TESTS: ${{ env.FAILED_TESTS }}
         with:
           script: |
             const styleOk = process.env.STYLE_OUTCOME === "success";

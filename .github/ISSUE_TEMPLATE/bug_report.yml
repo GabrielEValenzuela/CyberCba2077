@@ -1,8 +1,8 @@
 name: "Bug Report"
 description: "Report a defect, regression, or unexpected behavior in CyberCba2077"
 title: "[BUG] "
-labels: ["bug", "needs-triage"]
-assignees: []
+labels: [ "bug", "needs-triage" ]
+assignees: [ ]
 body:
   - type: markdown
     attributes:

@@ -32,9 +32,9 @@ Es un laboratorio vivo donde cada estructura que implementes tendrá impacto rea
 - Santiago Fernandez ([@SantiFernandezGit](https://github.com/SantiFernandezGit)) - Desarrollador
 - Alejo Sosa Luna ([@asosalunaa](https://github.com/asosalunaa)) - Desarrollador
 - Lautaro Perez ([@Lautazz11](https://github.com/Lautazz11)) - Desarrollador
-- Alejo Sosa Luna ([@asosalunaa](https://github.com/asosalunaa)) - Desarrollador 
+- Alejo Sosa Luna ([@asosalunaa](https://github.com/asosalunaa)) - Desarrollador
 - Luka Brian Jones([@lukajones544](https://github.com/lukajones544)) - Desarrollador.
-- Melisa Verdu ([@melisaverdu](https://github.com/melisaverdu)) - Desarrollador 
+- Melisa Verdu ([@melisaverdu](https://github.com/melisaverdu)) - Desarrollador
 - Juani Aguero ([@juaniaguero](https://github.com/juaniaguero)) - Desarrollador
 - Valentin Suppo ([@valesppo](https://github.com/valesppo)) - Desarrollador
 - Mateo Agustín Ahivar ([@Mateo-Ahivar](https://github.com/Mateo-Ahivar)) - Desarrollador
@@ -45,10 +45,10 @@ Es un laboratorio vivo donde cada estructura que implementes tendrá impacto rea
 - Alexis Garay([@Garay1913](https://github.com/Garay1913)) - Desarrollador
 - Ivan Pastrana ([@ivanpastrana-dev](https://github.com/ivanpastrana-dev)) - Desarrollador
 - Facundo Michaud ([@FacuM225](https://github.com/FacuM225)) - Desarrollador
-- Camila Soto ([@camila-soto](https://github.com/camila-soto)) - Desarrollador 
+- Camila Soto ([@camila-soto](https://github.com/camila-soto)) - Desarrollador
 - Santiago Bertocco ([@santi-bertocco](https://github.com/santi-bertocco)) - Desarrollador
 - Leonardo Rincon ([@LeoRincon03](https://github.com/LeoRincon03)) - Desarrolador
-- Juan Ignacio Fernandez([@JuanIFSB](https://github.com/JuanIFSB)) - Desarrollador 
+- Juan Ignacio Fernandez([@JuanIFSB](https://github.com/JuanIFSB)) - Desarrollador
 - Luis Enrique Palacio ([@luis-palacio-unc](https://github.com/luis-palacio-unc)) - Desarrollador
 - Pilar Fernandez Bonilla([@Pilarfbonilla](https://github.com/Pilarfbonilla))-Desarrollador
 - Ángela Marioni ([@Angela-M-01](https://github.com/Angela-M-01)) - Desarrollador
@@ -66,10 +66,10 @@ Es un laboratorio vivo donde cada estructura que implementes tendrá impacto rea
 - Santiago Nicolau ([@Santi695174](https://github.com/Santi695174)) - Desarrollador
 - Claudia Yon ([@clau-yon](https://github.com/clau-yon)) - Desarrollador
 - Santiago Barboza ([@santybarboza](https://github.com/santybarboza)) - Desarrollador
-- Bruno Ottonello ([@Motomoto17](https://github.com/Motomoto17)) - Desarrollador 
-- Nicolás Ludueña ([@nicoluduena04](https://github.com/nicoluduena04)) - Desarrollador 
+- Bruno Ottonello ([@Motomoto17](https://github.com/Motomoto17)) - Desarrollador
+- Nicolás Ludueña ([@nicoluduena04](https://github.com/nicoluduena04)) - Desarrollador
 - Santiago Agustin Zuñiga Castro ([@santizuu](https://github.com/Santizuu)) - Desarrollador
-- Sharon Blatter ([@sharonblatter-jpg](https://github.com/sharonblatter-jpg)) - Desarrollador 
+- Sharon Blatter ([@sharonblatter-jpg](https://github.com/sharonblatter-jpg)) - Desarrollador
 - Sofía Sivila ([@Nazarena12](https://github.com/Nazarena12)) - Desarrollador
 
 ---
@@ -294,9 +294,9 @@ Cada aporte debe:
 * Respetar MVC
 * Incluir una breve explicación técnica:
 
-  * Complejidad
-  * Consideraciones de memoria
-  * Decisión de diseño
+    * Complejidad
+    * Consideraciones de memoria
+    * Decisión de diseño
 
 Formato sugerido para títulos:
 
@@ -377,20 +377,25 @@ cyberpunk-cordoba-2077/
 ## 🧠 Convenciones importantes
 
 ### 📦 `model/`
+
 Aquí viven las estructuras de datos y la lógica algorítmica.  
 No deben depender de la vista.
 
 ### 🎮 `controller/`
+
 Coordina entradas del usuario y actualiza el modelo.
 
 ### 🖼 `assets/`
+
 Contiene recursos gráficos.  
 No modificar sin autorización.
 
 ### 🧪 `tests/`
+
 Cada estructura debe tener su archivo de test correspondiente.
 
 ### 🚫 `build/`
+
 Nunca se versiona.  
 Debe estar en el `.gitignore`.
 

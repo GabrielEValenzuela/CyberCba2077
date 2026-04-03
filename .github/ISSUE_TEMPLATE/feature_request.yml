@@ -1,8 +1,8 @@
 name: "Feature Request"
 description: "Propose a new feature or enhancement for CyberCba2077"
 title: "[FEATURE] "
-labels: ["feature", "needs-triage"]
-assignees: []
+labels: [ "feature", "needs-triage" ]
+assignees: [ ]
 body:
   - type: markdown
     attributes:
