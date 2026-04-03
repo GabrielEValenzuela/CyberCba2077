@@ -270,15 +270,15 @@ namespace CyberpunkCba
         namespace Paths
         {
 
-            static constexpr std::string_view LOG {"data/log.txt"};
-            static constexpr std::string_view INVENTORY {"data/inventory.txt"};
-            static constexpr std::string_view MAP {"data/map.txt"};
-            static constexpr std::string_view MISSIONS {"data/missions.txt"};
-            static constexpr std::string_view ENTITIES {"data/entities.txt"};
-            static constexpr std::string_view REPUTATION {"data/reputation.txt"};
-            static constexpr std::string_view WALLET {"data/wallet.txt"};
-            static constexpr std::string_view SESSION {"data/session.txt"};
-            static constexpr std::string_view SHOP {"data/shop.txt"};
+            static constexpr const char LOG[] {"data/log.txt"};
+            static constexpr const char INVENTORY[] {"data/inventory.txt"};
+            static constexpr const char MAP[] {"data/map.txt"};
+            static constexpr const char MISSIONS[] {"data/missions.txt"};
+            static constexpr const char ENTITIES[] {"data/entities.txt"};
+            static constexpr const char REPUTATION[] {"data/reputation.txt"};
+            static constexpr const char WALLET[] {"data/wallet.txt"};
+            static constexpr const char SESSION[] {"data/session.txt"};
+            static constexpr const char SHOP[] {"data/shop.txt"};
 
         } // namespace Paths
 
