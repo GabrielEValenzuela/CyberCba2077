@@ -22,8 +22,8 @@
  * @version 0.2.0
  */
 
-#include "common/fileIO.hpp"
 #include "common/Types.hpp"
+#include "common/fileIO.hpp"
 
 #include <filesystem>
 #include <fstream>
