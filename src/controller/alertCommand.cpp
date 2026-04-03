@@ -1,5 +1,5 @@
 // Siempre incluimos primero el header propio del archivo.
-#include "controller/alertCommand.hpp"
+#include "alertCommand.hpp"
 
 // Necesario para usar los métodos de GameModel (no alcanza con forward declaration)
 #include "model/gameModel.hpp"
