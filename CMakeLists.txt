@@ -32,9 +32,7 @@ add_library(cyberpunk_lib STATIC
         src/controller/statusCommand.cpp
         src/controller/unknownCommand.cpp
         src/controller/shopCommand.cpp
-  
-  
-  src/controller/scanCommand.cpp
+        src/controller/scanCommand.cpp
         include/common/fileIO.hpp
         src/common/fileIO.cpp
 )
@@ -67,6 +65,8 @@ if (CYBERPUNK_BUILD_TESTS)
             tests/common/types_test.cpp
             tests/model/gameModel_test.cpp
             tests/controller/commandRegistry_test.cpp
+            tests/common/fileIO_test.cpp
+            tests/controller/scanCommand_test.cpp
     )
 
     target_include_directories(unit_tests PRIVATE
@@ -88,36 +88,7 @@ if (CYBERPUNK_BUILD_TESTS)
     include(GoogleTest)
     gtest_discover_tests(unit_tests)
 endif ()
-if(CYBERPUNK_BUILD_TESTS)
-  find_package(GTest CONFIG REQUIRED)
 
-  add_executable(unit_tests
-    tests/common/types_test.cpp
-    tests/model/gameModel_test.cpp
-    tests/controller/commandRegistry_test.cpp
-    tests/common/fileIO_test.cpp
-    tests/controller/scanCommand_test.cpp
-  )
-
-  target_include_directories(unit_tests PRIVATE
-    include
-    src/controller
-  )
-  target_link_libraries(unit_tests PRIVATE
-    cyberpunk_lib
-    GTest::gtest
-    GTest::gtest_main
-  )
-
-  if(CYBERPUNK_ENABLE_COVERAGE)
-    target_compile_options(unit_tests PRIVATE -O0 -g --coverage)
-    target_compile_options(cyberpunk_lib PRIVATE -O0 -g --coverage)
-    target_link_options(unit_tests PRIVATE --coverage)
-  endif()
-
-  include(GoogleTest)
-  gtest_discover_tests(unit_tests)
-endif()
 
 # =============================================================================
 # Benchmarks (Google Benchmark)
