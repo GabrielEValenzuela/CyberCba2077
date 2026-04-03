@@ -1,7 +1,7 @@
 #ifndef _FILE_IO_HPP
 #define _FILE_IO_HPP
 
-#include "common/Types.hpp"
+#include "common/types.hpp"
 
 #include <filesystem>
 #include <stdexcept>

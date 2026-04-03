@@ -22,7 +22,7 @@
  * @version 0.2.0
  */
 
-#include "common/FileIO.hpp"
+#include "common/fileIO.hpp"
 #include "common/Types.hpp"
 
 #include <filesystem>
