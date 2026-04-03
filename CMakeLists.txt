@@ -64,9 +64,7 @@ if(CYBERPUNK_BUILD_TESTS)
     tests/common/types_test.cpp
     tests/model/gameModel_test.cpp
     tests/controller/commandRegistry_test.cpp
-          include/common/fileIO.hpp
-          src/common/fileIO.cpp
-          tests/common/fileIO_test.cpp
+    tests/common/fileIO_test.cpp
     tests/controller/scanCommand_test.cpp
   )
 
