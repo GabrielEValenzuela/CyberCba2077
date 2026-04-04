@@ -27,25 +27,29 @@ protected:
 TEST_F(TimeCommandTest, TimeCommand_Name)
 {
     TimeCommand cmd;
-    EXPECT_EQ(cmd.name(), "time");
+    Command& baseCmd {cmd};
+    EXPECT_EQ(baseCmd.name(), "time");
 }
 
 TEST_F(TimeCommandTest, TimeCommand_Category)
 {
     TimeCommand cmd;
-    EXPECT_EQ(cmd.category(), "sistema");
+    Command& baseCmd {cmd};
+    EXPECT_EQ(baseCmd.category(), "sistema");
 }
 
 TEST_F(TimeCommandTest, TimeCommand_DescriptionNotEmpty)
 {
     TimeCommand cmd;
-    EXPECT_FALSE(cmd.description().empty());
+    Command& baseCmd {cmd};
+    EXPECT_FALSE(baseCmd.description().empty());
 }
 
 TEST_F(TimeCommandTest, TimeCommand_Description_IsExpected)
 {
     TimeCommand cmd;
-    EXPECT_EQ(cmd.description(), "Devuelve turno y hora.");
+    Command& baseCmd {cmd};
+    EXPECT_EQ(baseCmd.description(), "Devuelve turno y hora.");
 }
 
 TEST_F(TimeCommandTest, TimeCommand_Execute_ProducesOutput)
