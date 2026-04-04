@@ -2,6 +2,7 @@
 
 // Comandos del instructor — completos
 #include "helpCommand.hpp"
+#include "scanCommand.hpp"
 #include "statusCommand.hpp"
 #include "unknownCommand.hpp"
 
@@ -114,6 +115,7 @@ namespace CyberpunkCba
         // Formato: registry.add(std::make_unique<TuComandoCommand>());
         // ============================================================
         registry.add(std::make_unique<ClearCommand>());
+        registry.add(std::make_unique<ScanCommand>());
 
         // ============================================================
         // FIN ZONA DE EQUIPOS
