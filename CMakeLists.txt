@@ -30,8 +30,11 @@ add_library(cyberpunk_lib STATIC
   src/model/gameModel.cpp
   src/controller/commandRegistry.cpp
   src/controller/helpCommand.cpp
+  src/controller/scanCommand.cpp
   src/controller/statusCommand.cpp
   src/controller/unknownCommand.cpp
+        include/common/fileIO.hpp
+        src/common/fileIO.cpp
 )
 
 target_include_directories(cyberpunk_lib
@@ -67,6 +70,8 @@ if(CYBERPUNK_BUILD_TESTS)
           src/controller/timeCommand.cpp
           src/controller/timeCommand.hpp
           tests/controller/timeCommand_test.cpp
+    tests/common/fileIO_test.cpp
+    tests/controller/scanCommand_test.cpp
   )
 
   target_include_directories(unit_tests PRIVATE
