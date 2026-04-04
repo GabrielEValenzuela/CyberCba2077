@@ -1,8 +1,8 @@
 #include "timeCommand.hpp"
 #include "common/types.hpp"
 #include "model/gameModel.hpp"
-#include <iostream>
 #include <iomanip>
+#include <iostream>
 namespace CyberpunkCba
 {
 
@@ -27,13 +27,11 @@ namespace CyberpunkCba
         }
         else
         {
-            std::cout << "Hora: "
-          << std::setfill('0') << std::setw(2) << model.currentHour() << ":"
-          << std::setfill('0') << std::setw(2) << model.currentMinute()
-          << " | Turno: " << timeOfDayToString(timeOfDayFromHour(model.currentHour()))
-          << " | Tiempo restante hasta próximo turno: "
-          << minutesUntilNextTurn(model.currentHour(), model.currentMinute())
-          << " minutos.\n";
+            std::cout << "Hora: " << std::setfill('0') << std::setw(2) << model.currentHour() << ":"
+                      << std::setfill('0') << std::setw(2) << model.currentMinute()
+                      << " | Turno: " << timeOfDayToString(timeOfDayFromHour(model.currentHour()))
+                      << " | Tiempo restante hasta próximo turno: "
+                      << minutesUntilNextTurn(model.currentHour(), model.currentMinute()) << " minutos.\n";
         }
     }
 } // namespace CyberpunkCba
