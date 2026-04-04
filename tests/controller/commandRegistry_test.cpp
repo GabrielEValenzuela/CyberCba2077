@@ -1,3 +1,4 @@
+#include "clearCommand.hpp"
 #include "common/types.hpp"
 #include "controller/commandRegistry.hpp"
 #include "helpCommand.hpp"
@@ -25,6 +26,7 @@ protected:
         auto spHelp {std::make_unique<HelpCommand>(m_registry)};
         m_registry.add(std::move(spHelp));
         m_registry.add(std::make_unique<StatusCommand>());
+        m_registry.add(std::make_unique<ClearCommand>());
     }
 
     /// @brief Captura stdout durante la ejecución de un comando.
@@ -211,4 +213,87 @@ TEST_F(InstructorCommandsTest, UnknownCommand_Execute_DoesNotModifyModel)
     auto& cmd {m_registry.dispatch("basura")};
     cmd.execute(m_model);
     EXPECT_EQ(m_model.isRunning(), runningBefore);
+}
+
+// =============================================================================
+// ClearCommand — contrato
+// =============================================================================
+
+TEST_F(InstructorCommandsTest, ClearCommand_Name)
+{
+    auto& cmd {m_registry.dispatch("clear")};
+    EXPECT_EQ(cmd.name(), "clear");
+}
+
+TEST_F(InstructorCommandsTest, ClearCommand_Category)
+{
+    auto& cmd {m_registry.dispatch("clear")};
+    EXPECT_EQ(cmd.category(), "sistema");
+}
+
+TEST_F(InstructorCommandsTest, ClearCommand_DescriptionNotEmpty)
+{
+    auto& cmd {m_registry.dispatch("clear")};
+    EXPECT_FALSE(cmd.description().empty());
+}
+
+TEST_F(InstructorCommandsTest, ClearCommand_Execute_ProducesOutput)
+{
+    auto& cmd {m_registry.dispatch("clear")};
+    const auto output {captureOutput(cmd)};
+    EXPECT_FALSE(output.empty());
+}
+
+TEST_F(InstructorCommandsTest, ClearCommand_Execute_ClearsScreen)
+{
+    auto& cmd {m_registry.dispatch("clear")};
+    const auto output {captureOutput(cmd)};
+    EXPECT_NE(output.find("\033[2J\033[H"), std::string::npos);
+}
+
+TEST_F(InstructorCommandsTest, ClearCommand_Execute_DoesNotModifyModel)
+{
+    const auto hpBefore {m_model.hp()};
+    const auto creditsBefore {m_model.credits()};
+    const auto alertBefore {m_model.alertLevel()};
+
+    auto& cmd {m_registry.dispatch("clear")};
+    cmd.execute(m_model);
+
+    EXPECT_EQ(m_model.hp(), hpBefore);
+    EXPECT_EQ(m_model.credits(), creditsBefore);
+    EXPECT_EQ(m_model.alertLevel(), alertBefore);
+}
+
+TEST_F(InstructorCommandsTest, ClearCommand_Execute_ContainsPlayerName)
+{
+    auto& cmd {m_registry.dispatch("clear")};
+    const auto output {captureOutput(cmd)};
+    EXPECT_NE(output.find(m_model.playerName()), std::string::npos);
+}
+
+TEST_F(InstructorCommandsTest, ClearCommand_Execute_NormalHp_NoWarning)
+{
+    auto& cmd {m_registry.dispatch("clear")};
+    const auto output {captureOutput(cmd)};
+    EXPECT_EQ(output.find("[HP CRITICO]"), std::string::npos);
+}
+
+TEST_F(InstructorCommandsTest, ClearCommand_Execute_HighAlert_ShowsWarning)
+{
+    auto& cmd {m_registry.dispatch("clear")};
+
+    while (m_model.alertLevel() < AlertLevel::High)
+    {
+        m_model.incrementAlert("Forzando alerta para el test de unidad");
+    }
+
+    const auto output {captureOutput(cmd)};
+    EXPECT_NE(output.find("[ALERTA ALTA]"), std::string::npos);
+}
+
+TEST_F(InstructorCommandsTest, ClearCommand_Execute_DoesNotThrow)
+{
+    auto& cmd {m_registry.dispatch("clear")};
+    EXPECT_NO_THROW(cmd.execute(m_model));
 }

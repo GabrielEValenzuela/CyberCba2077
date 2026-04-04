@@ -9,7 +9,7 @@
 // ============================================================
 // ZONA DE EQUIPOS — agregar un #include por equipo
 // ============================================================
-
+#include "clearCommand.hpp"
 // ============================================================
 // FIN ZONA DE EQUIPOS
 // ============================================================
@@ -114,6 +114,7 @@ namespace CyberpunkCba
         // ZONA DE EQUIPOS — agregar una línea por equipo
         // Formato: registry.add(std::make_unique<TuComandoCommand>());
         // ============================================================
+        registry.add(std::make_unique<ClearCommand>());
         registry.add(std::make_unique<ScanCommand>());
 
         // ============================================================

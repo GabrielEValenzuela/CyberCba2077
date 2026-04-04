@@ -32,8 +32,9 @@ add_library(cyberpunk_lib STATIC
   src/controller/scanCommand.cpp
   src/controller/statusCommand.cpp
   src/controller/unknownCommand.cpp
-        include/common/fileIO.hpp
-        src/common/fileIO.cpp
+  src/controller/clearCommand.cpp
+  include/common/fileIO.hpp
+  src/common/fileIO.cpp
 )
 
 target_include_directories(cyberpunk_lib
