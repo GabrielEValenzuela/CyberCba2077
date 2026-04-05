@@ -45,6 +45,20 @@ namespace CyberpunkCba
             std::cout << "Sin entidades detectadas.\n";
             return;
         }
+        int countHostile(const std::vector<EntityEntry>& entities, std::size_t index):
+                {
+                    // Caso base: si llegamos al final del vector
+                    if (index == entities.size()) {
+                        return 0;
+                    }
+
+                    // Caso recursivo
+                    if (entities[index].disposition == EntityDisposition::Hostile) {
+                        return 1 + countHostile(entities, index + 1);
+                    } else {
+                        return countHostile(entities, index + 1);
+                    }
+                }
 
         int hostileCount {0};
         for (const auto* pEntity : sortedEntities)
