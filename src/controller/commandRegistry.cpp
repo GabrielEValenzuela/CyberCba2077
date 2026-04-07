@@ -8,7 +8,7 @@
 // ============================================================
 // ZONA DE EQUIPOS — agregar un #include por equipo
 // ============================================================
-
+#include "controller/alertCommand.hpp"
 // ============================================================
 // FIN ZONA DE EQUIPOS
 // ============================================================
@@ -113,7 +113,7 @@ namespace CyberpunkCba
         // ZONA DE EQUIPOS — agregar una línea por equipo
         // Formato: registry.add(std::make_unique<TuComandoCommand>());
         // ============================================================
-
+        registry.add(std::make_unique<AlertCommand>());
         // ============================================================
         // FIN ZONA DE EQUIPOS
         // ============================================================

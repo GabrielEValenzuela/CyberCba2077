@@ -31,6 +31,7 @@ add_library(cyberpunk_lib STATIC
   src/controller/helpCommand.cpp
   src/controller/statusCommand.cpp
   src/controller/unknownCommand.cpp
+        src/controller/alertCommand.cpp
 )
 
 target_include_directories(cyberpunk_lib
@@ -44,6 +45,7 @@ target_include_directories(cyberpunk_lib
 add_executable(cyberpunk2077
   src/main.cpp
   src/ui/console.cpp
+        src/controller/alertCommand.cpp
 )
 
 target_include_directories(cyberpunk2077 PRIVATE include)

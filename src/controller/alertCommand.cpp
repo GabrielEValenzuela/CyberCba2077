@@ -1,6 +1,9 @@
 // Siempre incluimos primero el header propio del archivo.
 #include "alertCommand.hpp"
 
+// Necesario para usar los métodos de GameModel (no alcanza con forward declaration)
+#include "model/gameModel.hpp"
+
 // iostream nos da acceso a std::cout para imprimir en pantalla.
 #include <iostream>
 
@@ -14,18 +17,18 @@
 namespace
 {
     // Rojo para alertas altas
-    constexpr std::string_view COLOR_RED     {"\033[31m"};
+    constexpr std::string_view COLOR_RED {"\033[31m"};
     // Amarillo para alertas medias
-    constexpr std::string_view COLOR_YELLOW  {"\033[33m"};
+    constexpr std::string_view COLOR_YELLOW {"\033[33m"};
     // Verde para alerta ninguna/baja
-    constexpr std::string_view COLOR_GREEN   {"\033[32m"};
+    constexpr std::string_view COLOR_GREEN {"\033[32m"};
     // Cyan para títulos y separadores
-    constexpr std::string_view COLOR_CYAN    {"\033[36m"};
+    constexpr std::string_view COLOR_CYAN {"\033[36m"};
     // Blanco brillante para labels
-    constexpr std::string_view COLOR_WHITE   {"\033[97m"};
+    constexpr std::string_view COLOR_WHITE {"\033[97m"};
     // Reset: vuelve al color por defecto de la terminal
-    constexpr std::string_view COLOR_RESET   {"\033[0m"};
-}
+    constexpr std::string_view COLOR_RESET {"\033[0m"};
+} // namespace
 
 namespace CyberpunkCba
 {
@@ -61,18 +64,15 @@ namespace CyberpunkCba
         // Elegimos el color del encabezado según la gravedad del nivel.
         // El operador ternario ( condición ? valor_si_true : valor_si_false )
         // es una forma compacta de un if/else de una línea.
-        const std::string_view headerColor {
-            (level >= AlertLevel::High)   ? COLOR_RED    :
-            (level >= AlertLevel::Medium) ? COLOR_YELLOW :
-                                            COLOR_GREEN
-        };
+        const std::string_view headerColor {(level >= AlertLevel::High)     ? COLOR_RED
+                                            : (level >= AlertLevel::Medium) ? COLOR_YELLOW
+                                                                            : COLOR_GREEN};
 
         // =====================================================================
         // ENCABEZADO del output
         // =====================================================================
         std::cout << "\n"
-                  << COLOR_CYAN
-                  << "╔══════════════════════════════════════╗\n"
+                  << COLOR_CYAN << "╔══════════════════════════════════════╗\n"
                   << "║     CYBERPUNK CBA 2077 — ALERTA      ║\n"
                   << "╚══════════════════════════════════════╝\n"
                   << COLOR_RESET;
@@ -83,17 +83,14 @@ namespace CyberpunkCba
         // alertLevelToString() es una función libre definida en types.cpp
         // que convierte el enum a texto legible: "NINGUNA", "BAJA", etc.
         // =====================================================================
-        std::cout << COLOR_WHITE << "  Nivel de alerta : "
-                  << COLOR_RESET
-                  << headerColor << alertLevelToString(level) << "\n"
+        std::cout << COLOR_WHITE << "  Nivel de alerta : " << COLOR_RESET << headerColor << alertLevelToString(level)
+                  << "\n"
                   << COLOR_RESET;
 
         // =====================================================================
         // PATRULLAS ACTIVAS — campo siempre presente
         // =====================================================================
-        std::cout << COLOR_WHITE << "  Patrullas activas: "
-                  << COLOR_RESET
-                  << activePatrols << "\n";
+        std::cout << COLOR_WHITE << "  Patrullas activas: " << COLOR_RESET << activePatrols << "\n";
 
         // =====================================================================
         // ORIGEN DE ALERTA — campo siempre presente
@@ -102,9 +99,7 @@ namespace CyberpunkCba
         // una causa registrada. Lo manejamos mostrando "N/A" en ese caso.
         // =====================================================================
         const std::string& cause {model.lastAlertCause()};
-        std::cout << COLOR_WHITE << "  Origen           : "
-                  << COLOR_RESET
-                  << (cause.empty() ? "N/A" : cause) << "\n";
+        std::cout << COLOR_WHITE << "  Origen           : " << COLOR_RESET << (cause.empty() ? "N/A" : cause) << "\n";
 
         // =====================================================================
         // TIEMPO PARA DESPEJE — campo CONDICIONAL
@@ -121,9 +116,7 @@ namespace CyberpunkCba
             // El tiempo de despeje es estimado: a mayor nivel, más turnos.
             // static_cast<int>(level) nos da el número del nivel (2, 3 o 4).
             const int clearTime {static_cast<int>(level) * 3};
-            std::cout << COLOR_WHITE << "  Tiempo p/despeje : "
-                      << COLOR_RESET
-                      << clearTime << " turnos\n";
+            std::cout << COLOR_WHITE << "  Tiempo p/despeje : " << COLOR_RESET << clearTime << " turnos\n";
         }
 
         // =====================================================================
@@ -133,14 +126,10 @@ namespace CyberpunkCba
         // Esto cumple el requisito: "sin switch en execute()".
         // execute() no sabe NI le importa cómo se calcula el consejo.
         // =====================================================================
-        std::cout << COLOR_WHITE << "  Consejo          : "
-                  << COLOR_RESET
-                  << adviceForLevel(level) << "\n";
+        std::cout << COLOR_WHITE << "  Consejo          : " << COLOR_RESET << adviceForLevel(level) << "\n";
 
         // Línea de cierre decorativa
-        std::cout << COLOR_CYAN
-                  << "  ──────────────────────────────────────\n"
-                  << COLOR_RESET << "\n";
+        std::cout << COLOR_CYAN << "  ──────────────────────────────────────\n" << COLOR_RESET << "\n";
     }
 
     // =========================================================================
@@ -194,14 +183,11 @@ namespace CyberpunkCba
                 // Distinto al de None — cumple el criterio de aceptación.
                 return "Mantené perfil bajo. Evitá zonas iluminadas.";
 
-            case AlertLevel::Medium:
-                return "Patrullas activas. Usá rutas alternativas.";
+            case AlertLevel::Medium: return "Patrullas activas. Usá rutas alternativas.";
 
-            case AlertLevel::High:
-                return "Zona caliente. Considerá abortar la misión.";
+            case AlertLevel::High: return "Zona caliente. Considerá abortar la misión.";
 
-            case AlertLevel::Maximum:
-                return "PELIGRO MÁXIMO. Evacuá la zona inmediatamente.";
+            case AlertLevel::Maximum: return "PELIGRO MÁXIMO. Evacuá la zona inmediatamente.";
 
             default:
                 // El default cubre casos inesperados (buena práctica defensiva).
