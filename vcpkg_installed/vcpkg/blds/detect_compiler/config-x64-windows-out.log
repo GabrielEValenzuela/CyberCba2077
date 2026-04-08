@@ -1,0 +1,24 @@
+[1/1] "C:/Program Files/CMake/bin/cmake.exe" -E chdir ".." "C:/Program Files/CMake/bin/cmake.exe" "C:/Program Files (x86)/Microsoft Visual Studio/18/BuildTools/VC/vcpkg/scripts/detect_compiler" "-G" "Ninja" "-DCMAKE_BUILD_TYPE=Release" "-DCMAKE_INSTALL_PREFIX=C:/Users/Nico/Documents/GitHub/CyberCba2077/vcpkg_installed/vcpkg/pkgs/detect_compiler_x64-windows" "-DVCPKG_COMPILER_CACHE_FILE=C:/Users/Nico/Documents/GitHub/CyberCba2077/vcpkg_installed/vcpkg/compiler-file-hash-cache.json" "-DCMAKE_MAKE_PROGRAM=C:/Users/Nico/AppData/Local/vcpkg/downloads/tools/ninja/1.13.1-windows/ninja.exe" "-DBUILD_SHARED_LIBS=ON" "-DVCPKG_CHAINLOAD_TOOLCHAIN_FILE=C:/Program Files (x86)/Microsoft Visual Studio/18/BuildTools/VC/vcpkg/scripts/toolchains/windows.cmake" "-DVCPKG_TARGET_TRIPLET=x64-windows" "-DVCPKG_SET_CHARSET_FLAG=ON" "-DVCPKG_PLATFORM_TOOLSET=v145" "-DCMAKE_EXPORT_NO_PACKAGE_REGISTRY=ON" "-DCMAKE_FIND_PACKAGE_NO_PACKAGE_REGISTRY=ON" "-DCMAKE_FIND_PACKAGE_NO_SYSTEM_PACKAGE_REGISTRY=ON" "-DCMAKE_INSTALL_SYSTEM_RUNTIME_LIBS_SKIP=TRUE" "-DCMAKE_VERBOSE_MAKEFILE=ON" "-DVCPKG_APPLOCAL_DEPS=OFF" "-DCMAKE_TOOLCHAIN_FILE=C:/Program Files (x86)/Microsoft Visual Studio/18/BuildTools/VC/vcpkg/scripts/buildsystems/vcpkg.cmake" "-DCMAKE_ERROR_ON_ABSOLUTE_INSTALL_DESTINATION=ON" "-DVCPKG_CXX_FLAGS=" "-DVCPKG_CXX_FLAGS_RELEASE=" "-DVCPKG_CXX_FLAGS_DEBUG=" "-DVCPKG_C_FLAGS=" "-DVCPKG_C_FLAGS_RELEASE=" "-DVCPKG_C_FLAGS_DEBUG=" "-DVCPKG_CRT_LINKAGE=dynamic" "-DVCPKG_LINKER_FLAGS=" "-DVCPKG_LINKER_FLAGS_RELEASE=" "-DVCPKG_LINKER_FLAGS_DEBUG=" "-DVCPKG_TARGET_ARCHITECTURE=x64" "-DCMAKE_INSTALL_LIBDIR:STRING=lib" "-DCMAKE_INSTALL_BINDIR:STRING=bin" "-D_VCPKG_ROOT_DIR=C:/Program Files (x86)/Microsoft Visual Studio/18/BuildTools/VC/vcpkg" "-DZ_VCPKG_ROOT_DIR=C:/Program Files (x86)/Microsoft Visual Studio/18/BuildTools/VC/vcpkg" "-D_VCPKG_INSTALLED_DIR=C:/Users/Nico/Documents/GitHub/CyberCba2077/vcpkg_installed" "-DVCPKG_MANIFEST_INSTALL=OFF"
+-- The C compiler identification is MSVC 19.50.35728.0
+-- The CXX compiler identification is MSVC 19.50.35728.0
+#COMPILER_HASH#c6a6176a55e308de3b1f75a75193247917e32c0e
+#COMPILER_C_HASH#775b18172d903633ca920127a8a1f02950513204
+#COMPILER_C_VERSION#19.50.35728.0
+#COMPILER_C_ID#MSVC
+#COMPILER_C_PATH#C:/Program Files (x86)/Microsoft Visual Studio/18/BuildTools/VC/Tools/MSVC/14.50.35717/bin/Hostx64/x64/cl.exe
+#COMPILER_CXX_HASH#775b18172d903633ca920127a8a1f02950513204
+#COMPILER_CXX_VERSION#19.50.35728.0
+#COMPILER_CXX_ID#MSVC
+#COMPILER_CXX_PATH#C:/Program Files (x86)/Microsoft Visual Studio/18/BuildTools/VC/Tools/MSVC/14.50.35717/bin/Hostx64/x64/cl.exe
+-- Configuring done (2.2s)
+-- Generating done (0.0s)
+CMake Warning:
+  Manually-specified variables were not used by the project:
+
+    BUILD_SHARED_LIBS
+    CMAKE_INSTALL_BINDIR
+    CMAKE_INSTALL_LIBDIR
+    _VCPKG_ROOT_DIR
+
+
+-- Build files have been written to: C:/Users/Nico/Documents/GitHub/CyberCba2077/vcpkg_installed/vcpkg/blds/detect_compiler/x64-windows-rel

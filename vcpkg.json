@@ -1,6 +1,7 @@
 {
   "name": "cyberpunk-cordoba-2077",
   "version-string": "0.1.0",
+  "builtin-baseline": "b02e341c927f16d991edbd915d8ea43eac52096c",
   "dependencies": [
     "gtest",
     "benchmark"

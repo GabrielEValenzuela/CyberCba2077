@@ -1,0 +1,9 @@
+{
+	"InstallScripts" : 
+	[
+		"C:/Users/Nico/Documents/GitHub/CyberCba2077/vcpkg_installed/vcpkg/blds/gtest/x64-windows-rel/cmake_install.cmake",
+		"C:/Users/Nico/Documents/GitHub/CyberCba2077/vcpkg_installed/vcpkg/blds/gtest/x64-windows-rel/googlemock/cmake_install.cmake",
+		"C:/Users/Nico/Documents/GitHub/CyberCba2077/vcpkg_installed/vcpkg/blds/gtest/x64-windows-rel/googletest/cmake_install.cmake"
+	],
+	"Parallel" : false
+}

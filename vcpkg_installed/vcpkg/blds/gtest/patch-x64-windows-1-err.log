@@ -1,0 +1,3 @@
+Checking patch googletest/include/gtest/gtest-matchers.h...
+Hunk #1 succeeded at 387 (offset -16 lines).
+Applied patch googletest/include/gtest/gtest-matchers.h cleanly.

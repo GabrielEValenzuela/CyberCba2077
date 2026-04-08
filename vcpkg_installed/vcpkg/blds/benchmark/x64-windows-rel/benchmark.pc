@@ -1,0 +1,12 @@
+prefix=C:/Users/Nico/Documents/GitHub/CyberCba2077/vcpkg_installed/vcpkg/pkgs/benchmark_x64-windows
+exec_prefix=${prefix}
+libdir=C:/Users/Nico/Documents/GitHub/CyberCba2077/vcpkg_installed/vcpkg/pkgs/benchmark_x64-windows/lib
+includedir=C:/Users/Nico/Documents/GitHub/CyberCba2077/vcpkg_installed/vcpkg/pkgs/benchmark_x64-windows/include
+
+Name: benchmark
+Description: Google microbenchmark framework
+Version: 1.9.1
+
+Libs: -L${libdir} -lbenchmark
+Libs.private: -lpthread 
+Cflags: -I${includedir}
