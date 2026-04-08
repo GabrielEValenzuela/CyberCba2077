@@ -1,7 +1,0 @@
-libdir=C:/Users/Nico/Documents/GitHub/CyberCba2077/vcpkg_installed/vcpkg/pkgs/benchmark_x64-windows/debug/lib
-
-Name: benchmark
-Description: Google microbenchmark framework (with main() function)
-Version: 1.9.1
-Requires: benchmark
-Libs: -L${libdir} -lbenchmark_main
