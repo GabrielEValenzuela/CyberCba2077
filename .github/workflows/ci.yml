@@ -98,10 +98,11 @@ jobs:
             vcpkg-${{ runner.os }}-
 
       - name: Bootstrap vcpkg
-        if: steps.cache-vcpkg.outputs.cache-hit != 'true'
-        run: |
-          git clone https://github.com/microsoft/vcpkg.git
-          ./vcpkg/bootstrap-vcpkg.sh
+      if: steps.cache-vcpkg.outputs.cache-hit != 'true'
+      run: |
+       rm -rf vcpkg
+      git clone https://github.com/microsoft/vcpkg.git
+      ./vcpkg/bootstrap-vcpkg.sh
 
       # -----------------------------------
       # ccache
