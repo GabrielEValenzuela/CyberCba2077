@@ -1,5 +1,5 @@
 #include "common/types.hpp"
-#include "controller/alertCommand.hpp"
+#include "alertCommand.hpp"
 #include "controller/commandRegistry.hpp"
 #include "helpCommand.hpp"
 #include "model/gameModel.hpp"
