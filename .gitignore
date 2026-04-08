@@ -48,3 +48,4 @@ cmake-build-*/
 compile_commands.json
 _assets/
 vcpkg_installed/
+vcpkg/
