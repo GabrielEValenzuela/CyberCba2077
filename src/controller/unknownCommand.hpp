@@ -18,7 +18,8 @@
 
 namespace CyberpunkCba
 {
-    class CommandRegistry;  //avisarle al compilador que existe CommandRegistry, para usarlo en los comentarios de CommandRegistry::dispatch().
+    class CommandRegistry; // avisarle al compilador que existe CommandRegistry, para usarlo en los comentarios de
+                           // CommandRegistry::dispatch().
 
     class UnknownCommand final : public Command
     {
@@ -41,7 +42,8 @@ namespace CyberpunkCba
         std::string category() const override;
 
         std::string m_input;
-        const CommandRegistry& m_registry; //guardo la referencia a la tabla de comandos para mostrarla en el mensaje de error, si es que el usuario escribió un comando similar a uno conocido.
+        const CommandRegistry& m_registry; // guardo la referencia a la tabla de comandos para mostrarla en el mensaje
+                                           // de error, si es que el usuario escribió un comando similar a uno conocido.
     };
 
 } // namespace CyberpunkCba
