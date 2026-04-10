@@ -15,12 +15,14 @@ namespace CyberpunkCba
     static constexpr std::string_view COLOR_CYAN {"\033[36m"};
     static constexpr std::string_view COLOR_RESET {"\033[0m"};
     static constexpr int BAR_WIDTH {20};
+    static constexpr int MAX_ALERT {static_cast<int>(AlertLevel::Maximum)};
 
     void StatusCommand::execute(GameModel& model)
     {
         const auto hpBar {renderBar(model.hp(), model.maxHp(), BAR_WIDTH)};
         const auto status {deriveRunnerStatus(model.hp(), model.maxHp())};
         const auto alertStr {alertLevelToString(model.alertLevel())};
+        const auto alertBar {renderBar(static_cast<int>(model.alertLevel()), MAX_ALERT, BAR_WIDTH)};
         const auto todStr {timeOfDayToString(model.timeOfDay())};
         const auto hpColor {model.isCriticalHp() ? COLOR_RED : COLOR_GREEN};
 
@@ -37,9 +39,9 @@ namespace CyberpunkCba
                   << "  Créditos: " << COLOR_YELLOW << model.credits() << " cr" << COLOR_RESET << "\n"
                   << "\n"
                   << "  Zona    : " << model.currentZone() << "\n"
-                  << "  Alerta  : " << alertStr << "\n"
-                  << "  Turno   : " << todStr << "  (" << std::setw(2) << std::setfill('0') << model.currentHour()
-                  << ":" << std::setw(2) << std::setfill('0') << model.currentMinute() << ")\n"
+                  << "  Alerta  : " << COLOR_RED << alertBar << " " << alertStr << "\n"
+                  << COLOR_RESET << "  Turno   : " << todStr << "  (" << std::setw(2) << std::setfill('0')
+                  << model.currentHour() << ":" << std::setw(2) << std::setfill('0') << model.currentMinute() << ")\n"
                   << "\n"
                   << "  Comandos ejecutados: " << model.commandCount() << "\n"
                   << "\n";
