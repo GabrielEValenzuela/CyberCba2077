@@ -181,6 +181,18 @@ namespace CyberpunkCba
                 return false;
             }
 
+            // Convierte EntityDisposition a string canónico persistible.
+            [[nodiscard]] const char* dispositionToString(const EntityDisposition disposition) noexcept
+            {
+                switch (disposition)
+                {
+                    case EntityDisposition::Friendly: return "Friendly";
+                    case EntityDisposition::Neutral: return "Neutral";
+                    case EntityDisposition::Hostile: return "Hostile";
+                }
+                return "Neutral";
+            }
+
             // Convierte string a Faction. Retorna false si no es válido.
             bool toFaction(const std::string& s, Faction& out)
             {
@@ -497,9 +509,9 @@ namespace CyberpunkCba
                 }
 
                 std::istringstream ss {line};
-                std::string type, amountStr, concept;
+                std::string type, amountStr, description;
 
-                if (!nextField(ss, type) || !nextField(ss, amountStr) || !nextField(ss, concept))
+                if (!nextField(ss, type) || !nextField(ss, amountStr) || !nextField(ss, description))
                 {
                     warnInvalidLine(path, lineNumber, line);
                     continue;
@@ -512,7 +524,7 @@ namespace CyberpunkCba
                     continue;
                 }
 
-                result.push_back({type, amount, concept});
+                result.push_back({type, amount, description});
             }
             return result;
         }
@@ -638,17 +650,17 @@ namespace CyberpunkCba
             assert(!entry.name.empty());
             std::ofstream file;
             openForAppend(path, file);
-            file << entry.name << SEPARATOR << entityDispositionToString(entry.disposition) << SEPARATOR
+            file << entry.name << SEPARATOR << dispositionToString(entry.disposition) << SEPARATOR
                  << entry.distanceMeters << "\n";
         }
 
         void appendTransaction(const Transaction& entry, const std::filesystem::path& path)
         {
             assert(entry.amount >= 0);
-            assert(!entry.concept.empty());
+            assert(!entry.description.empty());
             std::ofstream file;
             openForAppend(path, file);
-            file << entry.type << SEPARATOR << entry.amount << SEPARATOR << entry.concept << "\n";
+            file << entry.type << SEPARATOR << entry.amount << SEPARATOR << entry.description << "\n";
         }
 
         void appendPurchase(const PurchaseEntry& entry, const std::filesystem::path& path)
