@@ -9,7 +9,7 @@
 #include <vector>
 
 /**
- * @file FileIO.hpp
+ * @file fileIO.hpp
  * @brief Structs de dominio  y funciones de lectura/escritura de archivos.
  *
  * @details
@@ -89,13 +89,13 @@ namespace CyberpunkCba
      *
      * @invariant !type.empty()
      * @invariant amount >= 0
-     * @invariant !concept.empty()
+     * @invariant !description.empty()
      */
     struct Transaction
     {
-        std::string type;    ///< "ingreso" o "gasto"
-        int amount;          ///< Monto en créditos. >= 0.
-        std::string concept; ///< Descripción de la transacción.
+        std::string type;        ///< "ingreso" o "gasto"
+        int amount;              ///< Monto en créditos. >= 0.
+        std::string description; ///< Descripción de la transacción.
     };
 
     /**

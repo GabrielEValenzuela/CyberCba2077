@@ -255,6 +255,18 @@ TEST_F(TempDir, LoadEntities_NegativeDistance_LineIgnored)
     EXPECT_EQ(loadEntities(tmp("entities.txt")).size(), 1u);
 }
 
+TEST_F(TempDir, LoadEntities_UnknownDisposition_LineIgnored)
+{
+    write("entities.txt", "Entidad|Unknown|10\nBuena|Neutral|10\n");
+
+    const auto result {loadEntities(tmp("entities.txt"))};
+
+    ASSERT_EQ(result.size(), 1u);
+    EXPECT_EQ(result[0].name, "Buena");
+    EXPECT_EQ(result[0].disposition, EntityDisposition::Neutral);
+    EXPECT_EQ(result[0].distanceMeters, 10);
+}
+
 // =============================================================================
 // loadReputation
 // =============================================================================
@@ -310,7 +322,7 @@ TEST_F(TempDir, LoadWallet_ValidLines_ParsedCorrectly)
     ASSERT_EQ(result.size(), 2u);
     EXPECT_EQ(result[0].type, "ingreso");
     EXPECT_EQ(result[0].amount, 500);
-    EXPECT_EQ(result[0].concept, "misión completada");
+    EXPECT_EQ(result[0].description, "misión completada");
     EXPECT_EQ(result[1].type, "gasto");
     EXPECT_EQ(result[1].amount, 80);
 }
@@ -455,11 +467,21 @@ TEST_F(TempDir, AppendEntity_RoundTrip)
 {
     const auto path {tmp("entities.txt")};
     appendEntity({"Corporativo", EntityDisposition::Hostile, 120}, path);
+    appendEntity({"Aliado", EntityDisposition::Friendly, 80}, path);
+    appendEntity({"Civil", EntityDisposition::Neutral, 25}, path);
+
     const auto result {loadEntities(path)};
-    ASSERT_EQ(result.size(), 1u);
+
+    ASSERT_EQ(result.size(), 3u);
     EXPECT_EQ(result[0].name, "Corporativo");
     EXPECT_EQ(result[0].disposition, EntityDisposition::Hostile);
     EXPECT_EQ(result[0].distanceMeters, 120);
+    EXPECT_EQ(result[1].name, "Aliado");
+    EXPECT_EQ(result[1].disposition, EntityDisposition::Friendly);
+    EXPECT_EQ(result[1].distanceMeters, 80);
+    EXPECT_EQ(result[2].name, "Civil");
+    EXPECT_EQ(result[2].disposition, EntityDisposition::Neutral);
+    EXPECT_EQ(result[2].distanceMeters, 25);
 }
 
 // =============================================================================
@@ -474,7 +496,7 @@ TEST_F(TempDir, AppendTransaction_RoundTrip)
     ASSERT_EQ(result.size(), 1u);
     EXPECT_EQ(result[0].type, "gasto");
     EXPECT_EQ(result[0].amount, 80);
-    EXPECT_EQ(result[0].concept, "deck de hackeo");
+    EXPECT_EQ(result[0].description, "deck de hackeo");
 }
 
 // =============================================================================
