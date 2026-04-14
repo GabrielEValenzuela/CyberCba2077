@@ -30,6 +30,8 @@ namespace CyberpunkCba
         , m_hackCost {HACK_COST}
         , m_commandCount {0}
         , m_sessionStart {std::chrono::steady_clock::now()}
+        , m_sprintsCompleted {0}
+        , m_mergedPRs {0}
         , m_running {true}
     {
         assert(!m_playerName.empty());
@@ -235,6 +237,16 @@ namespace CyberpunkCba
     int GameModel::commandCount() const noexcept
     {
         return m_commandCount;
+    }
+
+    int GameModel::sprintsCompleted() const noexcept
+    {
+        return m_sprintsCompleted;
+    }
+
+    int GameModel::mergedPRs() const noexcept
+    {
+        return m_mergedPRs;
     }
 
     std::chrono::seconds GameModel::sessionDuration() const noexcept

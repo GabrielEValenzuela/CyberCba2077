@@ -32,8 +32,12 @@ add_library(cyberpunk_lib STATIC
   src/controller/scanCommand.cpp
   src/controller/statusCommand.cpp
   src/controller/unknownCommand.cpp
+<<<<<<< feature/CommandCredits
+  src/controller/commandCredits.cpp
+=======
         include/common/fileIO.hpp
         src/common/fileIO.cpp
+>>>>>>> development
 )
 
 target_include_directories(cyberpunk_lib
@@ -64,8 +68,12 @@ if(CYBERPUNK_BUILD_TESTS)
     tests/common/types_test.cpp
     tests/model/gameModel_test.cpp
     tests/controller/commandRegistry_test.cpp
+<<<<<<< feature/CommandCredits
+    tests/controller/commandCredits_test.cpp
+=======
     tests/common/fileIO_test.cpp
     tests/controller/scanCommand_test.cpp
+>>>>>>> development
   )
 
   target_include_directories(unit_tests PRIVATE
