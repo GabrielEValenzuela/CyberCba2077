@@ -43,14 +43,21 @@ namespace CyberpunkCba
         {
             maxRoleWidth = std::max(maxRoleWidth, member.role.length());
         }
+        std::ios::fmtflags oldFlags = std::cout.flags();
+        char oldFill = std::cout.fill();
+
         for (const auto& member : m_team)
         {
             std::cout << std::left << std::setw(static_cast<int>(maxRoleWidth)) << member.role << " | " << member.name
                       << "\n";
         }
-        std::cout << "\n--- ESTADISTICAS DE LA SESION ---\n";
-        std::cout << "Comandos ejecutados: " << model.commandCount() << "\n";
-        std::cout << "HP actual:           " << model.hp() << "\n";
+
+        std::cout.flags(oldFlags);
+        std::cout.fill(oldFill);
+
+        std::cout << "\n--- METRICAS DE LA SESION ---\n";
+        std::cout << "Sprints completados: " << model.sprintsCompleted() << "\n";
+        std::cout << "PRs fusionados:      " << model.mergedPRs() << "\n";
     }
 
     std::string CommandCredits::name() const

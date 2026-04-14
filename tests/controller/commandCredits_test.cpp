@@ -58,13 +58,30 @@ TEST_F(CommandCreditsTest, HappyPathEquipoCompleto)
 
 TEST_F(CommandCreditsTest, PaddingCalculadoCorrectamente)
 {
-    std::vector<TeamMember> team = {{"Ana", "Dev"}, {"Carlos", "Senior Software Engineer"}};
+    std::vector<TeamMember> team = {{"Ana", "Dev"}, {"Carlos", "Software Engineer"}};
     CommandCredits cmd(team, "TeamTest");
     Command& baseCmd = cmd;
     baseCmd.execute(model);
     std::string output = buffer.str();
-    std::string lineaEsperada = "Dev";
-    lineaEsperada.append(21, ' ');
+
+    // Calculamos el padding esperado en función del rol más largo
+    std::string rolReferencia = "Dev";
+    size_t maxRoleLength = 0;
+    for (const auto& miembro : team)
+    {
+        if (miembro.role.length() > maxRoleLength)
+        {
+            maxRoleLength = miembro.role.length();
+        }
+    }
+    size_t padding = 0;
+    if (maxRoleLength > rolReferencia.length())
+    {
+        padding = maxRoleLength - rolReferencia.length();
+    }
+
+    std::string lineaEsperada = rolReferencia;
+    lineaEsperada.append(padding, ' ');
     lineaEsperada += " | Ana";
     EXPECT_TRUE(output.find(lineaEsperada) != std::string::npos);
 }

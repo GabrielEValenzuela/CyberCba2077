@@ -1,5 +1,5 @@
-#ifndef _CREDITS_COMMAND_HPP
-#define _CREDITS_COMMAND_HPP
+#ifndef COMMAND_CREDITS_HPP
+#define COMMAND_CREDITS_HPP
 
 /**
  * @file commandCredits.hpp

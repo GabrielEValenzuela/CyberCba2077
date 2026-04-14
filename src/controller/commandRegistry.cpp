@@ -8,6 +8,7 @@
 // ============================================================
 // ZONA DE EQUIPOS — agregar un #include por equipo
 // ============================================================
+#include "controller/commandCredits.hpp"
 
 // ============================================================
 // FIN ZONA DE EQUIPOS
@@ -113,7 +114,8 @@ namespace CyberpunkCba
         // ZONA DE EQUIPOS — agregar una línea por equipo
         // Formato: registry.add(std::make_unique<TuComandoCommand>());
         // ============================================================
-
+        std::vector<CyberpunkCba::TeamMember> team = {{"Ana", "Dev"}, {"Juan", "Software Engineer"}, {"Lucas", "QA"}};
+        registry.add(std::make_unique<CyberpunkCba::CommandCredits>(team, "DreamTeam"));
         // ============================================================
         // FIN ZONA DE EQUIPOS
         // ============================================================
