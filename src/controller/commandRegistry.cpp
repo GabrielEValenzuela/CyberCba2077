@@ -2,6 +2,7 @@
 
 // Comandos del instructor — completos
 #include "helpCommand.hpp"
+#include "scanCommand.hpp"
 #include "statusCommand.hpp"
 #include "unknownCommand.hpp"
 
@@ -116,6 +117,8 @@ namespace CyberpunkCba
         // ============================================================
         std::vector<CyberpunkCba::TeamMember> team = {{"Ana", "Dev"}, {"Juan", "Software Engineer"}, {"Lucas", "QA"}};
         registry.add(std::make_unique<CyberpunkCba::CommandCredits>(team, "DreamTeam"));
+        registry.add(std::make_unique<ScanCommand>());
+
         // ============================================================
         // FIN ZONA DE EQUIPOS
         // ============================================================
