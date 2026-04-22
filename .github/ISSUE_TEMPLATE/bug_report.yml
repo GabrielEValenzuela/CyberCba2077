@@ -1,0 +1,145 @@
+name: "Bug Report"
+description: "Report a defect, regression, or unexpected behavior in CyberCba2077"
+title: "[BUG] "
+labels: ["bug", "needs-triage"]
+assignees: []
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for reporting a bug.
+        
+        Please provide enough detail so the team can reproduce, prioritize, and fix the issue efficiently.
+        A good bug report should explain:
+        - what happened
+        - what you expected to happen
+        - how to reproduce it
+        - what part of the system is affected
+
+  - type: dropdown
+    id: area
+    attributes:
+      label: Affected area
+      description: Select the primary area affected by the bug.
+      options:
+        - engine
+        - gameplay
+        - ui
+        - build
+        - docs
+        - tests
+        - other
+    validations:
+      required: true
+
+  - type: dropdown
+    id: severity
+    attributes:
+      label: Severity
+      description: How serious is this bug?
+      options:
+        - critical
+        - high
+        - medium
+        - low
+    validations:
+      required: true
+
+  - type: input
+    id: branch_commit
+    attributes:
+      label: Branch / Commit
+      description: Provide the branch name or commit SHA where the issue was observed.
+      placeholder: "feature/command-parser or a1b2c3d"
+    validations:
+      required: true
+
+  - type: textarea
+    id: summary
+    attributes:
+      label: Summary
+      description: Briefly describe the bug in 2-5 lines.
+      placeholder: "When the player enters an invalid command, the parser crashes instead of returning an error."
+    validations:
+      required: true
+
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to reproduce
+      description: Provide a clear, minimal, reproducible scenario.
+      placeholder: |
+        1. Build the project in Debug mode
+        2. Launch the game
+        3. Open the console
+        4. Execute command `spawn --invalid`
+        5. Observe the crash
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected_behavior
+    attributes:
+      label: Expected behavior
+      description: What should have happened?
+      placeholder: "The parser should reject the command and return a validation error without crashing."
+    validations:
+      required: true
+
+  - type: textarea
+    id: actual_behavior
+    attributes:
+      label: Actual behavior
+      description: What actually happened?
+      placeholder: "The game terminates with a segmentation fault."
+    validations:
+      required: true
+
+  - type: textarea
+    id: evidence
+    attributes:
+      label: Evidence
+      description: Add logs, screenshots, stack traces, sanitizer output, or console output if available.
+      placeholder: |
+        Paste error logs here.
+        Example:
+        AddressSanitizer: heap-use-after-free ...
+    validations:
+      required: false
+
+  - type: textarea
+    id: environment
+    attributes:
+      label: Environment
+      description: Describe the environment where the issue occurs.
+      placeholder: |
+        OS: Ubuntu 24.04
+        Compiler: clang++ 18
+        Build type: Debug
+        Sanitizers: ASan + UBSan
+    validations:
+      required: true
+
+  - type: textarea
+    id: scope_impact
+    attributes:
+      label: Scope / impact
+      description: What modules, features, or user flows appear to be affected?
+      placeholder: "Affects command parsing and game state transitions after console input."
+    validations:
+      required: true
+
+  - type: checkboxes
+    id: checklist
+    attributes:
+      label: Reporter checklist
+      description: Confirm the following before submitting.
+      options:
+        - label: I searched for existing issues and did not find a duplicate.
+          required: true
+        - label: I included reproducible steps.
+          required: true
+        - label: I described expected and actual behavior.
+          required: true
+        - label: I attached logs, screenshots, or evidence when available.
+          required: false

@@ -1,0 +1,137 @@
+name: "Feature Request"
+description: "Propose a new feature or enhancement for CyberCba2077"
+title: "[FEATURE] "
+labels: ["feature", "needs-triage"]
+assignees: []
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for proposing a feature.
+        
+        A strong feature request should explain:
+        - the problem or need
+        - the proposed outcome
+        - why it matters
+        - how success will be validated
+
+  - type: dropdown
+    id: area
+    attributes:
+      label: Target area
+      description: Select the primary area where this feature belongs.
+      options:
+        - engine
+        - gameplay
+        - ui
+        - build
+        - docs
+        - tests
+        - other
+    validations:
+      required: true
+
+  - type: dropdown
+    id: priority
+    attributes:
+      label: Suggested priority
+      description: Initial prioritization proposal.
+      options:
+        - high
+        - medium
+        - low
+    validations:
+      required: true
+
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem / opportunity
+      description: What problem are we trying to solve, or what opportunity are we trying to unlock?
+      placeholder: |
+        Players cannot inspect inventory items from the console, which limits testing and gameplay feedback.
+    validations:
+      required: true
+
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposed solution
+      description: Describe the proposed feature clearly and concretely.
+      placeholder: |
+        Add a console command `inventory list` that displays the current inventory with item name, quantity, and rarity.
+    validations:
+      required: true
+
+  - type: textarea
+    id: value
+    attributes:
+      label: Expected value
+      description: Why is this feature useful for the project, team, or player experience?
+      placeholder: |
+        This improves debuggability, usability, and gameplay visibility during development and manual testing.
+    validations:
+      required: true
+
+  - type: textarea
+    id: acceptance_criteria
+    attributes:
+      label: Acceptance criteria
+      description: Define the concrete criteria that must be met for this feature to be considered done.
+      placeholder: |
+        - A new command `inventory list` is available
+        - The command prints all inventory items
+        - Empty inventory is handled gracefully
+        - Unit tests cover normal and edge cases
+    validations:
+      required: true
+
+  - type: textarea
+    id: technical_notes
+    attributes:
+      label: Technical considerations
+      description: Mention architecture, modules, contracts, constraints, or dependencies that should be considered.
+      placeholder: |
+        Consider reusing the existing command registry.
+        Avoid coupling the command directly to UI rendering code.
+        Preserve modularity between gameplay logic and console layer.
+    validations:
+      required: true
+
+  - type: textarea
+    id: risks
+    attributes:
+      label: Risks / trade-offs
+      description: What could be impacted or complicated by this change?
+      placeholder: |
+        May require exposing inventory read APIs.
+        Risk of mixing gameplay and presentation responsibilities.
+    validations:
+      required: false
+
+  - type: textarea
+    id: evidence_mockups
+    attributes:
+      label: Mockups / examples / references
+      description: Optional. Add sketches, screenshots, command examples, or references.
+      placeholder: |
+        Example output:
+        [1] Potion x3
+        [2] Sword x1
+    validations:
+      required: false
+
+  - type: checkboxes
+    id: checklist
+    attributes:
+      label: Requester checklist
+      description: Confirm the following before submitting.
+      options:
+        - label: I searched for existing issues and did not find a duplicate.
+          required: true
+        - label: I described the problem, not only the solution.
+          required: true
+        - label: I included measurable acceptance criteria.
+          required: true
+        - label: I considered technical impact and scope.
+          required: true

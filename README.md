@@ -1,4 +1,4 @@
-# 🌆 Cyberpunk Córdoba 2077 ![CI](https://github.com/<owner>/<repo>/actions/workflows/ci.yml/badge.svg)
+# 🌆 Cyberpunk Córdoba 2077 ![CI](https://github.com/GabrielEValenzuela/CyberCba2077/actions/workflows/ci.yml/badge.svg)
 
 > Año 2077.  
 > Córdoba ya no es la que conocías.  
@@ -17,8 +17,8 @@ Es un laboratorio vivo donde cada estructura que implementes tendrá impacto rea
 ## 👥 Equipo de desarrollo
 
 - Gabi Valenzuela ([@GabrielEValenzuela](https://github.com/GabrielEValenzuela)) - Lider de proyecto.
+- Ramiro Navarro ([@RamiroNavarro01](https://github.com/RamiroNavarro01)) - Desarrollador.
 - Marcos Rusconi ([@b0nusonline](https://github.com/b0nusonline)) - Desarrollador
-- Erick Economou ([@ErickEconomou](https://github.com/ErickEconomou)) - Desarrollador
 
 ---
 
