@@ -1,73 +1,89 @@
-#ifndef _INVENTORY_COMMAND_HPP
-#define _INVENTORY_COMMAND_HPP
+#ifndef INVENTORY_COMMAND_HPP
+#define INVENTORY_COMMAND_HPP
 
 #include "controller/command.hpp"
 #include "common/types.hpp"
+#include "model/gameModel.hpp"
 
+#include <cstddef>
 #include <string>
 #include <vector>
 
 /**
-
-@file InventoryCommand.hpp
-@brief Header privado de InventoryCommand.*
-@details
-Este header NO es parte de la API pública del sistema.
-Solo debe ser incluido por InventoryCommand.cpp.
-La API pública es Command.hpp.*
-@author Equipo 01 — Exodus Systems Inc.
-@version 0.1.0*/
+ * @file InventoryCommand.hpp
+ * @brief Header privado de InventoryCommand.
+ *
+ * @details
+ * Este header NO es parte de la API pública del sistema.
+ * Solo debe ser incluido por InventoryCommand.cpp.
+ * La API pública es Command.hpp.
+ *
+ * @author Equipo 01 — Exodus Systems Inc.
+ * @version 0.2.0
+ */
 
 namespace CyberpunkCba
 {
 
-    /**
-
-@class InventoryCommand
-@brief Muestra el inventario completo del jugador.*
-@details
-Muestra los ítems disponibles en la mochila del jugador junto con
-su cantidad, el valor total en créditos y una barra visual de
-capacidad. Alerta al jugador si el inventario está vacío o lleno.*/
-class InventoryCommand final : public Command{
+/**
+ * @class InventoryCommand
+ * @brief Muestra el inventario completo del jugador.
+ *
+ * @details
+ * Lee el inventario desde archivo, calcula el valor total de forma
+ * recursiva con inventoryValue() y lo muestra por pantalla.
+ * Si el archivo no existe o está vacío, muestra inventario vacío con
+ * valor 0 sin crashear.
+ */
+class InventoryCommand final : public Command
+{
 public:
-InventoryCommand() = default;
-        ~InventoryCommand() override = default;
+    InventoryCommand()           = default;
+    ~InventoryCommand() override = default;
 
-    private:
-        // Wazuh convention: implementaciones de interfaz son private.
+    /**
+     * @brief Calcula el valor total del inventario de forma recursiva.
+     *
+     * @details
+     * Patrón: acumulación recursiva.\n
+     * Caso base: index == inventory.size() → retorna 0.\n
+     * Caso recursivo: price * quantity del ítem actual +
+     * inventoryValue(inventory, index + 1).\n
+     * Ítems con price < 0 o quantity < 0 son ignorados.
+     *
+     * @param inventory Vector de ítems del inventario.
+     * @param index     Índice actual de procesamiento.
+     * @return Valor total acumulado en créditos. 0 si el vector está vacío.
+     */
+    static int inventoryValue(const std::vector<Item>& inventory,
+                              std::size_t              index);
 
-        /**
 
-@brief Muestra el estado actual del inventario del jugador.
-@details Si el inventario está vacío, muestra mensaje apropiado.
-Complejidad: O(n) donde n = cantidad de ítems.
-@param model No modificado por este comando.
-*/
-void execute(GameModel& model) override;std::string name() const override;std::string description() const override;std::string category() const override;
+private:
+    // Wazuh convention: implementaciones de interfaz son private.
 
-        /**
 
-@brief Calcula el valor total de todos los ítems del inventario.
-@details Usa double para evitar overflow en la multiplicación
-price * quantity con valores grandes.
-@param inventario Vector de ítems del jugador.
-@return Valor total en créditos.
-*/
-double calcularValorTotal(const std::vector<Item>& inventario) const;
+    /**
+     * @brief Muestra el estado actual del inventario del jugador.
+     *
+     * @details
+     * Lee el inventario desde archivo y calcula su valor total.
+     * Si el inventario está vacío, muestra mensaje apropiado.
+     *
+     * @param model GameModel del jugador actual.
+     */
+    void execute(GameModel& model) override;
 
-        /**
+    /// @brief Retorna "inventario".
+    [[nodiscard]] std::string name() const override;
 
-@brief Genera una barra de progreso visual en texto.
-@details Si maximo <= 0 devuelve una barra vacía por defecto.
-Ejemplo de salida: [######.........]
-@param actual Cantidad actual de ítems en el inventario.
-@param maximo Capacidad máxima del inventario.
-@param ancho Ancho total de la barra en caracteres.
-@return String con la barra de progreso formateada.
-*/std::string renderBar(int actual, int maximo, int ancho) const;
+    /// @brief Retorna descripción del comando.
+    [[nodiscard]] std::string description() const override;
+
+    /// @brief Retorna "runner".
+    [[nodiscard]] std::string category() const override;
 };
 
 } // namespace CyberpunkCba
 
-#endif // _INVENTORY_COMMAND_HPP
+#endif // INVENTORY_COMMAND_HPP

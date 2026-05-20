@@ -1,7 +1,7 @@
-#include "common/types.hpp"
-#include "model/gameModel.hpp"
-#include "controller/command.hpp"
 #include "InventoryCommand.hpp"
+#include "common/types.hpp"
+#include "controller/command.hpp"
+#include "model/gameModel.hpp"
 
 #include <gtest/gtest.h>
 #include <iostream>
@@ -34,7 +34,7 @@ protected:
 
     GameModel        m_model {"Ghost_47"};
     InventoryCommand m_cmd;
-    Command&         m_cmdIface {m_cmd};  // acceso por interfaz base (métodos son private)
+    Command&         m_cmdIface {m_cmd};
 };
 
 // =============================================================================
@@ -98,27 +98,30 @@ TEST_F(InventoryCommandTest, OutputShowsInitialItemName)
 
 TEST_F(InventoryCommandTest, OutputShowsInitialItemQuantity)
 {
-    // quantity=1 → debe aparecer "x1"
     const std::string output {captureOutput(m_cmdIface)};
     EXPECT_NE(output.find("x1"), std::string::npos);
 }
 
 TEST_F(InventoryCommandTest, OutputDoesNotShowVacioMessage)
 {
-    // Hay un ítem → no debe mostrar [VACIO]
     const std::string output {captureOutput(m_cmdIface)};
     EXPECT_EQ(output.find("[VACIO]"), std::string::npos);
 }
 
-TEST_F(InventoryCommandTest, OutputDoesNotShowCuidadoWarning)
-{
-    // 1 ítem de 10 → no debe mostrar [CUIDADO]
-    const std::string output {captureOutput(m_cmdIface)};
-    EXPECT_EQ(output.find("[CUIDADO]"), std::string::npos);
-}
+// =============================================================================
+// LEGACY: Tests de la versión anterior con renderBar.
+// Comentados porque la versión actual no implementa barra de carga.
+// =============================================================================
+
+// TEST_F(InventoryCommandTest, OutputDoesNotShowCuidadoWarning) { ... }
+// TEST_F(InventoryCommandTest, LoadBarLabelIsPresent) { ... }
+// TEST_F(InventoryCommandTest, LoadBarHasBrackets) { ... }
+// TEST_F(InventoryCommandTest, LoadBarWidthIsFifteen) { ... }
+// TEST_F(InventoryCommandTest, LoadBarContainsBothHashAndDot) { ... }
+// TEST_F(InventoryCommandTest, OutputContainsAllThreeSections) { ... }
 
 // =============================================================================
-// Valor total — price=80, quantity=1 → 80.0 créditos
+// Valor total
 // =============================================================================
 
 TEST_F(InventoryCommandTest, TotalValueMatchesInitialItem)
@@ -139,69 +142,72 @@ TEST_F(InventoryCommandTest, TotalValueSufixIsCreditos)
     EXPECT_NE(output.find("creditos"), std::string::npos);
 }
 
-// =============================================================================
-// Barra de carga — 1 ítem sobre 10, ancho 15
-// renderBar(1, 10, 15) → 1 '#' y 14 '.'
-// =============================================================================
-
-TEST_F(InventoryCommandTest, LoadBarLabelIsPresent)
-{
-    const std::string output {captureOutput(m_cmdIface)};
-    EXPECT_NE(output.find("Carga actual:"), std::string::npos);
-}
-
-TEST_F(InventoryCommandTest, LoadBarHasBrackets)
-{
-    const std::string output {captureOutput(m_cmdIface)};
-    const auto barStart {output.find('[')};
-    const auto barEnd   {output.find(']', barStart)};
-
-    ASSERT_NE(barStart, std::string::npos);
-    EXPECT_NE(barEnd,   std::string::npos);
-}
-
-TEST_F(InventoryCommandTest, LoadBarWidthIsFifteen)
-{
-    const std::string output {captureOutput(m_cmdIface)};
-    const auto barStart {output.find('[')};
-    const auto barEnd   {output.find(']', barStart)};
-
-    ASSERT_NE(barStart, std::string::npos);
-    ASSERT_NE(barEnd,   std::string::npos);
-
-    const std::size_t barWidth {barEnd - barStart - 1};
-    EXPECT_EQ(barWidth, 15u);
-}
-
-TEST_F(InventoryCommandTest, LoadBarContainsBothHashAndDot)
-{
-    // 1/10 → al menos un '#' y al menos un '.'
-    const std::string output {captureOutput(m_cmdIface)};
-    const auto barStart {output.find('[')};
-    const auto barEnd   {output.find(']', barStart)};
-
-    ASSERT_NE(barStart, std::string::npos);
-    ASSERT_NE(barEnd,   std::string::npos);
-
-    const std::string barContent {output.substr(barStart + 1, barEnd - barStart - 1)};
-    EXPECT_NE(barContent.find('#'), std::string::npos);
-    EXPECT_NE(barContent.find('.'), std::string::npos);
-}
-
-// =============================================================================
-// Estructura general de la salida
-// =============================================================================
-
 TEST_F(InventoryCommandTest, OutputIsNotEmpty)
 {
     const std::string output {captureOutput(m_cmdIface)};
     EXPECT_FALSE(output.empty());
 }
 
-TEST_F(InventoryCommandTest, OutputContainsAllThreeSections)
+TEST_F(InventoryCommandTest, OutputShowsValorTotal)
 {
     const std::string output {captureOutput(m_cmdIface)};
-    EXPECT_NE(output.find("Inventario de"), std::string::npos);
-    EXPECT_NE(output.find("Valor total:"),  std::string::npos);
-    EXPECT_NE(output.find("Carga actual:"), std::string::npos);
+    EXPECT_NE(output.find("Valor total:"), std::string::npos);
+}
+
+TEST_F(InventoryCommandTest, EmptyFileShowsVacioMessage)
+{
+    GameModel        emptyModel {"Runner_Test"};
+    InventoryCommand cmd;
+    Command&         iface {cmd};
+
+    std::ostringstream oss;
+    std::streambuf* old {std::cout.rdbuf(oss.rdbuf())};
+    iface.execute(emptyModel);
+    std::cout.rdbuf(old);
+
+    const std::string output {oss.str()};
+    EXPECT_NE(output.find("[VACIO]"), std::string::npos);
+}
+
+// =============================================================================
+// SET A: inventoryValue — acumulación recursiva
+// =============================================================================
+
+TEST(InventoryValueTest, EmptyInventoryReturnsZero)
+{
+    std::vector<Item> inv;
+    EXPECT_EQ(InventoryCommand::inventoryValue(inv, 0), 0);
+}
+
+TEST(InventoryValueTest, SingleItemReturnsItsPrice)
+{
+    std::vector<Item> inv;
+    inv.push_back({"Pistola", ItemType::Weapon, 100, 1});
+    EXPECT_EQ(InventoryCommand::inventoryValue(inv, 0), 100);
+}
+
+TEST(InventoryValueTest, MultipleItemsSumsCorrectly)
+{
+    std::vector<Item> inv;
+    inv.push_back({"Pistola", ItemType::Weapon,    100, 2});
+    inv.push_back({"Medkit",  ItemType::Consumable,  50, 3});
+    inv.push_back({"Chip",    ItemType::Tech,        200, 1});
+    // 100*2 + 50*3 + 200*1 = 200 + 150 + 200 = 550
+    EXPECT_EQ(InventoryCommand::inventoryValue(inv, 0), 550);
+}
+
+TEST(InventoryValueTest, NegativePriceItemIsIgnored)
+{
+    std::vector<Item> inv;
+    inv.push_back({"ItemMalo",  ItemType::Value, -10, 1});
+    inv.push_back({"ItemBueno", ItemType::Value,  50, 1});
+    EXPECT_EQ(InventoryCommand::inventoryValue(inv, 0), 50);
+}
+
+TEST(InventoryValueTest, NegativeQuantityItemIsIgnored)
+{
+    std::vector<Item> inv;
+    inv.push_back({"ItemMalo",  ItemType::Value, 50, -1});
+    inv.push_back({"ItemBueno", ItemType::Value, 30,  2});
+    EXPECT_EQ(InventoryCommand::inventoryValue(inv, 0), 60);
 }
