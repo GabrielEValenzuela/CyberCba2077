@@ -25,34 +25,33 @@ add_compile_options(-Wall -Wextra -Werror -Wpedantic)
 # Biblioteca estática
 # =============================================================================
 add_library(cyberpunk_lib STATIC
-  src/common/types.cpp
-  src/model/gameModel.cpp
-  src/controller/commandRegistry.cpp
-  src/controller/helpCommand.cpp
-  src/controller/scanCommand.cpp
-  src/controller/statusCommand.cpp
-  src/controller/unknownCommand.cpp
+        src/common/types.cpp
+        src/model/gameModel.cpp
+        src/controller/commandRegistry.cpp
+        src/controller/helpCommand.cpp
+        src/controller/scanCommand.cpp
+        src/controller/statusCommand.cpp
+        src/controller/unknownCommand.cpp
+        src/controller/InventoryCommand.cpp
         include/common/fileIO.hpp
         src/common/fileIO.cpp
 )
 
 target_include_directories(cyberpunk_lib
-  PUBLIC include
-  PRIVATE src/controller
+        PUBLIC include
+        PRIVATE src/controller
 )
 
 # =============================================================================
 # Ejecutable principal
 # =============================================================================
 add_executable(cyberpunk2077
-  src/main.cpp
-  src/ui/console.cpp
+        src/main.cpp
+        src/ui/console.cpp
 )
 
 target_include_directories(cyberpunk2077 PRIVATE include)
 target_link_libraries(cyberpunk2077 PRIVATE cyberpunk_lib)
-
-# TODO: target_link_libraries(cyberpunk2077 PRIVATE raylib)
 
 # =============================================================================
 # Tests (GTest)
@@ -61,21 +60,23 @@ if(CYBERPUNK_BUILD_TESTS)
   find_package(GTest CONFIG REQUIRED)
 
   add_executable(unit_tests
-    tests/common/types_test.cpp
-    tests/model/gameModel_test.cpp
-    tests/controller/commandRegistry_test.cpp
-    tests/common/fileIO_test.cpp
-    tests/controller/scanCommand_test.cpp
+          tests/common/types_test.cpp
+          tests/model/gameModel_test.cpp
+          tests/controller/commandRegistry_test.cpp
+          src/controller/InventoryCommand.cpp
+          tests/controller/CommandInventory_test.cpp
+          tests/common/fileIO_test.cpp
+          tests/controller/scanCommand_test.cpp
   )
 
   target_include_directories(unit_tests PRIVATE
-    include
-    src/controller
+          include
+          src/controller
   )
   target_link_libraries(unit_tests PRIVATE
-    cyberpunk_lib
-    GTest::gtest
-    GTest::gtest_main
+          cyberpunk_lib
+          GTest::gtest
+          GTest::gtest_main
   )
 
   if(CYBERPUNK_ENABLE_COVERAGE)
@@ -95,13 +96,13 @@ if(CYBERPUNK_BUILD_BENCHMARKS)
   find_package(benchmark CONFIG REQUIRED)
 
   add_executable(benchmarks_run
-    benchmarks/bench_gamemodel.cpp
+          benchmarks/bench_gamemodel.cpp
   )
 
   target_include_directories(benchmarks_run PRIVATE include)
   target_link_libraries(benchmarks_run PRIVATE
-    cyberpunk_lib
-    benchmark::benchmark
-    benchmark::benchmark_main
+          cyberpunk_lib
+          benchmark::benchmark
+          benchmark::benchmark_main
   )
 endif()
