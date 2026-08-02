@@ -18,19 +18,22 @@ constexpr Color DIM {152, 181, 197, 255};
 constexpr Color CARD {5, 25, 40, 238};
 constexpr const char* menuItems[] {"CONTINUAR", "NUEVA PARTIDA", "CAPITULOS", "CONFIGURACION", "CREDITOS", "SALIR"};
 constexpr const char* pauseItems[] {"REANUDAR", "OBJETIVOS", "CONFIGURACION", "REINICIAR CHECKPOINT", "VOLVER AL MENU", "SALIR DEL JUEGO"};
-const char* stageObjective(cybercba::PrologueStage stage)
+struct StageObjective { const char* title; const char* description; };
+StageObjective stageObjectiveInfo(cybercba::PrologueStage stage)
 {
     switch (stage)
     {
-        case cybercba::PrologueStage::Shelter: return "Inspecciona el transmisor de La Luciernaga";
-        case cybercba::PrologueStage::Transmission: return "Reconstruye la senal antes de que desaparezca";
-        case cybercba::PrologueStage::Route: return "Recupera las coordenadas del tren 41";
-        case cybercba::PrologueStage::Convergence: return "Escapa del refugio y sigue la linea oeste";
-        case cybercba::PrologueStage::Epilogue: return "Llega a la entrada abandonada del Neometro";
-        case cybercba::PrologueStage::Complete: return "Prologo completado";
+        case cybercba::PrologueStage::Shelter: return {"LA SENAL IMPOSIBLE", "Descubri quien reactivo el transmisor de La Luciernaga."};
+        case cybercba::PrologueStage::Transmission: return {"RECUPERAR EL ENLACE", "Reconstrui la transmision antes de perder la senal."};
+        case cybercba::PrologueStage::Route: return {"TREN 41", "Recupera las coordenadas antes de que la ruta se cierre."};
+        case cybercba::PrologueStage::Convergence: return {"LINEA OESTE", "Escapa del refugio y sigue la linea oeste hasta el Neometro."};
+        case cybercba::PrologueStage::Epilogue: return {"EL ULTIMO CONVOY", "Llega a la entrada abandonada del Neometro."};
+        case cybercba::PrologueStage::Complete: return {"PROLOGO COMPLETADO", "La senal se perdio, pero alguien respondio."};
     }
-    return "";
+    return {"", ""};
 }
+// Back-compat short form used where only a single line fits (HUD objective card, menu status line).
+const char* stageObjective(cybercba::PrologueStage stage) { return stageObjectiveInfo(stage).description; }
 bool inRect(Vector2 p, float x, float y, float width, float height)
 {
     return p.x >= x && p.x <= x + width && p.y >= y && p.y <= y + height;
@@ -427,7 +430,8 @@ void GameApp::drawHud() const
     if (!showCombatHud) return;
     DrawRectangle(28, 22, 220, 52, Color {3, 16, 29, 210}); drawText("SALUD", 42, 31, 13, DIM); DrawRectangle(42, 48, 190, 9, Color {40, 55, 65, 255}); DrawRectangle(42, 48, static_cast<int>(190 * player.health / 100.0F), 9, NlmColors::AMBER);
     drawText(selected == cybercba::CharacterId::Emma ? "ENLACE" : "STAMINA", 42, 61, 13, DIM); DrawRectangle(112, 64, 120, 7, Color {40, 55, 65, 255}); DrawRectangle(112, 64, static_cast<int>(120 * player.stamina / 100.0F), 7, selected == cybercba::CharacterId::Emma ? NlmColors::CYAN : NlmColors::AMBER);
-    DrawRectangle(895, 20, 355, 42, Color {3, 16, 29, 205}); drawText(stageObjective(m_session.campaign().stage), 912, 33, 15, NlmColors::TEXT);
+    const StageObjective objective = stageObjectiveInfo(m_session.campaign().stage);
+    DrawRectangle(895, 20, 355, 42, Color {3, 16, 29, 205}); drawText(objective.title, 912, 26, 13, NlmColors::AMBER); drawText(objective.description, 912, 42, 13, NlmColors::TEXT);
 }
 void GameApp::drawShelterShell() const
 {
@@ -613,7 +617,16 @@ void GameApp::drawChapters() const
 }
 void GameApp::drawObjectives() const
 {
-    drawOverlay("MISION ACTUAL", "LA ULTIMA TRANSMISION\n\nPRINCIPAL\n[OK] Revisa el transmisor.\n[OK] Sal del refugio.\n[ ] " + std::string(stageObjective(m_session.campaign().stage)) + "\n\nEVIDENCIAS\n[•] Simbolo de La Luciernaga\n[•] Registro del tren 41", devicePrompt("O o ESC: volver", "View o B: volver"));
+    const auto stage = m_session.campaign().stage;
+    const auto rank = static_cast<int>(stage);
+    const StageObjective objective = stageObjectiveInfo(stage);
+    std::string body = "LA ULTIMA TRANSMISION\n\nOBJETIVO ACTUAL\n" + std::string(objective.title) + "\n" + objective.description + "\n\nBITACORA\n";
+    body += rank > static_cast<int>(cybercba::PrologueStage::Shelter) ? "[OK] " : "[ ] "; body += "La senal impossible: descubrir quien reactivo el transmisor.\n";
+    body += rank > static_cast<int>(cybercba::PrologueStage::Transmission) ? "[OK] " : "[ ] "; body += "Reconstruir el enlace antes de perder la senal.\n";
+    body += rank > static_cast<int>(cybercba::PrologueStage::Route) ? "[OK] " : "[ ] "; body += "Recuperar las coordenadas del tren 41.\n";
+    body += rank > static_cast<int>(cybercba::PrologueStage::Convergence) ? "[OK] " : "[ ] "; body += "Seguir la linea oeste hasta el Neometro.\n";
+    body += "\nEVIDENCIAS\n[*] Simbolo de La Luciernaga\n[*] Registro del tren 41";
+    drawOverlay("MISION ACTUAL", body, devicePrompt("O o ESC: volver", "View o B: volver"));
 }
 void GameApp::drawSettings() const
 {
