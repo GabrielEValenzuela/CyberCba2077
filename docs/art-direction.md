@@ -40,7 +40,7 @@ Para v0.1.0, el arte final debe poder sustituir placeholders con: `idle`, `walk_
 
 Origen: San Justo. Especialidad: lucha. Acento: ámbar o rojo apagado.
 
-Magga lleva ropa flexible y resistente, guantes o vendas, protecciones discretas y botas reforzadas. Su postura es firme y frontal; sus movimientos tienen mayor amplitud y peso. La guardia de combate y los impactos ámbar comunican su capacidad sin convertirla en una estética militar genérica.
+Magga tiene cabello largo rubio oscuro/castaño claro y ojos verdes claramente visibles. Lleva ropa flexible y resistente, guantes o vendas, protecciones discretas y botas reforzadas. Su postura es firme y frontal; sus movimientos tienen mayor amplitud y peso. La guardia de combate y los impactos ámbar comunican su capacidad sin convertirla en una estética militar genérica.
 
 Para v0.1.0, el arte final debe poder sustituir placeholders con: `idle`, `walk_up`, `walk_down`, `walk_left`, `walk_right`, `interact`, `attack_light`, `attack_heavy`, `dodge` y `hurt`.
 

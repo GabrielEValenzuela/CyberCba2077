@@ -4,6 +4,8 @@
 #include <string>
 
 #include "cybercba/Campaign.hpp"
+#include "cybercba/Evidence.hpp"
+#include "cybercba/MissionGraph.hpp"
 #include "model/GameModel.hpp"
 
 namespace cybercba
@@ -63,6 +65,11 @@ namespace cybercba
         void reachCheckpoint(const std::string& id);
         bool resetToCheckpoint();
 
+        MissionGraph& missionGraph();
+        const MissionGraph& missionGraph() const;
+        EvidenceJournal& evidenceJournal();
+        const EvidenceJournal& evidenceJournal() const;
+
     private:
         cyberpunk::GameModel m_model;
         PlayerProgress m_progress;
@@ -71,6 +78,8 @@ namespace cybercba
         CampaignProgress m_campaign;
         PlayerState m_player;
         NarrativeState m_narrative;
+        MissionGraph m_missionGraph;
+        EvidenceJournal m_evidenceJournal;
     };
 
 } // namespace cybercba

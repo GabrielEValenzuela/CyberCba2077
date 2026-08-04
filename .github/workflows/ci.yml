@@ -68,7 +68,16 @@ jobs:
             graphviz \
             unzip \
             bc \
-            ccache
+            ccache \
+            imagemagick \
+            jq
+
+      # -----------------------------------
+      # Asset validation (manifest vs. processed PNGs)
+      # -----------------------------------
+      - name: Validate Assets
+        id: assets
+        run: bash scripts/validate_assets.sh
 
       # -----------------------------------
       # vcpkg (cached)
@@ -442,6 +451,7 @@ jobs:
         uses: actions/github-script@v7
         env:
           STYLE_OUTCOME: ${{ steps.style.outcome }}
+          ASSETS_OUTCOME: ${{ steps.assets.outcome }}
           CONFIGURE_OUTCOME: ${{ steps.configure.outcome }}
           BUILD_OUTCOME: ${{ steps.build.outcome }}
           TESTS_OUTCOME: ${{ steps.tests.outcome }}
@@ -454,7 +464,8 @@ jobs:
           FAILED_TESTS: ${{ env.FAILED_TESTS }}
         with:
           script: |
-            const styleOk = process.env.STYLE_OUTCOME === "success";
+            const styleOk  = process.env.STYLE_OUTCOME === "success";
+            const assetsOk = process.env.ASSETS_OUTCOME === "success";
             const cfgOk   = process.env.CONFIGURE_OUTCOME === "success";
             const buildOk = process.env.BUILD_OUTCOME === "success";
             const testsOk = process.env.TESTS_OUTCOME === "success";
@@ -476,6 +487,7 @@ jobs:
 
             let failed = null;
             if (!styleOk) failed = "style";
+            else if (!assetsOk) failed = "assets";
             else if (!cfgOk) failed = "configure";
             else if (!buildOk) failed = "build";
             else if (!testsOk) failed = "tests";
@@ -486,6 +498,10 @@ jobs:
               style: [
                 "Ejecutá clang-format localmente y verificá que todos usen la misma configuración.",
                 "Formateá solo los archivos del PR en src/, include/ y tests/."
+              ],
+              assets: [
+                "Corré `bash scripts/validate_assets.sh` localmente para ver el error exacto (canvas/alpha inválido, path faltante o desajuste con assets-manifest.json).",
+                "Si agregaste/quitaste un asset `processed`, actualizá el conteo esperado en scripts/validate_assets.sh junto con assets-manifest.json en el mismo cambio."
               ],
               configure: [
                 "Revisá VCPKG_ROOT, dependencias y CMakeLists.txt.",
@@ -516,6 +532,7 @@ jobs:
             body += `**Quality Score:** **${score}/100**\n`;
             body += `- 🧪 Tests: **${testsOk ? "OK" : "FALLÓ"}**\n`;
             body += `- 🎨 Estilo (clang-format): **${styleOk ? "OK" : "FALLÓ"}**\n`;
+            body += `- 🖼️ Assets (manifest/canvas/alpha): **${assetsOk ? "OK" : "FALLÓ"}**\n`;
             body += `- 🧼 clang-tidy warnings: **${tidyWarn}**\n`;
             body += `- 📈 Coverage mínimo: **${cov.toFixed(1)}%**\n`;
             body += `- 📏 Lines coverage: **${lineCov.toFixed(1)}%**\n`;
@@ -527,6 +544,7 @@ jobs:
             } else {
               const titles = {
                 style: "🎨 Estilo / Formato",
+                assets: "🖼️ Validación de assets",
                 configure: "⚙️ Configuración (CMake/vcpkg)",
                 build: "🏗️ Compilación / Linkeo",
                 tests: "🧪 Tests",

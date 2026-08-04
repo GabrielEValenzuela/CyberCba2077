@@ -2,6 +2,8 @@
 
 #include <algorithm>
 
+#include "cybercba/PrologueContent.hpp"
+
 namespace cybercba
 {
     cyberpunk::GameModel& GameSession::model()
@@ -85,7 +87,25 @@ namespace cybercba
     bool GameSession::startPrologue(CharacterId character)
     {
         startNewGame();
+        m_missionGraph = buildPrologueMissionGraph();
+        m_evidenceJournal = buildPrologueEvidenceCatalog();
         return MissionSystem::startPrologue(m_campaign, character);
+    }
+    MissionGraph& GameSession::missionGraph()
+    {
+        return m_missionGraph;
+    }
+    const MissionGraph& GameSession::missionGraph() const
+    {
+        return m_missionGraph;
+    }
+    EvidenceJournal& GameSession::evidenceJournal()
+    {
+        return m_evidenceJournal;
+    }
+    const EvidenceJournal& GameSession::evidenceJournal() const
+    {
+        return m_evidenceJournal;
     }
     void GameSession::reachCheckpoint(const std::string& id)
     {

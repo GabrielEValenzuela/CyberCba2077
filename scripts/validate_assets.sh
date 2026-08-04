@@ -26,6 +26,9 @@ declare -a entries=(
   'assets/processed/environment/surveillance_lamp.png:256x384'
   'assets/processed/props/street_barricade.png:384x256'
   'assets/processed/props/access_terminal.png:256x384'
+  'assets/processed/evidence/insignia.png:128x96'
+  'assets/processed/evidence/unsent_message.png:128x96'
+  'assets/processed/evidence/train41_record.png:128x96'
 )
 
 for entry in "${entries[@]}"; do
@@ -37,12 +40,12 @@ for entry in "${entries[@]}"; do
   [[ "$corner_alpha" == "0" ]] || { echo "opaque top-left corner: $path" >&2; exit 1; }
 done
 
-jq -e '.schemaVersion == 3 and ([.assets[] | select(.processed != null)] | length == 19)' assets/data/assets-manifest.json >/dev/null
+jq -e '.schemaVersion == 7 and ([.assets[] | select(.processed != null)] | length == 24)' assets/data/assets-manifest.json >/dev/null
 while IFS= read -r processed; do
   [[ -f "$processed" ]] || { echo "manifest path is missing: $processed" >&2; exit 1; }
 done < <(jq -r '.assets[] | select(.processed != null) | .processed' assets/data/assets-manifest.json)
 while IFS= read -r source; do
   [[ -f "$source" ]] || { echo "manifest source is missing: $source" >&2; exit 1; }
-done < <(jq -r '.assets[] | .source' assets/data/assets-manifest.json)
+done < <(jq -r '.assets[] | select(.source != null) | .source' assets/data/assets-manifest.json)
 
-echo "Asset validation passed: 19 runtime PNGs with point-ready alpha canvases."
+echo "Asset validation passed: 22 runtime PNGs with point-ready alpha canvases."

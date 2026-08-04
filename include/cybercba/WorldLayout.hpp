@@ -37,4 +37,11 @@ const std::array<WorldProp, 6>& exteriorProps();
 const WorldProp* worldProp(std::string_view id);
 bool blocksMovement(WorldZone zone, float x, float y);
 bool isValidSpawn(WorldZone zone, float x, float y);
+
+// Interior partition walls that split the shelter into distinct zones (entrance/
+// rest, workshop, comms, technical corridor). Each pair of entries represents one
+// vertical wall split by a doorway gap. Shared between collision (blocksMovement)
+// and the procedural architecture drawn in GameApp::drawShelterShell, so the
+// visible wall and the collider can never drift apart.
+const std::array<WorldRect, 6>& shelterInteriorWalls();
 } // namespace cybercba

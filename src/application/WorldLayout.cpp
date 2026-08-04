@@ -4,15 +4,27 @@ namespace cybercba
 {
 namespace
 {
+// Shelter zones (left to right, matching shelterInteriorWalls below):
+//   Entrada/Descanso [118,420)  Taller [420,700)  Comunicaciones [700,980)  Pasillo [980,1160]
 constexpr std::array<WorldProp, 8> SHELTER {{
     {"safehouse_bed", "prop.shelter.bed", "assets/processed/props/shelter_bed.png", WorldZone::Shelter, WorldLayer::Low, 280, 310, 240, 240, {155, 235, 220, 62}, "", true},
     {"safehouse_shelf", "prop.shelter.shelf", "assets/processed/props/shelter_shelf.png", WorldZone::Shelter, WorldLayer::Mid, 210, 525, 150, 150, {145, 395, 118, 112}, "", true},
-    {"safehouse_photo", "prop.shelter.emma_magga_photo", "assets/processed/props/emma_magga_photo.png", WorldZone::Shelter, WorldLayer::High, 340, 440, 76, 76, {0, 0, 0, 0}, "inspect_photo", false},
+    {"safehouse_photo", "prop.shelter.emma_magga_photo", "assets/processed/props/emma_magga_photo.png", WorldZone::Shelter, WorldLayer::High, 175, 160, 76, 76, {0, 0, 0, 0}, "inspect_photo", false},
     {"safehouse_map", "prop.shelter.neo_cordoba_map_panel", "assets/processed/props/neo_cordoba_map_panel.png", WorldZone::Shelter, WorldLayer::High, 550, 195, 220, 150, {445, 125, 220, 38}, "inspect_map", true},
     {"safehouse_window", "prop.shelter.rain_window", "assets/processed/props/rain_window.png", WorldZone::Shelter, WorldLayer::High, 355, 150, 190, 110, {0, 0, 0, 0}, "", false},
-    {"safehouse_desk", "prop.shelter.desk", "assets/processed/props/shelter_desk.png", WorldZone::Shelter, WorldLayer::Mid, 800, 335, 220, 220, {710, 250, 190, 67}, "", true},
+    {"safehouse_desk", "prop.shelter.desk", "assets/processed/props/shelter_desk.png", WorldZone::Shelter, WorldLayer::Mid, 600, 335, 220, 220, {510, 250, 190, 67}, "", true},
     {"safehouse_transmitter", "prop.shelter.luciernaga_transmitter", "assets/processed/props/luciernaga_transmitter.png", WorldZone::Shelter, WorldLayer::High, 885, 300, 255, 191, {0, 0, 0, 0}, "inspect_transmitter", false},
     {"safehouse_exit", "prop.shelter.industrial_door", "assets/processed/props/industrial_door.png", WorldZone::Shelter, WorldLayer::High, 1080, 405, 130, 195, {1040, 230, 78, 148}, "exit_shelter", true},
+}};
+
+// Three interior partition walls, each split into an upper and lower segment by a
+// doorway gap. Gaps are offset per wall so the route zig-zags between zones instead
+// of forming one straight corridor. Kept in lockstep with the wall geometry drawn in
+// GameApp::drawShelterShell -- change both together.
+constexpr std::array<WorldRect, 6> SHELTER_WALLS {{
+    {413, 152, 14, 188}, {413, 460, 14, 80},   // wall @x420: gap y[340,460)
+    {693, 152, 14, 108}, {693, 380, 14, 160},  // wall @x700: gap y[260,380)
+    {973, 152, 14, 228}, {973, 500, 14, 40},   // wall @x980: gap y[380,500)
 }};
 
 constexpr std::array<WorldProp, 6> EXTERIOR {{
@@ -32,6 +44,7 @@ bool contains(const WorldRect& rect, float x, float y)
 
 const std::array<WorldProp, 8>& shelterProps() { return SHELTER; }
 const std::array<WorldProp, 6>& exteriorProps() { return EXTERIOR; }
+const std::array<WorldRect, 6>& shelterInteriorWalls() { return SHELTER_WALLS; }
 
 const WorldProp* worldProp(std::string_view id)
 {
@@ -46,6 +59,8 @@ bool blocksMovement(WorldZone zone, float x, float y)
     {
         for (const WorldProp& prop : SHELTER)
             if (prop.blocksMovement && contains(prop.collider, x, y)) return true;
+        for (const WorldRect& wall : SHELTER_WALLS)
+            if (contains(wall, x, y)) return true;
     }
     else
     {

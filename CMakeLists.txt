@@ -31,6 +31,13 @@ add_library(cyber_cba_core STATIC
   src/application/GameController.cpp
   src/application/WorldLayout.cpp
   src/infrastructure/SaveService.cpp
+  src/infrastructure/CreditsLoader.cpp
+  src/domain/MissionGraph.cpp
+  src/domain/Dialogue.cpp
+  src/domain/Evidence.cpp
+  src/domain/Encounter.cpp
+  src/domain/PrologueContent.cpp
+  src/domain/EncounterContent.cpp
 )
 target_include_directories(cyber_cba_core PUBLIC include)
 target_link_libraries(cyber_cba_core PUBLIC cyberpunk_model)
@@ -59,6 +66,22 @@ add_executable(cyber_cba
   src/ui/widgets/NlmButton.cpp
   src/ui/widgets/NlmPanel.cpp
   src/ui/widgets/NlmText.cpp
+  src/ui/widgets/EvidencePanel.cpp
+  src/ui/widgets/TextWrap.cpp
+  src/ui/widgets/StoryPanel.cpp
+  src/ui/widgets/ChoicePanel.cpp
+  src/ui/widgets/ActionMenu.cpp
+  src/ui/widgets/NodeMapView.cpp
+  src/ui/widgets/StatusPanel.cpp
+  src/ui/widgets/ParticipantPanel.cpp
+  src/ui/widgets/TurnOrderPanel.cpp
+  src/ui/widgets/EnemyIntentPanel.cpp
+  src/ui/widgets/DialoguePanel.cpp
+  src/ui/widgets/TransmissionPanel.cpp
+  src/ui/widgets/MissionResultsView.cpp
+  src/ui/widgets/CurrentObjectivePanel.cpp
+  src/ui/widgets/PortraitFrame.cpp
+  src/ui/widgets/InteractionPanel.cpp
 )
 
 set_target_properties(cyber_cba PROPERTIES OUTPUT_NAME "cyber-cba")
@@ -82,6 +105,14 @@ if(CYBERPUNK_BUILD_TESTS)
   add_executable(unit_tests
     tests/test_gamemodel.cpp
     tests/test_vertical_slice.cpp
+    tests/test_world_layout.cpp
+    tests/test_mission_graph.cpp
+    tests/test_dialogue.cpp
+    tests/test_evidence.cpp
+    tests/test_encounter.cpp
+    tests/test_prologue_content.cpp
+    tests/test_encounter_content.cpp
+    tests/test_credits_loader.cpp
   )
 
   target_include_directories(unit_tests PRIVATE include)

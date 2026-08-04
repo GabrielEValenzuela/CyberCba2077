@@ -68,6 +68,8 @@ namespace cybercba
         int trust {0};
         int unresolvedHurt {1};
         int recoveredTruth {0};
+        int caution {0};
+        int attachment {0};
     };
 
     struct CampaignProgress

@@ -2,12 +2,39 @@
 #include <filesystem>
 #include <fstream>
 #include <map>
+#include <sstream>
+#include <vector>
+
+#include "cybercba/PrologueContent.hpp"
 
 namespace cybercba
 {
     namespace
     {
-        constexpr int FORMAT_VERSION = 3;
+        constexpr int FORMAT_VERSION = 5;
+        std::string joinCsv(const std::vector<std::string>& values)
+        {
+            std::string result;
+            for (std::size_t i = 0; i < values.size(); ++i)
+            {
+                if (i > 0)
+                    result += ',';
+                result += values[i];
+            }
+            return result;
+        }
+        std::vector<std::string> splitCsv(const std::string& value)
+        {
+            std::vector<std::string> result;
+            std::stringstream stream(value);
+            std::string token;
+            while (std::getline(stream, token, ','))
+            {
+                if (!token.empty())
+                    result.push_back(token);
+            }
+            return result;
+        }
         bool boolValue(const std::map<std::string, std::string>& v, const char* k, bool& output)
         {
             auto it = v.find(k);
@@ -90,7 +117,11 @@ namespace cybercba
              << "\nprologue_started=" << c.prologueStarted << "\nprologue_completed=" << c.prologueCompleted
              << "\ncheckpoint_reached=" << c.checkpointReached << "\nneometro_unlocked=" << c.neometroUnlocked
              << "\ncheckpoint=" << c.checkpoint << "\nhealth=" << player.health << "\nstamina=" << player.stamina
-             << "\ntrust=" << n.trust << "\nhurt=" << n.unresolvedHurt << "\ntruth=" << n.recoveredTruth << "\n";
+             << "\ntrust=" << n.trust << "\nhurt=" << n.unresolvedHurt << "\ntruth=" << n.recoveredTruth
+             << "\ncaution=" << n.caution << "\nattachment=" << n.attachment
+             << "\nmission_node=" << session.missionGraph().current()
+             << "\nmission_flags=" << joinCsv(session.missionGraph().activeFlags())
+             << "\nevidence=" << joinCsv(session.evidenceJournal().discoveredIds()) << "\n";
         file.close();
         if (!file)
         {
@@ -129,12 +160,12 @@ namespace cybercba
             values[line.substr(0, pos)] = line.substr(pos + 1);
         }
         int version = 0, credits = 0, best = 0, unlocked = 0, character = 0, prologue = 0, objective = 0, stage = 0,
-            trust = 0, hurt = 0, truth = 0;
+            trust = 0, hurt = 0, truth = 0, caution = 0, attachment = 0;
         float health = 0, stamina = 0;
         bool has = false, tutorial = false, queue = false, reduced = false, scan = true, subtitles = true, contrast = false,
              flashes = false, shake = true, prompts = false, muted = false, started = false, completed = false, reached = false,
              neometro = false;
-        if (!intValue(values, "version", version) || (version != 2 && version != FORMAT_VERSION))
+        if (!intValue(values, "version", version) || version < 2 || version > FORMAT_VERSION)
             return version ? SaveLoadStatus::UnsupportedVersion : SaveLoadStatus::Corrupt;
         if (!intValue(values, "credits", credits) || !intValue(values, "best_accuracy", best) ||
             !intValue(values, "unlocked", unlocked) || !boolValue(values, "has_save", has) ||
@@ -187,6 +218,11 @@ namespace cybercba
                 session.audio().ambienceVolume = std::stof(values.at("ambience"));
                 session.audio().dialogueVolume = std::stof(values.at("dialogue"));
             }
+            if (version >= 4)
+            {
+                if (!intValue(values, "caution", caution) || !intValue(values, "attachment", attachment))
+                    return SaveLoadStatus::Corrupt;
+            }
         }
         catch (...)
         {
@@ -207,7 +243,28 @@ namespace cybercba
         c.checkpoint = values.count("checkpoint") ? values.at("checkpoint") : "shelter";
         session.player().health = health;
         session.player().stamina = stamina;
-        session.narrative() = {trust, hurt, truth};
+        session.narrative() = {trust, hurt, truth, caution, attachment};
+
+        session.missionGraph() = buildPrologueMissionGraph();
+        session.evidenceJournal() = buildPrologueEvidenceCatalog();
+        if (version >= 5)
+        {
+            const auto node = values.find("mission_node");
+            if (node != values.end() && !node->second.empty())
+                session.missionGraph().setStart(node->second);
+            const auto flags = values.find("mission_flags");
+            if (flags != values.end())
+            {
+                for (const auto& flag : splitCsv(flags->second))
+                    session.missionGraph().setFlag(flag);
+            }
+            const auto evidence = values.find("evidence");
+            if (evidence != values.end())
+            {
+                for (const auto& id : splitCsv(evidence->second))
+                    session.evidenceJournal().discover(id);
+            }
+        }
         return SaveLoadStatus::Loaded;
     }
 } // namespace cybercba
