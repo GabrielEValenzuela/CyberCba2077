@@ -1,0 +1,208 @@
+{
+  "schemaVersion": 1,
+  "batchId": "v0.1.0-prologue-batch-02",
+  "purpose": "Twenty final-quality assets that extend the integrated runtime pilot without replacing its canonical neutral portraits, figures, or backgrounds.",
+  "sharedStyleSuffix": "Original cinematic cyberpunk Cordoba, semi-realistic 2D digital painting, dark industrial shelter, rain and humidity, practical improvised technology, deep blue-black shadows, restrained cyan system light and warm amber lamps, natural human skin tones, detailed environmental storytelling, readable composition, mature narrative RPG, static illustration, no pixel art, no anime exaggeration, no embedded text, no UI, no watermark.",
+  "sharedNegativePrompt": "pixel art, chibi, cartoon mascot, blue skin, glowing eyes, excessive neon, generic spaceship interior, fantasy armor, embedded text, subtitles, buttons, HUD, watermark, logo, blurry face, extra fingers, malformed hands, duplicated objects.",
+  "referenceImages": {
+    "emma": "assets/generated/masters/character_sheet_emma.png",
+    "magga": "assets/generated/masters/character_sheet_magga.png"
+  },
+  "assets": [
+    {
+      "id": "portrait_emma_analytical",
+      "category": "CharacterPortrait",
+      "path": "assets/generated/portraits/portrait_emma_analytical.png",
+      "targetSize": "1024x1280",
+      "alphaRequired": true,
+      "referenceImage": "emma",
+      "prompt": "Head-and-shoulders transparent PNG portrait of Emmanuel Emma Vazquez, matching the supplied Emma consistency sheet exactly: adult man, short dark hair, trimmed beard, natural human skin, dark technical hoodie. Analytical expression, eyes focused just off-camera as if reading an invisible system, restrained cyan wrist-interface reflection along jaw and jacket. Generous transparent padding; no frame, background, shadow, text or UI.",
+      "negativePrompt": "full body, blue skin, glowing eyes, smiling, helmet, background scene"
+    },
+    {
+      "id": "portrait_emma_hurt",
+      "category": "CharacterPortrait",
+      "path": "assets/generated/portraits/portrait_emma_hurt.png",
+      "targetSize": "1024x1280",
+      "alphaRequired": true,
+      "referenceImage": "emma",
+      "prompt": "Head-and-shoulders transparent PNG portrait of Emmanuel Emma Vazquez, matching the supplied Emma consistency sheet exactly. He is hurt and emotionally guarded: small realistic facial bruise or abrasion, tired eyes, pain held back rather than melodrama. Short dark hair, trimmed beard, natural human skin, dark technical hoodie, faint cyan interface reflection. Generous transparent padding; no frame, background, shadow, text or UI.",
+      "negativePrompt": "graphic injury, blood splatter, blue skin, glowing eyes, full body, background scene"
+    },
+    {
+      "id": "portrait_emma_determined",
+      "category": "CharacterPortrait",
+      "path": "assets/generated/portraits/portrait_emma_determined.png",
+      "targetSize": "1024x1280",
+      "alphaRequired": true,
+      "referenceImage": "emma",
+      "prompt": "Head-and-shoulders transparent PNG portrait of Emmanuel Emma Vazquez, matching the supplied Emma consistency sheet exactly. Determined, controlled expression with a set jaw and direct but restrained gaze; cyan interface light on one side of his face. Short dark hair, trimmed beard, natural human skin, dark technical hoodie. Generous transparent padding; no frame, background, shadow, text or UI.",
+      "negativePrompt": "angry shout, blue skin, glowing eyes, full body, background scene"
+    },
+    {
+      "id": "portrait_emma_transmission",
+      "category": "CharacterPortrait",
+      "path": "assets/generated/portraits/portrait_emma_transmission.png",
+      "targetSize": "1024x1280",
+      "alphaRequired": true,
+      "referenceImage": "emma",
+      "prompt": "Head-and-shoulders transparent PNG portrait of Emmanuel Emma Vazquez, matching the supplied Emma consistency sheet exactly. He is speaking through a damaged transmission: concerned, intent expression, restrained cyan scanline breakup and a few missing digital fragments only around the outer silhouette; face remains clearly recognizable. Natural skin, short dark hair, trimmed beard, dark technical hoodie. Generous transparent padding; no frame, background, text or UI.",
+      "negativePrompt": "unrecognizable glitch, blue skin, glowing eyes, full body, background scene"
+    },
+    {
+      "id": "portrait_emma_hacking",
+      "category": "CharacterPortrait",
+      "path": "assets/generated/portraits/portrait_emma_hacking.png",
+      "targetSize": "1024x1280",
+      "alphaRequired": true,
+      "referenceImage": "emma",
+      "prompt": "Head-and-shoulders transparent PNG portrait of Emmanuel Emma Vazquez, matching the supplied Emma consistency sheet exactly. Focused hacking expression, cyan interface glow reflected subtly under his eyes and on one raised wrist, but no visible UI hologram. Natural human skin, short dark hair, trimmed beard, dark technical hoodie. Generous transparent padding; no frame, background, shadow, text or UI.",
+      "negativePrompt": "glowing eyes, blue skin, visible HUD, full body, background scene"
+    },
+    {
+      "id": "portrait_emma_combat",
+      "category": "CharacterPortrait",
+      "path": "assets/generated/portraits/portrait_emma_combat.png",
+      "targetSize": "1024x1280",
+      "alphaRequired": true,
+      "referenceImage": "emma",
+      "prompt": "Head-and-shoulders transparent PNG portrait of Emmanuel Emma Vazquez, matching the supplied Emma consistency sheet exactly. Alert defensive combat expression; raised shoulder and partial forearm may enter frame, but preserve a face-and-shoulders composition. Natural human skin, short dark hair, trimmed beard, dark technical hoodie with restrained cyan practical reflection. Generous transparent padding; no frame, background, shadow, text or UI.",
+      "negativePrompt": "weapon focus, full body, blue skin, glowing eyes, background scene"
+    },
+    {
+      "id": "portrait_magga_suspicious",
+      "category": "CharacterPortrait",
+      "path": "assets/generated/portraits/portrait_magga_suspicious.png",
+      "targetSize": "1024x1280",
+      "alphaRequired": true,
+      "referenceImage": "magga",
+      "prompt": "Head-and-shoulders transparent PNG portrait of Magali Magga Temerro, matching the supplied Magga consistency sheet exactly. Suspicious sidelong gaze, direct posture, long dark-blonde/light-brown hair, dark practical jacket and subtle combat gloves. Her clearly visible natural GREEN eyes are mandatory, not cyan, blue, grey, amber or glowing. Warm amber key light with subtle cyan rim. Generous transparent padding; no frame, background, shadow, text or UI.",
+      "negativePrompt": "blue eyes, cyan eyes, hidden eyes, glowing eyes, blue skin, full body, background scene"
+    },
+    {
+      "id": "portrait_magga_angry",
+      "category": "CharacterPortrait",
+      "path": "assets/generated/portraits/portrait_magga_angry.png",
+      "targetSize": "1024x1280",
+      "alphaRequired": true,
+      "referenceImage": "magga",
+      "prompt": "Head-and-shoulders transparent PNG portrait of Magali Magga Temerro, matching the supplied Magga consistency sheet exactly. Angry but controlled expression: tense brow, jaw set, no scream. Long dark-blonde/light-brown hair, dark practical jacket, subtle combat glove. Clearly visible natural GREEN eyes are mandatory, not cyan, blue, grey, amber or glowing. Amber practical key light, subtle cyan rim. Generous transparent padding; no frame, background, shadow, text or UI.",
+      "negativePrompt": "blue eyes, cyan eyes, hidden eyes, glowing eyes, blue skin, full body, background scene"
+    },
+    {
+      "id": "portrait_magga_hurt",
+      "category": "CharacterPortrait",
+      "path": "assets/generated/portraits/portrait_magga_hurt.png",
+      "targetSize": "1024x1280",
+      "alphaRequired": true,
+      "referenceImage": "magga",
+      "prompt": "Head-and-shoulders transparent PNG portrait of Magali Magga Temerro, matching the supplied Magga consistency sheet exactly. Hurt but refusing to yield: modest realistic abrasion, exhausted expression, natural human skin, long dark-blonde/light-brown hair and dark practical jacket. Clearly visible natural GREEN eyes are mandatory, not cyan, blue, grey, amber or glowing. Amber practical light with a subtle cyan rim. Generous transparent padding; no frame, background, shadow, text or UI.",
+      "negativePrompt": "graphic injury, blue eyes, cyan eyes, hidden eyes, glowing eyes, blue skin, full body, background scene"
+    },
+    {
+      "id": "portrait_magga_determined",
+      "category": "CharacterPortrait",
+      "path": "assets/generated/portraits/portrait_magga_determined.png",
+      "targetSize": "1024x1280",
+      "alphaRequired": true,
+      "referenceImage": "magga",
+      "prompt": "Head-and-shoulders transparent PNG portrait of Magali Magga Temerro, matching the supplied Magga consistency sheet exactly. Direct determined expression, firm posture and chin slightly raised. Long dark-blonde/light-brown hair, dark practical jacket and subtle protection. Clearly visible natural GREEN eyes are mandatory, not cyan, blue, grey, amber or glowing. Amber practical light with a subtle cyan rim. Generous transparent padding; no frame, background, shadow, text or UI.",
+      "negativePrompt": "blue eyes, cyan eyes, hidden eyes, glowing eyes, blue skin, full body, background scene"
+    },
+    {
+      "id": "portrait_magga_transmission",
+      "category": "CharacterPortrait",
+      "path": "assets/generated/portraits/portrait_magga_transmission.png",
+      "targetSize": "1024x1280",
+      "alphaRequired": true,
+      "referenceImage": "magga",
+      "prompt": "Head-and-shoulders transparent PNG portrait of Magali Magga Temerro, matching the supplied Magga consistency sheet exactly. A damaged transmission portrait: concerned and urgent, restrained cyan scanline breakup around the outer silhouette but face remains recognizable. Her clearly visible natural GREEN eyes are mandatory, not cyan, blue, grey, amber or glowing. Long dark-blonde/light-brown hair and dark practical jacket. Generous transparent padding; no frame, background, text or UI.",
+      "negativePrompt": "unrecognizable glitch, blue eyes, cyan eyes, hidden eyes, glowing eyes, blue skin, full body, background scene"
+    },
+    {
+      "id": "portrait_magga_combat",
+      "category": "CharacterPortrait",
+      "path": "assets/generated/portraits/portrait_magga_combat.png",
+      "targetSize": "1024x1280",
+      "alphaRequired": true,
+      "referenceImage": "magga",
+      "prompt": "Head-and-shoulders transparent PNG portrait of Magali Magga Temerro, matching the supplied Magga consistency sheet exactly. Alert combat-ready expression; a guarded forearm may enter frame but remain a face-and-shoulders composition. Clearly visible natural GREEN eyes are mandatory, not cyan, blue, grey, amber or glowing. Long dark-blonde/light-brown hair, dark practical jacket and gloves, amber practical light, subtle cyan rim. Generous transparent padding; no frame, background, shadow, text or UI.",
+      "negativePrompt": "blue eyes, cyan eyes, hidden eyes, glowing eyes, blue skin, weapon focus, full body, background scene"
+    },
+    {
+      "id": "evidence_emma_magga_photo",
+      "category": "EvidenceImage",
+      "path": "assets/generated/evidence/evidence_emma_magga_photo.png",
+      "targetSize": "1200x900",
+      "alphaRequired": false,
+      "referenceImages": ["emma", "magga"],
+      "prompt": "Weathered physical photograph of Emma and Magga together before the Night of the Blackout, emotionally close and recognizable from their supplied consistency sheets. Magga has long dark-blonde/light-brown hair and natural GREEN eyes if visible. Aged paper, damaged edges and a human candid feeling; no third person. No caption, readable text, logo, interface or watermark.",
+      "negativePrompt": "extra people, malformed writing, caption, blue eyes for Magga, blue skin, pixel art"
+    },
+    {
+      "id": "evidence_network_access_map",
+      "category": "EvidenceImage",
+      "path": "assets/generated/evidence/evidence_network_access_map.png",
+      "targetSize": "1200x900",
+      "alphaRequired": false,
+      "prompt": "Cinematic 4:3 evidence image of a weathered Network access map on a metal desk: abstract city route lines, access markers, redacted zones and a small Fireflies emblem. It must communicate infrastructure and secrecy without readable words, numbers or generated nonsense writing. No UI frame, watermark or logo.",
+      "negativePrompt": "readable text, gibberish text, UI, watermark, pixel art"
+    },
+    {
+      "id": "evidence_unsent_message_emma",
+      "category": "EvidenceImage",
+      "path": "assets/generated/evidence/evidence_unsent_message_emma.png",
+      "targetSize": "1200x900",
+      "alphaRequired": false,
+      "referenceImage": "emma",
+      "prompt": "Cinematic 4:3 evidence image of Emma's unsent message: folded worn paper beside a dark technical wrist device and a restrained cyan indicator. Handwriting-like marks must be abstract and unreadable, with no real words or generated nonsense text. Damaged edges, intimate melancholy, no UI or watermark.",
+      "negativePrompt": "readable handwriting, gibberish text, UI, watermark, pixel art"
+    },
+    {
+      "id": "evidence_unsent_message_magga",
+      "category": "EvidenceImage",
+      "path": "assets/generated/evidence/evidence_unsent_message_magga.png",
+      "targetSize": "1200x900",
+      "alphaRequired": false,
+      "referenceImage": "magga",
+      "prompt": "Cinematic 4:3 evidence image of Magga's unsent message: folded worn paper beside a practical fingerless glove and a dim warm amber lamp. Handwriting-like marks must be abstract and unreadable, with no real words or generated nonsense text. Damaged edges, direct personal feeling, no UI or watermark.",
+      "negativePrompt": "readable handwriting, gibberish text, UI, watermark, pixel art"
+    },
+    {
+      "id": "evidence_train_41_record",
+      "category": "EvidenceImage",
+      "path": "assets/generated/evidence/evidence_train_41_record.png",
+      "targetSize": "1200x900",
+      "alphaRequired": false,
+      "prompt": "Cinematic 4:3 evidence image of an official destroyed Train 41 archive record: technical train silhouette, damaged data bands, redacted blocks, moisture damage and decommissioned visual cues. All text must be absent, abstract or fully redacted; no readable words, numbers or generated nonsense. No UI frame or watermark.",
+      "negativePrompt": "readable text, gibberish text, UI, watermark, pixel art"
+    },
+    {
+      "id": "evidence_fireflies_badge",
+      "category": "EvidenceImage",
+      "path": "assets/generated/evidence/evidence_fireflies_badge.png",
+      "targetSize": "1200x900",
+      "alphaRequired": false,
+      "prompt": "Cinematic 4:3 evidence image of a worn clandestine Fireflies badge on a rain-marked industrial workbench. The emblem is an original abstract firefly silhouette, readable as a symbol but with no lettering. Patinated metal, restrained cyan glint and warm amber reflected practical light. No UI, watermark or logo.",
+      "negativePrompt": "text, letters, watermark, copied logo, pixel art"
+    },
+    {
+      "id": "encounter_hacking_background",
+      "category": "EncounterBackground",
+      "path": "assets/generated/encounters/encounter_hacking_background.png",
+      "targetSize": "1920x1080",
+      "alphaRequired": false,
+      "prompt": "Original 16:9 cinematic semi-realistic background for Emma's hacking encounter: abstract Network relay chamber, old signal hardware, cable topology, controlled cyan transmission glow, deep blue-black industrial space. Keep top 12 percent dark for encounter UI and bottom 30 percent calm for action panels; reserve central-right space for a protagonist figure. No numbers, readable labels, UI or watermark.",
+      "negativePrompt": "generic spaceship, readable code, UI, watermark, pixel art, excessive neon"
+    },
+    {
+      "id": "enemy_security_drone",
+      "category": "EnemyFigure",
+      "path": "assets/generated/encounters/enemy_security_drone.png",
+      "targetSize": "1200x1200",
+      "alphaRequired": true,
+      "prompt": "Isolated transparent PNG of an original Network security drone for Magga's encounter: compact battered industrial surveillance/combat unit, clear readable silhouette, dark metal panels, one restrained cyan sensor light and subtle amber damage indicators. Three-quarter view, generous transparent padding, no cast shadow, no floor, no text, UI, logo or watermark.",
+      "negativePrompt": "robot mascot, humanoid robot, excessive neon, text, UI, watermark, background scene, malformed geometry"
+    }
+  ]
+}

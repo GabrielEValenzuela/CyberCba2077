@@ -46,3 +46,15 @@ build/
 .idea/
 cmake-build-*/
 compile_commands.json
+Testing/
+
+# Superseded raw downloads kept only as local backup, not part of the
+# active asset tree (see docs/asset-integration-style.md).
+assets/archive/raw-downloads/
+
+# Working prompts used to generate assets - not part of the tracked asset
+# tree, kept local only.
+assets/prompts/
+
+# Local game save files.
+*.save

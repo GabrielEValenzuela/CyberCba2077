@@ -1,0 +1,609 @@
+{
+  "schemaVersion": 1,
+  "pack": "v0.1.0-prologue-batch-02-runtime",
+  "generationStatus": "runtime-ready",
+  "generationDate": "2026-08-03",
+  "generationTool": "Batch 1 canonical assets + deterministic Pillow derivation pipeline",
+  "canonicalOverrides": {
+    "magga": {
+      "hairColor": "blonde",
+      "hairDescription": "long dark-blonde/light-brown hair",
+      "eyeColor": "green",
+      "forbidden": [
+        "dark hair",
+        "black hair",
+        "brown-black hair",
+        "blue eyes",
+        "cyan eyes"
+      ]
+    }
+  },
+  "runtimeContract": {
+    "portraits": {
+      "width": 1024,
+      "height": 1280,
+      "alphaRequired": true
+    },
+    "evidence": {
+      "width": 1200,
+      "height": 900,
+      "alphaRequired": false
+    },
+    "encounterBackground": {
+      "width": 1920,
+      "height": 1080,
+      "alphaRequired": false
+    },
+    "enemyFigure": {
+      "width": 1200,
+      "height": 1200,
+      "alphaRequired": true
+    }
+  },
+  "assets": [
+    {
+      "id": "portrait_emma_analytical",
+      "category": "CharacterPortrait",
+      "path": "assets/generated/portraits/portrait_emma_analytical.png",
+      "width": 1024,
+      "height": 1280,
+      "aspectRatio": "1024:1280",
+      "alphaRequired": true,
+      "status": "runtime-ready",
+      "runtimeEligible": true,
+      "placeholder": false,
+      "sha256": "a9147ea1c78507dbb99de59baff69bca662f49bcc95376726e526c90cb4abb08",
+      "promptPath": "assets/prompts/prologue/batch-02/portrait_emma_analytical.md",
+      "sourceBatch": "v0.1.0-prologue-runtime / Batch 1 canonical sources",
+      "processing": "derived and normalized with Pillow",
+      "character": "emma",
+      "expression": "analytical",
+      "crop": "head-and-shoulders",
+      "canonicalTraits": [
+        "short dark hair",
+        "trimmed beard",
+        "natural human skin",
+        "black technical clothing"
+      ],
+      "bounds": {
+        "x": 46,
+        "y": 451,
+        "width": 903,
+        "height": 784
+      },
+      "source": "emmanuel_vázquez_cyan_edged_portrait.png",
+      "derivation": "analytical"
+    },
+    {
+      "id": "portrait_emma_hurt",
+      "category": "CharacterPortrait",
+      "path": "assets/generated/portraits/portrait_emma_hurt.png",
+      "width": 1024,
+      "height": 1280,
+      "aspectRatio": "1024:1280",
+      "alphaRequired": true,
+      "status": "runtime-ready",
+      "runtimeEligible": true,
+      "placeholder": false,
+      "sha256": "3496ead9430af801a8ed5148918f165f2610f5aa4aee0ccccb78a0a69b24cae3",
+      "promptPath": "assets/prompts/prologue/batch-02/portrait_emma_hurt.md",
+      "sourceBatch": "v0.1.0-prologue-runtime / Batch 1 canonical sources",
+      "processing": "derived and normalized with Pillow",
+      "character": "emma",
+      "expression": "hurt",
+      "crop": "head-and-shoulders",
+      "canonicalTraits": [
+        "short dark hair",
+        "trimmed beard",
+        "natural human skin",
+        "black technical clothing"
+      ],
+      "bounds": {
+        "x": 75,
+        "y": 467,
+        "width": 874,
+        "height": 768
+      },
+      "source": "emmanuel_vázquez_cyan_edged_portrait.png",
+      "derivation": "hurt"
+    },
+    {
+      "id": "portrait_emma_determined",
+      "category": "CharacterPortrait",
+      "path": "assets/generated/portraits/portrait_emma_determined.png",
+      "width": 1024,
+      "height": 1280,
+      "aspectRatio": "1024:1280",
+      "alphaRequired": true,
+      "status": "runtime-ready",
+      "runtimeEligible": true,
+      "placeholder": false,
+      "sha256": "77166c2f3cc44cb938cb23748c5298e08553aa864292cff670b5f48c115ffb47",
+      "promptPath": "assets/prompts/prologue/batch-02/portrait_emma_determined.md",
+      "sourceBatch": "v0.1.0-prologue-runtime / Batch 1 canonical sources",
+      "processing": "derived and normalized with Pillow",
+      "character": "emma",
+      "expression": "determined",
+      "crop": "head-and-shoulders",
+      "canonicalTraits": [
+        "short dark hair",
+        "trimmed beard",
+        "natural human skin",
+        "black technical clothing"
+      ],
+      "bounds": {
+        "x": 75,
+        "y": 409,
+        "width": 874,
+        "height": 826
+      },
+      "source": "emmanuel_vázquez_cyan_edged_portrait.png",
+      "derivation": "determined"
+    },
+    {
+      "id": "portrait_emma_transmission",
+      "category": "CharacterPortrait",
+      "path": "assets/generated/portraits/portrait_emma_transmission.png",
+      "width": 1024,
+      "height": 1280,
+      "aspectRatio": "1024:1280",
+      "alphaRequired": true,
+      "status": "runtime-ready",
+      "runtimeEligible": true,
+      "placeholder": false,
+      "sha256": "a6525ded65cc2027b34bc29610dbe56092f869152f40cc8443e8180ec50ab037",
+      "promptPath": "assets/prompts/prologue/batch-02/portrait_emma_transmission.md",
+      "sourceBatch": "v0.1.0-prologue-runtime / Batch 1 canonical sources",
+      "processing": "derived and normalized with Pillow",
+      "character": "emma",
+      "expression": "transmission",
+      "crop": "head-and-shoulders",
+      "canonicalTraits": [
+        "short dark hair",
+        "trimmed beard",
+        "natural human skin",
+        "black technical clothing"
+      ],
+      "bounds": {
+        "x": 75,
+        "y": 596,
+        "width": 874,
+        "height": 639
+      },
+      "source": "emmanuel_vázquez_cyan_edged_portrait.png",
+      "derivation": "transmission"
+    },
+    {
+      "id": "portrait_emma_hacking",
+      "category": "CharacterPortrait",
+      "path": "assets/generated/portraits/portrait_emma_hacking.png",
+      "width": 1024,
+      "height": 1280,
+      "aspectRatio": "1024:1280",
+      "alphaRequired": true,
+      "status": "runtime-ready",
+      "runtimeEligible": true,
+      "placeholder": false,
+      "sha256": "5de871c54a93f3853de35dc151e9ff13a27f9d4f73d229297d7d4259ffbfd549",
+      "promptPath": "assets/prompts/prologue/batch-02/portrait_emma_hacking.md",
+      "sourceBatch": "v0.1.0-prologue-runtime / Batch 1 canonical sources",
+      "processing": "derived and normalized with Pillow",
+      "character": "emma",
+      "expression": "hacking",
+      "crop": "head-and-shoulders",
+      "canonicalTraits": [
+        "short dark hair",
+        "trimmed beard",
+        "natural human skin",
+        "black technical clothing"
+      ],
+      "bounds": {
+        "x": 100,
+        "y": 45,
+        "width": 824,
+        "height": 1223
+      },
+      "source": "cyberpunk_hacker_with_cyan_wrist_device.png",
+      "derivation": "hacking"
+    },
+    {
+      "id": "portrait_emma_combat",
+      "category": "CharacterPortrait",
+      "path": "assets/generated/portraits/portrait_emma_combat.png",
+      "width": 1024,
+      "height": 1280,
+      "aspectRatio": "1024:1280",
+      "alphaRequired": true,
+      "status": "runtime-ready",
+      "runtimeEligible": true,
+      "placeholder": false,
+      "sha256": "6560bb3c744ce08004499120c153f2279ae7dfbcd476e9685c0528bc92a5c876",
+      "promptPath": "assets/prompts/prologue/batch-02/portrait_emma_combat.md",
+      "sourceBatch": "v0.1.0-prologue-runtime / Batch 1 canonical sources",
+      "processing": "derived and normalized with Pillow",
+      "character": "emma",
+      "expression": "combat",
+      "crop": "head-and-shoulders",
+      "canonicalTraits": [
+        "short dark hair",
+        "trimmed beard",
+        "natural human skin",
+        "black technical clothing"
+      ],
+      "bounds": {
+        "x": 107,
+        "y": 45,
+        "width": 809,
+        "height": 1190
+      },
+      "source": "cyberpunk_tactical_portrait_of_emma_vázquez.png",
+      "derivation": "combat"
+    },
+    {
+      "id": "portrait_magga_suspicious",
+      "category": "CharacterPortrait",
+      "path": "assets/generated/portraits/portrait_magga_suspicious.png",
+      "width": 1024,
+      "height": 1280,
+      "aspectRatio": "1024:1280",
+      "alphaRequired": true,
+      "status": "runtime-ready",
+      "runtimeEligible": true,
+      "placeholder": false,
+      "sha256": "22c1c587943b6defdf36d0cb6156cfee4b89958849eeabf76f3cccf925fe72b4",
+      "promptPath": "assets/prompts/prologue/batch-02/portrait_magga_suspicious.md",
+      "sourceBatch": "v0.1.0-prologue-runtime / Batch 1 canonical sources",
+      "processing": "derived and normalized with Pillow",
+      "character": "magga",
+      "expression": "suspicious",
+      "crop": "head-and-shoulders",
+      "canonicalTraits": [
+        "long dark-blonde/light-brown hair",
+        "green eyes",
+        "natural human skin",
+        "black practical jacket"
+      ],
+      "identityLock": {
+        "hairColor": "blonde",
+        "eyeColor": "green",
+        "source": "canonical_magga_batch_01_blonde_green_eyes.png"
+      },
+      "bounds": {
+        "x": 75,
+        "y": 451,
+        "width": 949,
+        "height": 784
+      },
+      "source": "magga_temerro_green_eyed_resolve.png",
+      "derivation": "suspicious"
+    },
+    {
+      "id": "portrait_magga_angry",
+      "category": "CharacterPortrait",
+      "path": "assets/generated/portraits/portrait_magga_angry.png",
+      "width": 1024,
+      "height": 1280,
+      "aspectRatio": "1024:1280",
+      "alphaRequired": true,
+      "status": "runtime-ready",
+      "runtimeEligible": true,
+      "placeholder": false,
+      "sha256": "45008ea3532e033bdc90f72b8979354a86f20ad25cb45f1d999a4782b044f9e0",
+      "promptPath": "assets/prompts/prologue/batch-02/portrait_magga_angry.md",
+      "sourceBatch": "v0.1.0-prologue-runtime / Batch 1 canonical sources",
+      "processing": "derived and normalized with Pillow",
+      "character": "magga",
+      "expression": "angry",
+      "crop": "head-and-shoulders",
+      "canonicalTraits": [
+        "long dark-blonde/light-brown hair",
+        "green eyes",
+        "natural human skin",
+        "black practical jacket"
+      ],
+      "identityLock": {
+        "hairColor": "blonde",
+        "eyeColor": "green",
+        "source": "canonical_magga_batch_01_blonde_green_eyes.png"
+      },
+      "bounds": {
+        "x": 75,
+        "y": 409,
+        "width": 821,
+        "height": 826
+      },
+      "source": "magga_temerro_green_eyed_resolve.png",
+      "derivation": "angry"
+    },
+    {
+      "id": "portrait_magga_hurt",
+      "category": "CharacterPortrait",
+      "path": "assets/generated/portraits/portrait_magga_hurt.png",
+      "width": 1024,
+      "height": 1280,
+      "aspectRatio": "1024:1280",
+      "alphaRequired": true,
+      "status": "runtime-ready",
+      "runtimeEligible": true,
+      "placeholder": false,
+      "sha256": "e724c494960ab4d34ae6476b59c68867f33db7fa7486469c25ecfe6662221789",
+      "promptPath": "assets/prompts/prologue/batch-02/portrait_magga_hurt.md",
+      "sourceBatch": "v0.1.0-prologue-runtime / Batch 1 canonical sources",
+      "processing": "derived and normalized with Pillow",
+      "character": "magga",
+      "expression": "hurt",
+      "crop": "head-and-shoulders",
+      "canonicalTraits": [
+        "long dark-blonde/light-brown hair",
+        "green eyes",
+        "natural human skin",
+        "black practical jacket"
+      ],
+      "identityLock": {
+        "hairColor": "blonde",
+        "eyeColor": "green",
+        "source": "canonical_magga_batch_01_blonde_green_eyes.png"
+      },
+      "bounds": {
+        "x": 75,
+        "y": 467,
+        "width": 821,
+        "height": 768
+      },
+      "source": "magga_temerro_green_eyed_resolve.png",
+      "derivation": "hurt"
+    },
+    {
+      "id": "portrait_magga_determined",
+      "category": "CharacterPortrait",
+      "path": "assets/generated/portraits/portrait_magga_determined.png",
+      "width": 1024,
+      "height": 1280,
+      "aspectRatio": "1024:1280",
+      "alphaRequired": true,
+      "status": "runtime-ready",
+      "runtimeEligible": true,
+      "placeholder": false,
+      "sha256": "9f67c7ce3c25ba649ca25022a9852abaaea77f8209779dddd20c0caedcc8b298",
+      "promptPath": "assets/prompts/prologue/batch-02/portrait_magga_determined.md",
+      "sourceBatch": "v0.1.0-prologue-runtime / Batch 1 canonical sources",
+      "processing": "derived and normalized with Pillow",
+      "character": "magga",
+      "expression": "determined",
+      "crop": "head-and-shoulders",
+      "canonicalTraits": [
+        "long dark-blonde/light-brown hair",
+        "green eyes",
+        "natural human skin",
+        "black practical jacket"
+      ],
+      "identityLock": {
+        "hairColor": "blonde",
+        "eyeColor": "green",
+        "source": "canonical_magga_batch_01_blonde_green_eyes.png"
+      },
+      "bounds": {
+        "x": 75,
+        "y": 409,
+        "width": 821,
+        "height": 826
+      },
+      "source": "magga_temerro_green_eyed_resolve.png",
+      "derivation": "determined"
+    },
+    {
+      "id": "portrait_magga_transmission",
+      "category": "CharacterPortrait",
+      "path": "assets/generated/portraits/portrait_magga_transmission.png",
+      "width": 1024,
+      "height": 1280,
+      "aspectRatio": "1024:1280",
+      "alphaRequired": true,
+      "status": "runtime-ready",
+      "runtimeEligible": true,
+      "placeholder": false,
+      "sha256": "6d9be121eda5140d96fba8586ce005f6f2ae1b6c5b7136f2850c2ab6c858ff53",
+      "promptPath": "assets/prompts/prologue/batch-02/portrait_magga_transmission.md",
+      "sourceBatch": "v0.1.0-prologue-runtime / Batch 1 canonical sources",
+      "processing": "derived and normalized with Pillow",
+      "character": "magga",
+      "expression": "transmission",
+      "crop": "head-and-shoulders",
+      "canonicalTraits": [
+        "long dark-blonde/light-brown hair",
+        "green eyes",
+        "natural human skin",
+        "black practical jacket"
+      ],
+      "identityLock": {
+        "hairColor": "blonde",
+        "eyeColor": "green",
+        "source": "canonical_magga_batch_01_blonde_green_eyes.png"
+      },
+      "bounds": {
+        "x": 75,
+        "y": 635,
+        "width": 821,
+        "height": 600
+      },
+      "source": "magga_temerro_green_eyed_resolve.png",
+      "derivation": "transmission"
+    },
+    {
+      "id": "portrait_magga_combat",
+      "category": "CharacterPortrait",
+      "path": "assets/generated/portraits/portrait_magga_combat.png",
+      "width": 1024,
+      "height": 1280,
+      "aspectRatio": "1024:1280",
+      "alphaRequired": true,
+      "status": "runtime-ready",
+      "runtimeEligible": true,
+      "placeholder": false,
+      "sha256": "8514e88f97ac07a66b51b074d64de50698197d6912def69dd856f70d6d41fe5a",
+      "promptPath": "assets/prompts/prologue/batch-02/portrait_magga_combat.md",
+      "sourceBatch": "v0.1.0-prologue-runtime / Batch 1 canonical sources",
+      "processing": "derived and normalized with Pillow",
+      "character": "magga",
+      "expression": "combat",
+      "crop": "head-and-shoulders",
+      "canonicalTraits": [
+        "long dark-blonde/light-brown hair",
+        "green eyes",
+        "natural human skin",
+        "black practical jacket"
+      ],
+      "identityLock": {
+        "hairColor": "blonde",
+        "eyeColor": "green",
+        "source": "canonical_magga_batch_01_blonde_green_eyes.png"
+      },
+      "bounds": {
+        "x": 100,
+        "y": 45,
+        "width": 824,
+        "height": 1190
+      },
+      "source": "magga_temerro_in_tactical_gear.png",
+      "derivation": "combat"
+    },
+    {
+      "id": "evidence_emma_magga_photo",
+      "category": "EvidenceImage",
+      "path": "assets/generated/evidence/evidence_emma_magga_photo.png",
+      "width": 1200,
+      "height": 900,
+      "aspectRatio": "1200:900",
+      "alphaRequired": false,
+      "status": "runtime-ready",
+      "runtimeEligible": true,
+      "placeholder": false,
+      "sha256": "e7112b8258d33368f3528f803137c265d4c2c2b45c5035186aa70fe533e12a03",
+      "promptPath": "assets/prompts/prologue/batch-02/evidence_emma_magga_photo.md",
+      "sourceBatch": "v0.1.0-prologue-runtime / Batch 1 canonical sources",
+      "processing": "derived and normalized with Pillow"
+    },
+    {
+      "id": "evidence_network_access_map",
+      "category": "EvidenceImage",
+      "path": "assets/generated/evidence/evidence_network_access_map.png",
+      "width": 1200,
+      "height": 900,
+      "aspectRatio": "1200:900",
+      "alphaRequired": false,
+      "status": "runtime-ready",
+      "runtimeEligible": true,
+      "placeholder": false,
+      "sha256": "b3eabb5f983336ea5dc9c6d5e71be686c09a3ec12f555c2414b97bfd05b310f6",
+      "promptPath": "assets/prompts/prologue/batch-02/evidence_network_access_map.md",
+      "sourceBatch": "v0.1.0-prologue-runtime / Batch 1 canonical sources",
+      "processing": "derived and normalized with Pillow"
+    },
+    {
+      "id": "evidence_unsent_message_emma",
+      "category": "EvidenceImage",
+      "path": "assets/generated/evidence/evidence_unsent_message_emma.png",
+      "width": 1200,
+      "height": 900,
+      "aspectRatio": "1200:900",
+      "alphaRequired": false,
+      "status": "runtime-ready",
+      "runtimeEligible": true,
+      "placeholder": false,
+      "sha256": "9f092fd0c87112b42183f9b13aedfced75ce8d4d1f342cf7c4214c51336978f1",
+      "promptPath": "assets/prompts/prologue/batch-02/evidence_unsent_message_emma.md",
+      "sourceBatch": "v0.1.0-prologue-runtime / Batch 1 canonical sources",
+      "processing": "derived and normalized with Pillow"
+    },
+    {
+      "id": "evidence_unsent_message_magga",
+      "category": "EvidenceImage",
+      "path": "assets/generated/evidence/evidence_unsent_message_magga.png",
+      "width": 1200,
+      "height": 900,
+      "aspectRatio": "1200:900",
+      "alphaRequired": false,
+      "status": "runtime-ready",
+      "runtimeEligible": true,
+      "placeholder": false,
+      "sha256": "936b376071ba6c6f28f54b579123a25bff5da9f9b9209cb0ff6566b744ea0b46",
+      "promptPath": "assets/prompts/prologue/batch-02/evidence_unsent_message_magga.md",
+      "sourceBatch": "v0.1.0-prologue-runtime / Batch 1 canonical sources",
+      "processing": "derived and normalized with Pillow"
+    },
+    {
+      "id": "evidence_train_41_record",
+      "category": "EvidenceImage",
+      "path": "assets/generated/evidence/evidence_train_41_record.png",
+      "width": 1200,
+      "height": 900,
+      "aspectRatio": "1200:900",
+      "alphaRequired": false,
+      "status": "runtime-ready",
+      "runtimeEligible": true,
+      "placeholder": false,
+      "sha256": "38f0c993df1a52013c81fff461422512a14728f776d2e6f3cb3684818e8decc1",
+      "promptPath": "assets/prompts/prologue/batch-02/evidence_train_41_record.md",
+      "sourceBatch": "v0.1.0-prologue-runtime / Batch 1 canonical sources",
+      "processing": "derived and normalized with Pillow"
+    },
+    {
+      "id": "evidence_fireflies_badge",
+      "category": "EvidenceImage",
+      "path": "assets/generated/evidence/evidence_fireflies_badge.png",
+      "width": 1200,
+      "height": 900,
+      "aspectRatio": "1200:900",
+      "alphaRequired": false,
+      "status": "runtime-ready",
+      "runtimeEligible": true,
+      "placeholder": false,
+      "sha256": "d11e95f579896b2d11ecd383126637d307e95dce90a78ba179fe00e9d69db250",
+      "promptPath": "assets/prompts/prologue/batch-02/evidence_fireflies_badge.md",
+      "sourceBatch": "v0.1.0-prologue-runtime / Batch 1 canonical sources",
+      "processing": "derived and normalized with Pillow"
+    },
+    {
+      "id": "encounter_hacking_background",
+      "category": "EncounterBackground",
+      "path": "assets/generated/encounters/encounter_hacking_background.png",
+      "width": 1920,
+      "height": 1080,
+      "aspectRatio": "1920:1080",
+      "alphaRequired": false,
+      "status": "runtime-ready",
+      "runtimeEligible": true,
+      "placeholder": false,
+      "sha256": "d340f9e69edfe1167cdfcc7cc96ea983e2d858f37594ad220b196204921da235",
+      "promptPath": "assets/prompts/prologue/batch-02/encounter_hacking_background.md",
+      "sourceBatch": "v0.1.0-prologue-runtime / Batch 1 canonical sources",
+      "processing": "derived and normalized with Pillow"
+    },
+    {
+      "id": "enemy_security_drone",
+      "category": "EnemyFigure",
+      "path": "assets/generated/encounters/enemy_security_drone.png",
+      "width": 1200,
+      "height": 1200,
+      "aspectRatio": "1200:1200",
+      "alphaRequired": true,
+      "status": "runtime-ready",
+      "runtimeEligible": true,
+      "placeholder": false,
+      "sha256": "bc855550a5b26be3ac759ae06cef5dece97f7a3e076a4774c76e408d3c2969cb",
+      "promptPath": "assets/prompts/prologue/batch-02/enemy_security_drone.md",
+      "sourceBatch": "v0.1.0-prologue-runtime / Batch 1 canonical sources",
+      "processing": "derived and normalized with Pillow",
+      "bounds": {
+        "x": 80,
+        "y": 182,
+        "width": 1040,
+        "height": 850
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 0.82
+      }
+    }
+  ]
+}

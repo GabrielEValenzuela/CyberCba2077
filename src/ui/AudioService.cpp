@@ -1,0 +1,5 @@
+#include "ui/AudioService.hpp"
+#include <algorithm>
+AudioService::AudioService(){InitAudioDevice();m_ready=IsAudioDeviceReady();if(m_ready){m_confirm=LoadSound("assets/audio/ui/confirm.wav");m_cancel=LoadSound("assets/audio/ui/cancel.wav");m_success=LoadSound("assets/audio/ui/success.wav");}}
+AudioService::~AudioService(){if(m_ready){if(m_confirm.frameCount)UnloadSound(m_confirm);if(m_cancel.frameCount)UnloadSound(m_cancel);if(m_success.frameCount)UnloadSound(m_success);CloseAudioDevice();}}
+void AudioService::setMuted(bool muted){m_muted=muted;}void AudioService::setVolumes(float,float effects){m_effects=std::clamp(effects,0.0F,1.0F);}bool AudioService::available()const{return m_ready;}void AudioService::playUiConfirm(){if(m_ready&&!m_muted&&m_confirm.frameCount){SetSoundVolume(m_confirm,m_effects);PlaySound(m_confirm);}}void AudioService::playUiCancel(){if(m_ready&&!m_muted&&m_cancel.frameCount){SetSoundVolume(m_cancel,m_effects);PlaySound(m_cancel);}}void AudioService::playSuccess(){if(m_ready&&!m_muted&&m_success.frameCount){SetSoundVolume(m_success,m_effects);PlaySound(m_success);}}

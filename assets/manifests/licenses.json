@@ -1,0 +1,66 @@
+{
+  "description": "Registro de licencias de packs de terceros evaluados para CyberCBA 2077. Complementa (no reemplaza) assets/data/assets-manifest.json, que sigue siendo el catálogo runtime autoritativo leído por AssetStore.",
+  "packs": [
+    {
+      "id": "pixel-cyberpunk-interior",
+      "author": "DyLESTorm (livingtheindie)",
+      "sourceUrl": "https://livingtheindie.itch.io/pixel-cyberpunk-interior",
+      "license": "Itch.io free asset — comercial y no comercial permitido, crédito apreciado no obligatorio, prohibida reventa/redistribución del pack original o modificado",
+      "licenseFile": "assets/vendor/pixel-cyberpunk-interior/SOURCE.md",
+      "attributionRequired": false,
+      "modified": false,
+      "status": "verified",
+      "role": "interior architecture/furniture (primary)",
+      "integratedInSession": true,
+      "integrationNotes": "6 tiles sliced (wall/floor corner, door, bed, sofa, chair, console panel) into assets/processed/environment/interior_*.png and registered in assets-manifest.json. 3 of them (sofa, chair, console panel) wired as non-blocking decorative WorldProp entries in src/application/WorldLayout.cpp SHELTER array. The main room shell/geometry in GameApp::drawShelterShell (hand-drawn procedural art) was left untouched this session — full tile-based room replacement is a larger follow-up, see docs/asset-integration-style.md."
+    },
+    {
+      "id": "craftpix-cyberpunk-gui",
+      "author": "CraftPix.net",
+      "sourceUrl": "https://craftpix.net/product/free-gui-for-cyberpunk-pixel-art/",
+      "license": "CraftPix free license (https://craftpix.net/file-licenses/) — comercial y no comercial permitido, no requiere atribución, prohibida redistribución de archivos fuente crudos",
+      "licenseFile": "assets/vendor/craftpix-cyberpunk-gui/SOURCE.md",
+      "attributionRequired": false,
+      "modified": false,
+      "status": "verified",
+      "role": "complementary UI icons/frames/cursors only",
+      "integratedInSession": false
+    },
+    {
+      "id": "cyberpunk-city-ext",
+      "author": "unknown",
+      "sourceUrl": null,
+      "license": "unverified",
+      "licenseFile": "assets/imports/rejected/PENDING_VERIFICATION.md",
+      "attributionRequired": null,
+      "modified": false,
+      "status": "pending_verification",
+      "role": "exterior base (candidate, not confirmed)",
+      "integratedInSession": false
+    },
+    {
+      "id": "striker",
+      "author": "unknown",
+      "sourceUrl": null,
+      "license": "unverified",
+      "licenseFile": "assets/imports/rejected/PENDING_VERIFICATION.md",
+      "attributionRequired": null,
+      "modified": false,
+      "status": "pending_verification",
+      "role": "enemy/NPC candidate (unconfirmed \"OcO\" identity)",
+      "integratedInSession": false
+    },
+    {
+      "id": "craftpix-184808-icons",
+      "author": "CraftPix.net",
+      "sourceUrl": "https://craftpix.net/product/free-cyberpunk-resource-pixel-art-32x32-icons/",
+      "license": "CraftPix free license (https://craftpix.net/file-licenses/) — comercial y no comercial permitido, no requiere atribución, prohibida redistribución de archivos fuente crudos",
+      "licenseFile": "assets/vendor/craftpix-184808-icons/SOURCE.md",
+      "attributionRequired": false,
+      "modified": false,
+      "status": "verified",
+      "role": "complementary small props/icons (industrial containers, tools, panels) — 40 icons available, none selected/integrated yet",
+      "integratedInSession": false
+    }
+  ]
+}
