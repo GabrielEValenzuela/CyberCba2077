@@ -21,3 +21,4 @@ La infraestructura general puede usar STL; las estructuras evaluadas de la mater
 - Pantalla dedicada de Diario de evidencia (`EvidenceJournal` ya tiene los datos; hoy vive dentro de `drawObjectives()`, no en un `Screen` propio — ver `docs/investigation-system.md`). El mapa de misión por nodos ya existe como pantalla real (`Screen::World`, ADR `0014-node-based-world-screen.md`).
 - Evidencia `insignia`/`unsent_message` sin hotspot que las descubra todavía (ver `docs/investigation-system.md`).
 - No hay composición de escena narrativa con fondo/retrato ilustrado — el shell procedural existente cumple el rol de `Background` (ver `docs/static-art-direction.md`).
+- `CharacterRoster` (9 módulos NPC/enemigo de v0.1.0, ver `docs/adding-a-character.md`) existe como andamiaje compilable pero no está cableado a `MissionGraph`/`GameApp`; cada módulo es un stub `TODO(student)`.

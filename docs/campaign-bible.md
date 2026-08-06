@@ -12,13 +12,13 @@ Fuente de verdad narrativa. Los hechos aquí listados no deben contradecirse en 
 
 Infraestructura que controla Neo-Córdoba: energía, transporte, identidad, seguridad, comunicaciones, registros médicos, permisos de acceso, distribución de recursos, archivos de la ciudad. Cuando falla, distritos enteros desaparecen. Se introduce en `prologueDialogue()` como `opening_network` (apertura del prólogo), no solo como lore de fondo.
 
-## La Luciérnaga
+## Las Luciérnagas
 
 Red clandestina de ayuda mutua que restauraba servicios abandonados por La Red: electricidad, rutas de evacuación, identidades borradas, información censurada, comunicaciones. Emma y Magga fueron miembros. Se introduce como `opening_fireflies`.
 
 ## La Noche del Apagón
 
-La Luciérnaga fue expuesta; varios miembros desaparecieron. Emma y Magga llegaron a puntos de evacuación distintos y cada una recibió pruebas manipuladas de que la otra la había traicionado. Nunca volvieron a verse. Los registros de esa noche fueron alterados; la verdad completa es desconocida — no se resuelve en v0.1.0. Se introduce como `opening_blackout`.
+Las Luciérnagas fueron expuestas; varios miembros desaparecieron. Emma y Magga llegaron a puntos de evacuación distintos y cada una recibió pruebas manipuladas de que la otra la había traicionado. Nunca volvieron a verse. Los registros de esa noche fueron alterados; la verdad completa es desconocida — no se resuelve en v0.1.0. Se introduce como `opening_blackout`.
 
 ## Emmanuel "Emma" Vázquez
 
@@ -26,7 +26,7 @@ Origen: Santa María. Especialidad: Intrusión de enlace (hacking). Analítica, 
 
 ## Magalí "Magga" Temerro
 
-Origen: San Justo. Especialidad: Impacto táctico (combate). Cabello largo rubio oscuro/castaño claro y ojos verdes claramente visibles. Decidida, directa, protectora, desconfiada, emocionalmente intensa, todavía enojada por el aparente abandono de Emma. Identidad de juego: daño directo, guardia, contraataques, ruptura de defensas.
+Origen: San Justo. Especialidad: Impacto táctico (combate). Cabello rubio y ojos verdes claramente visibles. Decidida, directa, protectora, desconfiada, emocionalmente intensa, todavía enojada por el aparente abandono de Emma. Identidad de juego: daño directo, guardia, contraataques, ruptura de defensas.
 
 El jugador elige un protagonista; el no elegido es la voz de la transmisión, el foco emocional de la búsqueda y la fuente de recuerdos contradictorios (`DialogueSpeaker::OtherProtagonist` resuelve automáticamente al personaje no elegido — `include/cybercba/Dialogue.hpp`).
 
@@ -43,10 +43,10 @@ No se representa con un medidor de romance visible. Estado narrativo interno (`N
 ## Verdades conocidas (v0.1.0)
 
 - La Red controla Neo-Córdoba y falla en los márgenes.
-- La Luciérnaga existió y ayudó a esos márgenes.
+- Las Luciérnagas existieron y ayudaron a esos márgenes.
 - Emma y Magga fueron pareja antes del apagón.
 - El Tren 41 fue destruido oficialmente y no debería transmitir nada.
-- El símbolo de La Luciérnaga en la entrada del Neometro es reciente (`neometro_ending`): alguien volvió, o nunca se fue.
+- El símbolo de Las Luciérnagas en la entrada del Neometro es reciente (`neometro_ending`): alguien volvió, o nunca se fue.
 
 ## Misterios sin resolver (v0.1.0)
 

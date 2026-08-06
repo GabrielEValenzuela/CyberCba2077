@@ -70,7 +70,7 @@ StageObjective stageObjectiveInfo(cybercba::PrologueStage stage)
 {
     switch (stage)
     {
-        case cybercba::PrologueStage::Shelter: return {"LA SEÑAL IMPOSIBLE", "Descubrí quién reactivó el transmisor de La Luciérnaga."};
+        case cybercba::PrologueStage::Shelter: return {"LA SEÑAL IMPOSIBLE", "Descubrí quién reactivó el transmisor de Las Luciérnagas."};
         case cybercba::PrologueStage::Transmission: return {"RECUPERAR EL ENLACE", "Reconstruí la transmisión antes de perder la señal."};
         case cybercba::PrologueStage::Route: return {"TREN 41", "Recuperá las coordenadas antes de que la ruta se cierre."};
         case cybercba::PrologueStage::Convergence: return {"LÍNEA OESTE", "Escapá del refugio y seguí la línea oeste hasta el Neometro."};
@@ -222,7 +222,7 @@ void drawSoftLight(Vector2 center, float radius, Color color)
     DrawRectangle(410, 432, 48, 38, Color {181, 167, 126, 255});
     DrawLine(414, 439, 454, 463, Color {97, 78, 60, 255}); DrawLine(454, 439, 414, 463, Color {97, 78, 60, 255});
 
-    // Mural map and the La Luciernaga mark: recognizable as a pinned wall map, not a UI panel.
+    // Mural map and the Las Luciernagas mark: recognizable as a pinned wall map, not a UI panel.
     DrawRectangle(443, 112, 224, 69, Color {38, 31, 25, 255});
     DrawRectangle(450, 117, 210, 57, Color {154, 142, 104, 255});
     DrawRectangle(458, 123, 194, 45, Color {183, 169, 126, 255});
@@ -382,12 +382,18 @@ std::string GameApp::nodeBody(const std::string& id) const
     if (id == "comms_room") return dialogue.resolveText("evidence_network_map", selected);
     if (id == "archive") return dialogue.resolveText("evidence_unsent_message", selected);
     if (id == "blackout") return dialogue.resolveText("opening_blackout", selected);
-    if (id == "power_recovery") return "El generador está inestable. Restaurar la energía va a reactivar el transmisor de La Luciérnaga.";
+    if (id == "power_recovery")
+        return selected == cybercba::CharacterId::Emma
+            ? "Iluminacion, puerta, transmisor, generador, ventilacion. Si alimento el transmisor primero, puedo "
+              "perder la puerta. Si estabilizo todo, la señal puede desaparecer."
+            : "Iluminacion, puerta, transmisor, generador, ventilacion. Comunicacion o salida. Siempre aparece una "
+              "maquina queriendo que elijas que perder.";
     if (id == "fragmented_transmission") return dialogue.resolveText("transmission_fragment", selected);
     if (id == "protagonist_encounter")
         return selected == cybercba::CharacterId::Emma
-            ? "Una terminal de acceso bloquea el paso. Hay que intervenirla."
-            : "Un dron de seguridad bloquea la pasarela.";
+            ? "Hay una segunda firma dentro de la señal. Alguien intenta ocultarla y localizarme al mismo tiempo. "
+              "Hay que hackear el relé de interferencia."
+            : "Cinco años sin una visita, y mandan una lata con camara. Un dron de seguridad bloquea la pasarela.";
     if (id == "narrative_choice") return dialogue.resolveText("transmission_complete", selected);
     if (id == "exterior_route") return "Lluvia. Calles vacias. La linea oeste queda a unas cuadras, mas alla de un control de seguridad.";
     if (id == "security_control")

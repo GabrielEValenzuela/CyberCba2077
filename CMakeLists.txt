@@ -38,6 +38,17 @@ add_library(cyber_cba_core STATIC
   src/domain/Encounter.cpp
   src/domain/PrologueContent.cpp
   src/domain/EncounterContent.cpp
+  src/domain/CharacterModule.cpp
+  src/domain/characters/LumaCharacter.cpp
+  src/domain/characters/SistemaCharacter.cpp
+  src/domain/characters/VozFalsaMaggaCharacter.cpp
+  src/domain/characters/OrdenFalsaCharacter.cpp
+  src/domain/characters/ReleInterferenciaCharacter.cpp
+  src/domain/characters/DronSeguridadCharacter.cpp
+  src/domain/characters/SistemaVigilanciaCharacter.cpp
+  src/domain/characters/PatrullaSeguridadCharacter.cpp
+  src/domain/characters/TomoCharacter.cpp
+  src/domain/characters/PrologueCharacters.cpp
 )
 target_include_directories(cyber_cba_core PUBLIC include)
 target_link_libraries(cyber_cba_core PUBLIC cyberpunk_model)
@@ -112,6 +123,7 @@ if(CYBERPUNK_BUILD_TESTS)
     tests/test_encounter.cpp
     tests/test_prologue_content.cpp
     tests/test_encounter_content.cpp
+    tests/test_character_module.cpp
     tests/test_credits_loader.cpp
   )
 
