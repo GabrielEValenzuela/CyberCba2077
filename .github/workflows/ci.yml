@@ -30,12 +30,12 @@ jobs:
             exit 0
           fi
 
-          if [[ "$BRANCH" =~ ^(feature|hotfix|bug|release|refactor|docs|chore)\/.+$ ]]; then
+          if [[ "$BRANCH" =~ ^(feature|hotfix|bug|release|refactor|docs|chore|creditos)\/.+$ ]]; then
             exit 0
           fi
 
           echo "Nombre de rama inválido"
-          echo "Usa: feature/* hotfix/* bug/* release/* refactor/* docs/* chore/*"
+          echo "Usa: feature/* hotfix/* bug/* release/* refactor/* docs/* chore/* creditos/*"
           exit 1
 
   ci:
