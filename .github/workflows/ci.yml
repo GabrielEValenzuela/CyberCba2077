@@ -69,8 +69,18 @@ jobs:
             unzip \
             bc \
             ccache \
-            imagemagick \
             jq
+
+      # -----------------------------------
+      # ImageMagick 7 (Ubuntu's apt repo only ships v6; install the
+      # official portable v7 binary, since scripts/*.sh require `magick`)
+      # -----------------------------------
+      - name: Install ImageMagick 7
+        run: |
+          sudo wget -q https://imagemagick.org/archive/binaries/magick -O /usr/local/bin/magick
+          sudo chmod +x /usr/local/bin/magick
+          echo "APPIMAGE_EXTRACT_AND_RUN=1" >> "$GITHUB_ENV"
+          APPIMAGE_EXTRACT_AND_RUN=1 magick -version
 
       # -----------------------------------
       # Asset validation (manifest vs. processed PNGs)
