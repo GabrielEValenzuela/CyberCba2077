@@ -77,7 +77,11 @@ jobs:
       # -----------------------------------
       - name: Install ImageMagick 7
         run: |
-          sudo wget -q https://imagemagick.org/archive/binaries/magick -O /usr/local/bin/magick
+          APPIMAGE_URL="$(curl -sL https://api.github.com/repos/ImageMagick/ImageMagick/releases/latest \
+            | grep browser_download_url \
+            | grep -i 'gcc-x86_64.AppImage"' \
+            | cut -d '"' -f4)"
+          sudo wget -q "$APPIMAGE_URL" -O /usr/local/bin/magick
           sudo chmod +x /usr/local/bin/magick
           echo "APPIMAGE_EXTRACT_AND_RUN=1" >> "$GITHUB_ENV"
           APPIMAGE_EXTRACT_AND_RUN=1 magick -version
