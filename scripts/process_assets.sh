@@ -1,12 +1,19 @@
 #!/usr/bin/env bash
 # Produces runtime PNGs from the generated source set without overwriting it.
-# Requires ImageMagick 7 (`magick`). Every resize uses point sampling.
+# Requires ImageMagick (`magick` or legacy `identify`/`convert`). Every resize uses point sampling.
 set -euo pipefail
 
 project_root="$(cd "$(dirname "$0")/.." && pwd)"
 cd "$project_root"
 
-command -v magick >/dev/null || { echo "ImageMagick 7 (magick) is required" >&2; exit 1; }
+if command -v magick >/dev/null; then
+  im_convert_cmd=(magick)
+elif command -v convert >/dev/null && command -v identify >/dev/null; then
+  im_convert_cmd=(convert)
+else
+  echo "ImageMagick is required (magick or identify/convert)" >&2
+  exit 1
+fi
 
 mkdir -p assets/raw/{characters,props,buildings,environment} \
   assets/processed/{characters,props,buildings,environment}
@@ -19,8 +26,8 @@ process_asset() {
   local geometry inner_width=$((width - 32)) inner_height=$((height - 32))
 
   install -m 0644 "$source" "$raw"
-  geometry="$(magick "$source" -alpha extract -threshold "$threshold" -trim -format '%wx%h%O' info:)"
-  magick "$source" -alpha on -crop "$geometry" +repage \
+  geometry="$("${im_convert_cmd[@]}" "$source" -alpha extract -threshold "$threshold" -trim -format '%wx%h%O' info:)"
+  "${im_convert_cmd[@]}" "$source" -alpha on -crop "$geometry" +repage \
     -filter point -resize "${inner_width}x${inner_height}" \
     -gravity center -background none -extent "${width}x${height}" \
     "$output"

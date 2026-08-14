@@ -1,10 +1,19 @@
 #!/usr/bin/env bash
-# Validates the generated runtime catalog. Requires ImageMagick 7 (`magick`).
+# Validates the generated runtime catalog. Requires ImageMagick (`magick` or legacy `identify`/`convert`).
 set -euo pipefail
 
 project_root="$(cd "$(dirname "$0")/.." && pwd)"
 cd "$project_root"
-command -v magick >/dev/null || { echo "ImageMagick 7 (magick) is required" >&2; exit 1; }
+if command -v magick >/dev/null; then
+  im_identify_cmd=(magick identify)
+  im_convert_cmd=(magick)
+elif command -v identify >/dev/null && command -v convert >/dev/null; then
+  im_identify_cmd=(identify)
+  im_convert_cmd=(convert)
+else
+  echo "ImageMagick is required (magick or identify/convert)" >&2
+  exit 1
+fi
 
 declare -a entries=(
   'assets/processed/characters/emma_idle.png:256x384'
@@ -34,10 +43,13 @@ declare -a entries=(
 for entry in "${entries[@]}"; do
   path="${entry%%:*}"
   expected="${entry#*:}"
-  actual="$(magick identify -format '%wx%h %[channels]' "$path")"
-  [[ "$actual" == "$expected srgba 4.0" ]] || { echo "invalid canvas/alpha: $path ($actual)" >&2; exit 1; }
-  corner_alpha="$(magick "$path" -crop 1x1+0+0 -alpha extract -format '%[mean]' info:)"
-  [[ "$corner_alpha" == "0" ]] || { echo "opaque top-left corner: $path" >&2; exit 1; }
+  actual_size="$("${im_identify_cmd[@]}" -format '%wx%h' "$path")"
+  actual_channels="$("${im_identify_cmd[@]}" -format '%[channels]' "$path")"
+  [[ "$actual_size" == "$expected" ]] || { echo "invalid canvas: $path ($actual_size, expected $expected)" >&2; exit 1; }
+  [[ "${actual_channels,,}" == *rgba* ]] || { echo "invalid alpha channels: $path ($actual_channels)" >&2; exit 1; }
+  corner_alpha="$("${im_convert_cmd[@]}" "$path" -crop 1x1+0+0 -alpha extract -format '%[fx:mean]' info:)"
+  awk -v alpha="$corner_alpha" 'BEGIN { exit ((alpha + 0.0) <= 0.000001 ? 0 : 1) }' \
+    || { echo "opaque top-left corner: $path (alpha=$corner_alpha)" >&2; exit 1; }
 done
 
 jq -e '.schemaVersion == 7 and ([.assets[] | select(.processed != null)] | length == 24)' assets/data/assets-manifest.json >/dev/null
