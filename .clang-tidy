@@ -38,6 +38,8 @@ CheckOptions:
   readability-identifier-naming.ProtectedMemberPrefix: 'm_'
   readability-identifier-naming.StaticVariableCase: camelBack
   readability-identifier-naming.StaticVariablePrefix: 'gs_'
+  readability-identifier-naming.StaticConstantCase: camelBack
+  readability-identifier-naming.StaticConstantPrefix: 'gs_'
   readability-identifier-naming.GlobalVariableCase: camelBack
   readability-identifier-naming.GlobalVariablePrefix: 'g_'
   # Only compile-time constants (constexpr/#define) are UPPER_CASE; ordinary
