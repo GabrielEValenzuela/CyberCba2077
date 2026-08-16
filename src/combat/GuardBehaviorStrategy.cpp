@@ -11,7 +11,15 @@ constexpr int ALERTED_GUARD_DAMAGE  = 12;
 
 // Stateless singletons backing GuardStrategies (VS-001 §9.5.3): one instance
 // per translation unit, never allocated per-encounter.
+//
+// NOLINTNEXTLINE(readability-identifier-naming) — clang-tidy's GlobalConstant
+// category covers any file-scope const regardless of the `static` keyword,
+// conflating numeric constexpr constants (UPPER_CASE, see ADR-001) with
+// these object singletons (gs_ prefix, matching ADR-001's "static at
+// global/namespace scope" rule). ADR-001 intends the two differently; this
+// is a deliberate, understood suppression, not a blanket NOLINT.
 static const StandardGuardStrategy gs_standardGuardStrategy;
+// NOLINTNEXTLINE(readability-identifier-naming) — same rationale as above.
 static const AlertedGuardStrategy gs_alertedGuardStrategy;
 
 } // namespace
