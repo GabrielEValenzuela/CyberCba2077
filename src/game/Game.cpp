@@ -5,7 +5,7 @@
 namespace cybercba::game
 {
 
-Game::Game(std::string creditsDirectory) : m_creditsText(core::CreditsLoader::loadEntries(creditsDirectory)) {}
+Game::Game(const std::string& creditsDirectory) : m_creditsText(core::CreditsLoader::loadEntries(creditsDirectory)) {}
 
 void Game::update(const states::InputSnapshot& input)
 {

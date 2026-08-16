@@ -9,6 +9,11 @@ namespace
 constexpr int STANDARD_GUARD_DAMAGE = 8;
 constexpr int ALERTED_GUARD_DAMAGE  = 12;
 
+// Stateless singletons backing GuardStrategies (VS-001 §9.5.3): one instance
+// per translation unit, never allocated per-encounter.
+const StandardGuardStrategy gs_standardGuardStrategy;
+const AlertedGuardStrategy gs_alertedGuardStrategy;
+
 } // namespace
 
 int StandardGuardStrategy::decideDamage(const CombatState& /*state*/) const
@@ -23,14 +28,12 @@ int AlertedGuardStrategy::decideDamage(const CombatState& /*state*/) const
 
 const IGuardBehaviorStrategy& GuardStrategies::standard()
 {
-    static const StandardGuardStrategy s_instance;
-    return s_instance;
+    return gs_standardGuardStrategy;
 }
 
 const IGuardBehaviorStrategy& GuardStrategies::alerted()
 {
-    static const AlertedGuardStrategy s_instance;
-    return s_instance;
+    return gs_alertedGuardStrategy;
 }
 
 } // namespace cybercba::combat

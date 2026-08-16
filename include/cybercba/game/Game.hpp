@@ -29,7 +29,7 @@ class Game final
     // creditsDirectory: passed in by the composition root (TAD-001 §17) so
     // Game stays free of raylib but still doesn't hardcode a filesystem path
     // — the app decides where "credits/" lives relative to the executable.
-    explicit Game(std::string creditsDirectory = "credits");
+    explicit Game(const std::string& creditsDirectory = "credits");
 
     void update(const states::InputSnapshot& input);
 
