@@ -1,12 +1,14 @@
-# Pull Request — CyberCba2077
+# Pull Request — CyberCBA 2077
 
 > [!IMPORTANT]
 > Antes de pedir review:
+> - leíste [`AGENTS.md`](../AGENTS.md) si es tu primera PR en el proyecto
 > - linkeá la tarea/issue correspondiente
 > - asignate esta PR
-> - verificá que el cambio compile
+> - verificá que el cambio compile (`cmake --build build/dev`) y que los tests pasen (`ctest --test-dir build/dev`)
+> - corriste `clang-format -i` sobre los archivos que tocaste
 > - pedí aprobación de **Tester** y **Team Lead**
-> - borra todo este bloque ante de darle al botón de abrir PR!
+> - borrá todo este bloque antes de darle al botón de abrir PR!
 
 ---
 
@@ -16,8 +18,8 @@
 - [ ] Bugfix
 - [ ] Refactor
 - [ ] Tests
-- [ ] Documentation
-- [ ] Performance
+- [ ] Documentation (GPD/TAD/VS-001/ADR)
+- [ ] Narrative content (escenas/diálogos de VS-001)
 - [ ] Build / CI
 - [ ] Chore
 
@@ -50,9 +52,8 @@ Este PR:
 <!-- Explicá qué problema resuelve.
 No describas todavía archivos ni detalles de implementación.
 Respondé:
-- ¿Qué fallaba?
-- ¿Qué faltaba?
-- ¿Qué comportamiento se esperaba?
+- ¿Qué fallaba o qué faltaba?
+- ¿Qué comportamiento se esperaba (citá GPD/TAD-001/VS-001 si aplica)?
 - ¿Por qué era necesario este cambio? -->
 Contexto
 -
@@ -69,8 +70,8 @@ Resultado esperado
 <!-- Explicá el enfoque técnico elegido.
 En C++ esto es especialmente importante:
 - ¿qué clases, structs o módulos tocaste?
-- ¿agregaste una nueva abstracción?
-- ¿modificaste ownership, punteros, referencias, const-correctness, RAII, STL containers?
+- ¿agregaste una nueva abstracción? ¿hacía falta (TAD-001 §4: cero abstracción especulativa)?
+- ¿modificaste ownership, punteros, referencias, const-correctness, RAII?
 - ¿cambió la complejidad o el ciclo de vida de objetos?
 
 No repitas el diff línea por línea. Explicá la decisión de diseño. -->
@@ -91,9 +92,9 @@ Archivos o módulos clave
 ## Cambios incluidos
 <!-- Lista concreta y escaneable.
 Ejemplo:
-- se agregó clase Inventory
-- se corrigió validación de comandos
-- se actualizaron tests del parser -->
+- se agregó CombatActionType::UseResource
+- se corrigió transición inválida en GameStateMachine
+- se actualizaron tests de CombatSystem -->
 -
 -
 -
@@ -101,16 +102,18 @@ Ejemplo:
 
 ---
 
-## Consideraciones técnicas C++
-<!-- Completar si aplica. Esta sección ayuda a revisar calidad técnica propia del lenguaje. -->
+## Consideraciones técnicas C++ (ver AGENTS.md / TAD-001)
+<!-- Completar si aplica. Esta sección ayuda a revisar calidad técnica propia del lenguaje
+y a chequear las reglas específicas de este proyecto, que no son las típicas de C++ moderno. -->
 - [ ] No aplica
+- [ ] **No introduje `std::vector`/`std::map`/`std::queue`/`std::stack`/`std::set`/etc. ni `std::unique_ptr`/`std::shared_ptr`** (TAD-001 §10-§11 — esto lo audita CI automáticamente, pero revisalo antes)
+- [ ] Si toqué `include/cybercba/structures/`, no le agregué cuerpo a los métodos sin que se me pida explícitamente (son un ejercicio para el equipo, ver GPD §55)
+- [ ] `cybercba_core` sigue sin incluir `<raylib.h>` ni llamar funciones de raylib directamente
 - [ ] Se respetó const-correctness
 - [ ] Se evitó copiar objetos innecesariamente
-- [ ] Se usó RAII / manejo seguro de recursos
-- [ ] Se revisó ownership de memoria/punteros
+- [ ] Se revisó ownership de memoria/punteros (¿quién crea? ¿quién posee? ¿quién destruye?)
 - [ ] Se evitó código duplicado
-- [ ] Se consideró complejidad temporal/espacial
-- [ ] Se mantuvo compatibilidad con la arquitectura existente
+- [ ] Se mantuvo compatibilidad con la arquitectura existente (TAD-001 §5-§7)
 
 Detalle adicional
 -
@@ -121,14 +124,14 @@ Detalle adicional
 <!-- Escribí pasos concretos y reproducibles.
 Un reviewer o tester debería poder validar la PR sin preguntarte nada.
 Incluir:
-- comando para compilar
-- comando para correr
+- comando para compilar/testear
 - input esperado si aplica
 - caso feliz
 - caso borde / error si aplica -->
-1.
-2.
-3.
+1. `export VCPKG_ROOT=...` y `cmake --preset dev`
+2. `cmake --build build/dev`
+3. `ctest --test-dir build/dev --output-on-failure`
+4.
 
 ### Resultado esperado
 <!-- Describí qué debería observar el tester -->
@@ -138,11 +141,11 @@ Incluir:
 
 ## Evidencia
 <!-- Obligatorio cuando haya cambios visibles, gameplay, consola, logs o salidas relevantes.
-Podés adjuntar screenshots, GIFs, outputs de consola o logs. -->
+Podés adjuntar screenshots, GIFs, outputs de consola, ctest, o sanitizers. -->
 - [ ] No aplica
 - [ ] Capturas adjuntas
-- [ ] Logs adjuntos
-- [ ] Output de consola adjunto
+- [ ] Logs / output de ctest adjunto
+- [ ] Output de sanitizers (ASan/UBSan) adjunto
 - [ ] Video/GIF adjunto
 
 Evidencia
@@ -179,11 +182,12 @@ Si la respuesta es sí, explicar
 ## Testing realizado
 <!-- Marcar lo que realmente se hizo.
 No marcar cosas que no se validaron. -->
-- [ ] Compila correctamente en mi entorno
+- [ ] Compila correctamente en mi entorno (`cmake --build build/dev`)
+- [ ] `ctest --test-dir build/dev` pasa completo
 - [ ] Se agregaron o actualizaron tests unitarios
-- [ ] Los tests existentes siguen pasando
-- [ ] Se hizo validación manual
-- [ ] Se probaron casos borde
+- [ ] Corrí `clang-format -i` sobre los archivos tocados
+- [ ] Probé bajo el preset `asan` si el cambio toca lógica de memoria/estructuras
+- [ ] Se hizo validación manual (ej. corriendo `cybercba_app`)
 - [ ] No aplica agregar tests
 
 Detalle
@@ -198,11 +202,11 @@ Detalle
 - [ ] El cambio tiene un objetivo claro y acotado
 - [ ] No mezclé cambios no relacionados
 - [ ] Revisé mi propio diff antes de pedir review
-- [ ] El código compila
+- [ ] El código compila y los tests pasan
 - [ ] Actualicé tests si correspondía
-- [ ] Actualicé documentación si correspondía
+- [ ] Actualicé documentación (GPD/TAD-001/VS-001/ADR) si correspondía
 - [ ] No dejé código muerto, prints temporales o comentarios innecesarios
-- [ ] Los nombres de variables, funciones y clases son claros
+- [ ] Los nombres de variables, funciones y clases son claros (ver convenciones en ADR-001)
 - [ ] La solución respeta la modularidad del proyecto
 
 ---
@@ -223,8 +227,8 @@ Reviewer(s):
 ## Notas para el reviewer
 <!-- Usá esta sección para guiar la revisión y ahorrar tiempo.
 Por ejemplo:
-- empezar por src/engine/command_parser.cpp
-- luego mirar tests/parser_test.cpp
+- empezar por src/combat/CombatSystem.cpp
+- luego mirar tests/combat/CombatSystemTest.cpp
 - tengo dudas sobre ownership en X -->
 Orden sugerido de revisión:
 1.

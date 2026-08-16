@@ -1,0 +1,34 @@
+name: Setup vcpkg
+description: >
+  Clones vcpkg pinned to the exact commit referenced by vcpkg.json's
+  builtin-baseline (TAD-001 §35), bootstraps it, and caches both the vcpkg
+  checkout and the installed packages keyed on vcpkg.json.
+
+runs:
+  using: composite
+  steps:
+    - name: Cache vcpkg checkout + installed packages
+      id: cache-vcpkg
+      uses: actions/cache@v4
+      with:
+        path: |
+          ${{ env.VCPKG_ROOT }}
+          ${{ github.workspace }}/build/*/vcpkg_installed
+        key: vcpkg-${{ runner.os }}-${{ env.VCPKG_COMMIT }}-${{ hashFiles('vcpkg.json') }}
+
+    - name: Clone vcpkg
+      if: steps.cache-vcpkg.outputs.cache-hit != 'true'
+      shell: bash
+      run: |
+        git clone https://github.com/microsoft/vcpkg.git "$VCPKG_ROOT"
+        git -C "$VCPKG_ROOT" checkout "$VCPKG_COMMIT"
+
+    - name: Bootstrap vcpkg (Unix)
+      if: steps.cache-vcpkg.outputs.cache-hit != 'true' && runner.os != 'Windows'
+      shell: bash
+      run: "$VCPKG_ROOT/bootstrap-vcpkg.sh"
+
+    - name: Bootstrap vcpkg (Windows)
+      if: steps.cache-vcpkg.outputs.cache-hit != 'true' && runner.os == 'Windows'
+      shell: pwsh
+      run: "& $env:VCPKG_ROOT/bootstrap-vcpkg.bat"
