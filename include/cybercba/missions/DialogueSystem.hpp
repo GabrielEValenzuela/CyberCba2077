@@ -7,7 +7,7 @@
 namespace cybercba::missions
 {
 
-// One branch a player can pick at a decision point (GPD §18, VS-001 §3.3).
+/// One branch a player can pick at a decision point.
 // nextLineIndex is an index into the owning DialogueScript::lines.
 // POD data holder: fields intentionally have no m_ prefix (ADR-001 exception).
 struct DialogueChoice
@@ -16,9 +16,9 @@ struct DialogueChoice
     std::size_t nextLineIndex;
 };
 
-// One line of dialogue (GPD §18: portrait + name + text, portrait/name
+/// One line of dialogue (portrait + name + text, portrait/name
 // resolved by the raylib layer via speaker). choices is empty for linear
-// lines; not every line offers a decision (GPD §18).
+// lines; not every line offers a decision).
 struct DialogueLine
 {
     std::string_view speaker;
@@ -27,7 +27,7 @@ struct DialogueLine
     std::size_t choiceCount{};
 };
 
-// Static, immutable script data (TAD-001 §21). Owned by whichever
+/// Static, immutable script data. Owned by whichever
 // SceneDefinition declares it (constexpr storage duration); DialogueSystem
 // only observes it.
 struct DialogueScript
@@ -37,7 +37,7 @@ struct DialogueScript
 };
 
 // Advances a DialogueScript line by line, pausing at lines with choices.
-// Testable without raylib (TAD-001 §68): no rendering, no input polling.
+// Testable without raylib: no rendering, no input polling.
 //
 // Ownership: DialogueSystem does not own the script; the caller must keep the
 // DialogueScript (and its backing arrays) alive for the system's lifetime.

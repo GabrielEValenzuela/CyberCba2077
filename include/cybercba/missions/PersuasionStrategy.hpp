@@ -30,7 +30,7 @@ class IPersuasionStrategy
     virtual const DialogueScript& resultScript() const = 0;
 };
 
-// Emma's route: offers proof of good faith via a cipher channel (GPD §9,
+/// Emma's route offers proof of good faith via a cipher channel.
 // VS-001 §5.1).
 class HackerProofStrategy final : public IPersuasionStrategy
 {
@@ -44,7 +44,7 @@ class HackerProofStrategy final : public IPersuasionStrategy
     const DialogueScript* m_pScript;
 };
 
-// Magga's route: direct pressure (GPD §9, VS-001 §5.1).
+/// Magga's route uses direct pressure.
 class IntimidationStrategy final : public IPersuasionStrategy
 {
   public:

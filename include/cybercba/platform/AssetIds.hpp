@@ -6,8 +6,9 @@
 namespace cybercba::platform
 {
 
-// Explicit texture IDs for VS-001's minimal asset list (§13). Enum-driven on
-// purpose (TAD-001 §20) so AssetStore never needs a map-like STL container.
+/// Explicit texture IDs for the minimal asset list.
+///
+/// The enum keeps AssetStore free from map-like containers.
 enum class TextureId : std::uint8_t
 {
     // Backgrounds.

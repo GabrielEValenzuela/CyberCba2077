@@ -6,7 +6,7 @@
 namespace cybercba::combat
 {
 
-// Result of a finished combat encounter (VS-001 §7.4).
+/// Result of a finished combat encounter.
 enum class CombatResult : std::uint8_t
 {
     Ongoing,
@@ -14,13 +14,11 @@ enum class CombatResult : std::uint8_t
     Retreat,
 };
 
-// Deterministic, renderer-free combat state (VS-001 §7.1, TAD-001 §68).
-// A "side" tracks a single aggregate resistance value rather than per-unit
-// HP — deliberate simplification to keep combat inside GPD's 2-5 minute
-// target (VS-001 §7.1).
+/// Deterministic, renderer-free combat state.
+///
+/// A side tracks a single aggregate resistance value rather than per-unit HP.
 //
-// POD data holder: fields intentionally have no m_ prefix (ADR-001
-// exception).
+/// POD data holder; its fields are intentionally directly accessible.
 struct CombatState
 {
     int playerResistance;

@@ -6,18 +6,18 @@
 namespace cybercba::structures
 {
 
-// STUDENT EXERCISE (see docs/GPD.md §55, docs/TAD-001.md §15): implement this ADT.
+/// Student exercise: implement this ADT.
 //
 // Contract:
 //   - Owns its storage. No STL containers.
 //   - LIFO semantics: push/pop/top operate on the same end.
 //   - Must define destructor, copy constructor, copy assignment, move constructor,
-//     and move assignment per the Rule of Five (TAD-001 §14).
+//     and move assignment per the Rule of Five.
 //   - pop()/top() on an empty stack is a precondition violation; document the
 //     chosen behavior (assert vs. defined error) in the implementation.
 //
 // Used by cybercba_core for: undo history in "descifrado de transmisión" puzzles
-// (VS-001 §6.2), bounded state/navigation history (TAD-001 §15).
+// and bounded state/navigation history.
 //
 // Ownership: a Stack<T> owns every element it stores. top() returns an observer
 // reference only, invalidated after the corresponding pop().

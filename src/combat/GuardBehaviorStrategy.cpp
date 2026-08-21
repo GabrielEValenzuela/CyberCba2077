@@ -17,7 +17,7 @@ constexpr int ALERTED_GUARD_DAMAGE  = 12;
 // constants (UPPER_CASE, see ADR-001) with these object singletons (gs_
 // prefix, matching ADR-001's "static at global/namespace scope" rule).
 // ADR-001 intends the two differently; the NOLINTNEXTLINE markers below are
-// a deliberate, understood suppression (TAD-001 §60), not a blanket NOLINT.
+// a deliberate, understood suppression, not a blanket NOLINT.
 // NOLINTNEXTLINE(readability-identifier-naming)
 static const StandardGuardStrategy gs_standardGuardStrategy;
 // NOLINTNEXTLINE(readability-identifier-naming)
