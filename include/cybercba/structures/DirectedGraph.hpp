@@ -10,7 +10,7 @@ using NodeId = std::size_t;
 
 constexpr NodeId INVALID_NODE_ID = static_cast<NodeId>(-1);
 
-// STUDENT EXERCISE (see docs/GPD.md §55, docs/TAD-001.md §15): implement this ADT.
+/// Student exercise: implement this ADT.
 //
 // Contract:
 //   - Owns every node payload it stores. No STL containers (no adjacency list
@@ -20,12 +20,12 @@ constexpr NodeId INVALID_NODE_ID = static_cast<NodeId>(-1);
 //   - Directed edges: addEdge(from, to) creates a one-way connection; hasEdge and
 //     neighbor traversal must respect direction.
 //   - Must define destructor, copy constructor, copy assignment, move constructor,
-//     and move assignment per the Rule of Five (TAD-001 §14).
+//     and move assignment per the Rule of Five.
 //   - Consumers (MissionSystem, PuzzleSystem "redirección de energía", VS-001
 //     §6.1) depend only on this public API — never on internal node/edge storage.
 //
-// Used by cybercba_core for: central-map mission-unlock graph (GPD §6, TAD-001
-// §65) and the energy-redirection puzzle family.
+// Used by cybercba_core for the central-map mission-unlock graph and the
+// energy-redirection puzzle family.
 template <typename T> class DirectedGraph final
 {
   public:

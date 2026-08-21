@@ -13,11 +13,11 @@ set(CYBERCBA_CORE_SOURCES
     progression/ProgressionSystem.cpp
 )
 
-# PuzzleSystem depends on the custom structures (VS-001 §12.2), whose bodies
-# are a student exercise left unimplemented in this pass. The object file
-# compiles against the structures' public API but will not link into an
-# executable until those bodies exist — kept as its own object library so
-# cybercba_core / cybercba_tests can stay linkable in the meantime.
+# PuzzleSystem depends on the custom structures, whose bodies are a student
+# exercise left unimplemented in this pass. The object file compiles against
+# the structures' public API but will not link into an executable until those
+# bodies exist — kept as its own object library so cybercba_core /
+# cybercba_tests can stay linkable in the meantime.
 add_library(cybercba_core_puzzle OBJECT missions/PuzzleSystem.cpp)
 target_include_directories(cybercba_core_puzzle PUBLIC ${CMAKE_SOURCE_DIR}/include)
 target_compile_features(cybercba_core_puzzle PUBLIC cxx_std_17)

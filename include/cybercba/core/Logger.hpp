@@ -7,9 +7,9 @@
 namespace cybercba::core
 {
 
-// Minimal logging layer (TAD-001 §48). Gameplay code logs through this, never
-// through ad-hoc printf(); the raylib platform layer may redirect output but
-// core must not depend on how logs are actually emitted.
+/// Minimal logging layer for gameplay code.
+///
+/// The platform may redirect output; core does not depend on the mechanism.
 enum class LogLevel : std::uint8_t
 {
     Debug,
@@ -18,6 +18,7 @@ enum class LogLevel : std::uint8_t
     Error
 };
 
+/// Emits `message` at the supplied severity.
 void log(LogLevel level, std::string_view message);
 
 } // namespace cybercba::core

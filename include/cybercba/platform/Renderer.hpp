@@ -7,7 +7,7 @@
 namespace cybercba::platform
 {
 
-// Draws already-computed Game state (TAD-001 §19: "renderer observes state,
+/// Draws already-computed Game state (the renderer observes state,
 // does not decide gameplay"). Never mutates Game; never calls
 // GameStateMachine::transitionTo.
 //

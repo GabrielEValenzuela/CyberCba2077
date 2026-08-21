@@ -6,7 +6,7 @@
 namespace cybercba::game
 {
 
-// Which protagonist the player chose (GPD §10). Permanent for the campaign.
+/// Which protagonist the player chose. It is permanent for the campaign.
 enum class PlayerCharacter : std::uint8_t
 {
     Emma,
@@ -23,8 +23,7 @@ enum class MissionOutcome : std::uint8_t
     Captured
 };
 
-// Campaign-wide narrative and resource flags for VS-001 (§8, §11). In-memory
-// only — no persistence to disk in this slice (TAD-001 §53).
+/// Campaign-wide narrative and resource flags; this slice has no disk persistence.
 //
 // POD data holder: fields intentionally have no m_ prefix (ADR-001 exception
 // for structs whose fields are read/written directly, without invariants

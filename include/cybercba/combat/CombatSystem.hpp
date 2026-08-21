@@ -9,24 +9,21 @@
 namespace cybercba::combat
 {
 
-// Deterministic tactical combat resolution (GPD §16, VS-001 §7). No grid, no
-// per-unit HP, no randomness — every round is a pure function of the current
-// CombatState and the chosen action, so it is fully unit-testable without
-// raylib (TAD-001 §68).
-//
-// Ownership: stateless service. Holds no data of its own; every call takes
-// the CombatState to mutate by reference. The caller (MissionSystem) owns
-// that CombatState's lifetime.
+/// Resolves deterministic tactical combat without a grid or randomness.
+///
+/// Every round is a function of the supplied state and action, making the
+/// system unit-testable without raylib. This stateless service does not own
+/// the CombatState it receives.
 class CombatSystem final
 {
   public:
-    // Returns false (without mutating state) if `action` is not legal for
+    /// Returns false without mutating state if `action` is not legal for
     // `character` right now — e.g. UseResource without an EMP charge,
     // Maneuver as Emma, or Retreat before round 2 (VS-001 §7.2, §7.4).
     bool isActionAvailable(const CombatState& state, CombatActionType action, game::PlayerCharacter character,
                            bool hasEmpCharge) const;
 
-    // Applies the player's action, then the guard strategy's retaliation for
+    /// Applies the player's action, then the guard strategy's retaliation for
     // this round, and advances state.round. Returns false without mutating
     // state if the action is currently unavailable (see isActionAvailable).
     // Consuming CampaignState::empCharges for UseResource is the caller's

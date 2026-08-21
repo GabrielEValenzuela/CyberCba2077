@@ -11,8 +11,8 @@ void Game::update(const states::InputSnapshot& input)
 {
     if (input.cancel)
     {
-        // Credits is a meta/out-of-fiction screen (not part of GPD's
-        // narrative flow): reachable from MainMenu and returns to it,
+        // Credits is a meta/out-of-fiction screen reachable from MainMenu and
+        // returns to it,
         // toggled on the input that is otherwise unused there.
         if (m_stateMachine.currentState() == GameStateId::MainMenu)
         {

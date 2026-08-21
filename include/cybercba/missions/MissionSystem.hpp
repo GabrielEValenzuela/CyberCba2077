@@ -22,7 +22,7 @@ enum class SceneType : std::uint8_t
     Combat,
 };
 
-// Static, immutable scene data (TAD-001 §21). pDialogue is required when
+/// Static, immutable scene data. pDialogue is required when
 // type == Dialogue and ignored otherwise.
 struct SceneDefinition
 {
@@ -38,7 +38,7 @@ struct MissionDefinition
     std::size_t sceneCount;
 };
 
-// Orchestrates the linear scene sequence within one mission (GPD §8,
+/// Orchestrates the linear scene sequence within one mission.
 // VS-001 §3/§5). Dialogue scenes are driven internally via DialogueSystem;
 // Puzzle/Combat scenes are resolved externally (by whoever owns the actual
 // PuzzleSystem/CombatSystem instance) and reported back via

@@ -6,8 +6,8 @@
 namespace cybercba::platform
 {
 
-// Translates raylib polling (IsKeyPressed/etc.) into an InputSnapshot
-// (TAD-001 §18). This is the only place in the codebase allowed to call
+/// Translates raylib polling (IsKeyPressed/etc.) into an InputSnapshot.
+/// This is the only place in the codebase allowed to call
 // raylib input functions — cybercba_core never does.
 //
 // Ownership: stateless adapter, no dynamic memory.

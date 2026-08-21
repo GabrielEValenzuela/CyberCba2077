@@ -17,6 +17,16 @@ option(CYBERCBA_ENABLE_SANITIZERS "Build with ASan+UBSan" OFF)
 option(CYBERCBA_BUILD_TESTS "Build cybercba_tests" ON)
 option(CYBERCBA_BUILD_APP "Build cybercba_app (requires raylib)" ON)
 
+find_package(Doxygen QUIET)
+if(Doxygen_FOUND)
+    add_custom_target(docs
+        COMMAND ${DOXYGEN_EXECUTABLE} ${CMAKE_SOURCE_DIR}/Doxyfile
+        WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
+        COMMENT "Generating Doxygen API documentation"
+        VERBATIM
+    )
+endif()
+
 list(APPEND CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake")
 include(CompilerWarnings)
 include(Sanitizers)

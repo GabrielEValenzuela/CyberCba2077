@@ -4,7 +4,7 @@
 namespace cybercba::states
 {
 
-// Raylib input translated to a platform-independent snapshot (TAD-001 §18).
+/// Raylib input translated to a platform-independent snapshot.
 // Gameplay code only ever sees this struct, never raylib's IsKeyPressed()/etc.
 // POD data holder: member variables intentionally have no m_ prefix (ADR-001
 // exception for POD structs with public constant-role fields).

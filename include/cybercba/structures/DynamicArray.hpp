@@ -6,13 +6,13 @@
 namespace cybercba::structures
 {
 
-// STUDENT EXERCISE (see docs/GPD.md §55, docs/TAD-001.md §15): implement this ADT.
+/// Student exercise: implement this ADT.
 //
 // Contract:
 //   - Owns a contiguous, dynamically-resized buffer of T. No STL containers.
 //   - Growable random-access sequence: pushBack/popBack/operator[]/size/capacity.
 //   - Must define destructor, copy constructor, copy assignment, move constructor,
-//     and move assignment per the Rule of Five (TAD-001 §14) — deep-copies owned
+//     and move assignment per the Rule of Five — deep-copies owned
 //     memory, no accidental shallow copy of a raw buffer.
 //   - Index access is a precondition: 0 <= index < size(). Out-of-range access is
 //     undefined behavior unless the implementation documents otherwise.
@@ -48,4 +48,4 @@ template <typename T> class DynamicArray final
 
 } // namespace cybercba::structures
 
-#endif // _CYBERCBA_STRUCTURES_DYNAMICARRAY_H
+#endif // CYBERCBA_STRUCTURES_DYNAMICARRAY_H

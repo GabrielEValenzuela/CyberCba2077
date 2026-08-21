@@ -60,7 +60,7 @@ std::string CreditsLoader::loadEntries(const std::string& directory)
     }
 
     // Two-pass: count matching files, then own a right-sized raw array
-    // (TAD-001 §13: whoever creates with new must own and delete it — that
+    // (whoever creates with new must own and delete it — that
     // owner is this function, for its whole lifetime). Avoids both a
     // hard-coded cap and any STL container.
     std::size_t entryCount = 0;

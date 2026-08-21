@@ -6,8 +6,7 @@
 namespace cybercba::game
 {
 
-// Principal game states (TAD-001 §16, GPD §57). Transitions between them MUST
-// go through GameStateMachine::transitionTo — never through scattered bool flags.
+/// Principal game states. Transitions go through GameStateMachine::transitionTo.
 enum class GameStateId : std::uint8_t
 {
     MainMenu,
@@ -21,7 +20,7 @@ enum class GameStateId : std::uint8_t
     Pause,
     Ending,
 
-    // Meta/out-of-fiction screen (not part of GPD's narrative state machine):
+    // Meta/out-of-fiction screen:
     // shows CreditsLoader's contributor entries. Reachable from MainMenu, per
     // the original repo's "credits tab".
     Credits

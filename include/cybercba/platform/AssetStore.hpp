@@ -10,7 +10,7 @@
 namespace cybercba::platform
 {
 
-// Single owner of every loaded texture/sound (TAD-001 §20, §54): loads once
+/// Single owner of every loaded texture/sound: loads once
 // at construction, unloads once at destruction. Gameplay/rendering code
 // receives observer handles via texture()/sound(), never calls
 // LoadTexture()/UnloadTexture() itself.
@@ -21,8 +21,7 @@ namespace cybercba::platform
 // reversible change confined to AssetStore's .cpp.
 //
 // Ownership: owns every Texture2D it loads. Copy is disabled — there must be
-// exactly one AssetStore per set of GPU resources (Rule of Five, TAD-001
-// §14: deleted rather than incorrectly shallow-copied).
+// exactly one AssetStore per set of GPU resources.
 class AssetStore final
 {
   public:
