@@ -1,3 +1,3 @@
 Juan Pérez (@juanperez)
-Trabajé en el sistema de encuentros por turnos y en las pruebas de MissionGraph.
-Primera vez usando raylib — me costó entender el render texture virtual, pero valió la pena.
+Trabajé en el sistema de combate táctico y en las pruebas de CombatSystem.
+Primera vez usando raylib — me costó entender el ciclo BeginDrawing/EndDrawing, pero valió la pena.

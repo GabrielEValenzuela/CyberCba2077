@@ -1,5 +1,8 @@
 blank_issues_enabled: true
 contact_links:
+  - name: New to the project? Start here
+    url: https://github.com/GabrielEValenzuela/CyberCba2077/blob/master/AGENTS.md
+    about: Read AGENTS.md for the doc reading order, hard constraints, and build/test commands before opening an issue.
   - name: Questions / Team Discussion
     url: https://github.com/GabrielEValenzuela/CyberCba2077/discussions
     about: Use Discussions for questions, ideas, and non-actionable conversations.

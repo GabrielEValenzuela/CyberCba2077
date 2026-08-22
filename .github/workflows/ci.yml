@@ -1,590 +1,149 @@
-name: Cyberpunk CI Advanced
+name: CI
 
 on:
   pull_request:
+    branches: [main, master]
+  push:
+    branches: [main, master]
 
 permissions:
   contents: read
-  pull-requests: write
 
 env:
-  COVERAGE_THRESHOLD: "100"
+  # Pinned to the exact commit vcpkg.json's builtin-baseline points at
+  # (TAD-001 §35: dependencies fixed to an exact tag/commit, never latest).
+  VCPKG_COMMIT: d034cf165b78579b6d526cf440d2781940e9074b
+  VCPKG_ROOT: ${{ github.workspace }}/vcpkg
+  # glfw3 (a transitive dependency of the vcpkg raylib port) builds from
+  # source on Linux and needs system X11/Wayland dev headers present; our own
+  # CMakeLists.txt also find_package(X11 REQUIRED) directly (see
+  # src/platform/raylib/CMakeLists.txt).
+  LINUX_WINDOWING_APT_DEPS: >-
+    libgl1-mesa-dev libx11-dev libxrandr-dev libxinerama-dev
+    libxcursor-dev libxi-dev libwayland-dev libxkbcommon-dev
 
 jobs:
-  validate-branch-name:
-    name: validate-branch-name
+  format:
+    name: format
     runs-on: ubuntu-latest
-
     steps:
-      - name: Validate branch name
-        run: |
-          if [ "${{ github.event_name }}" = "pull_request" ]; then
-            BRANCH="${{ github.head_ref }}"
-          else
-            BRANCH="${GITHUB_REF#refs/heads/}"
-          fi
-
-          echo "Validando rama: $BRANCH"
-
-          if [ "$BRANCH" = "master" ] || [ "$BRANCH" = "development" ]; then
-            exit 0
-          fi
-
-          if [[ "$BRANCH" =~ ^(feature|hotfix|bug|release|refactor|docs|chore)\/.+$ ]]; then
-            exit 0
-          fi
-
-          echo "Nombre de rama inválido"
-          echo "Usa: feature/* hotfix/* bug/* release/* refactor/* docs/* chore/*"
-          exit 1
-
-  ci:
-    runs-on: ubuntu-latest
-    needs: validate-branch-name
-
-    env:
-      BUILD_TYPE: Debug
-      VCPKG_ROOT: ${{ github.workspace }}/vcpkg
-      CCACHE_DIR: ${{ github.workspace }}/.ccache
-      ENABLE_SANITIZERS: "true"
-
-    steps:
-      # -----------------------------------
-      # Checkout
-      # -----------------------------------
       - uses: actions/checkout@v4
-
-      - name: Install dependencies
+      - name: Install clang-format
+        run: sudo apt-get update && sudo apt-get install -y clang-format
+      - name: Check formatting
         run: |
-          sudo apt update
-          sudo apt install -y \
-            ninja-build \
-            clang \
-            clang-tidy \
-            clang-format \
-            lcov \
-            llvm \
-            doxygen \
-            graphviz \
-            unzip \
-            bc \
-            ccache \
-            imagemagick \
-            jq
+          find include src tests -name "*.hpp" -o -name "*.cpp" | \
+            xargs clang-format --dry-run --Werror
 
-      # -----------------------------------
-      # Asset validation (manifest vs. processed PNGs)
-      # -----------------------------------
-      - name: Validate Assets
-        id: assets
-        run: bash scripts/validate_assets.sh
-
-      # -----------------------------------
-      # vcpkg (cached)
-      # -----------------------------------
-      - name: Cache vcpkg
-        id: cache-vcpkg
-        uses: actions/cache@v4
-        with:
-          path: |
-            vcpkg
-            ~/.cache/vcpkg
-          key: vcpkg-${{ runner.os }}-${{ hashFiles('vcpkg.json', 'vcpkg-configuration.json') }}
-          restore-keys: |
-            vcpkg-${{ runner.os }}-
-
-      - name: Bootstrap vcpkg
-        if: steps.cache-vcpkg.outputs.cache-hit != 'true'
+  forbidden-symbols-audit:
+    name: forbidden-symbols-audit
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Grep for banned STL containers / smart pointers (TAD-001 §63)
         run: |
-          git clone https://github.com/microsoft/vcpkg.git
-          ./vcpkg/bootstrap-vcpkg.sh
-
-      # -----------------------------------
-      # ccache
-      # -----------------------------------
-      - name: Cache ccache
-        uses: actions/cache@v4
-        with:
-          path: ${{ env.CCACHE_DIR }}
-          key: ccache-${{ runner.os }}-${{ hashFiles('CMakeLists.txt', 'src/**', 'include/**', 'tests/**', 'vcpkg.json') }}
-          restore-keys: |
-            ccache-${{ runner.os }}-
-
-      - name: ccache stats before build
-        run: |
-          ccache --zero-stats || true
-          ccache --show-stats || true
-
-      # -----------------------------------
-      # Clang Format
-      # -----------------------------------
-      - name: Style Check
-        id: style
-        run: |
-          FILES=$(find src include tests \( -name '*.cpp' -o -name '*.hpp' -o -name '*.cc' -o -name '*.cxx' -o -name '*.h' \) || true)
-          if [ -n "$FILES" ]; then
-            clang-format --dry-run --Werror $FILES
-          else
-            echo "No C++ files found under src/include/tests."
+          PATTERN='std::(vector|array|list|forward_list|deque|queue|stack|map|unordered_map|set|unordered_set|unique_ptr|shared_ptr|weak_ptr)\b'
+          # Excludes whole-line comments so documentation that names the ban
+          # itself (e.g. "no STL containers (no adjacency list built on
+          # std::vector)") doesn't trip the audit.
+          if grep -rEn "$PATTERN" include src | grep -vE ':[0-9]+: *//'; then
+            echo "::error::Forbidden STL container or smart pointer found (see TAD-001 §10-§11, §63)."
+            exit 1
           fi
 
-      # -----------------------------------
-      # Docs
-      # -----------------------------------
-      - name: Generate Docs
-        id: docs
+  clang-build:
+    name: clang-build
+    runs-on: ubuntu-latest
+    needs: format
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install toolchain
         run: |
-          if [ -f Doxyfile ]; then
-            mkdir -p ./build/docs
-            doxygen Doxyfile
-          else
-            echo "No Doxyfile found, skipping docs."
-          fi
-
-      - name: Upload Docs Artifact
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: documentation
-          path: ./build/docs
-          if-no-files-found: ignore
-
-      # -----------------------------------
-      # Prepare flags
-      # -----------------------------------
-      - name: Prepare flags
-        id: flags
-        shell: bash
-        run: |
-          COMMON_FLAGS="-O0 -g -fno-omit-frame-pointer"
-          SAN_FLAGS=""
-          LINK_FLAGS=""
-          COV_FLAGS="--coverage"
-
-          if [ "${ENABLE_SANITIZERS}" = "true" ]; then
-            SAN_FLAGS="-fsanitize=address,undefined"
-            LINK_FLAGS="-fsanitize=address,undefined"
-          fi
-
-          FINAL_CXX_FLAGS="$COMMON_FLAGS $SAN_FLAGS $COV_FLAGS"
-          FINAL_EXE_LINKER_FLAGS="$LINK_FLAGS $COV_FLAGS"
-          FINAL_SHARED_LINKER_FLAGS="$LINK_FLAGS $COV_FLAGS"
-
-          echo "FINAL_CXX_FLAGS=$FINAL_CXX_FLAGS" >> $GITHUB_ENV
-          echo "FINAL_EXE_LINKER_FLAGS=$FINAL_EXE_LINKER_FLAGS" >> $GITHUB_ENV
-          echo "FINAL_SHARED_LINKER_FLAGS=$FINAL_SHARED_LINKER_FLAGS" >> $GITHUB_ENV
-
-          echo "CXX FLAGS: $FINAL_CXX_FLAGS"
-          echo "EXE LINKER FLAGS: $FINAL_EXE_LINKER_FLAGS"
-          echo "SHARED LINKER FLAGS: $FINAL_SHARED_LINKER_FLAGS"
-
-      # -----------------------------------
-      # Configure (with coverage + sanitizers + ccache)
-      # -----------------------------------
+          sudo apt-get update
+          sudo apt-get install -y ninja-build clang $LINUX_WINDOWING_APT_DEPS
+      - uses: ./.github/actions/setup-vcpkg
       - name: Configure
-        id: configure
-        run: |
-          cmake -S . -B build \
-            -G Ninja \
-            -DCMAKE_BUILD_TYPE=${BUILD_TYPE} \
-            -DCMAKE_TOOLCHAIN_FILE=${VCPKG_ROOT}/scripts/buildsystems/vcpkg.cmake \
-            -DCMAKE_EXPORT_COMPILE_COMMANDS=ON \
-            -DCMAKE_C_COMPILER=clang \
-            -DCMAKE_CXX_COMPILER=clang++ \
-            -DCMAKE_C_COMPILER_LAUNCHER=ccache \
-            -DCMAKE_CXX_COMPILER_LAUNCHER=ccache \
-            -DCMAKE_CXX_FLAGS="${FINAL_CXX_FLAGS}" \
-            -DCMAKE_EXE_LINKER_FLAGS="${FINAL_EXE_LINKER_FLAGS}" \
-            -DCMAKE_SHARED_LINKER_FLAGS="${FINAL_SHARED_LINKER_FLAGS}"
-
-      # -----------------------------------
-      # Clang-Tidy (needs compile_commands.json)
-      # -----------------------------------
-      - name: Static Analysis
-        id: tidy
-        run: |
-          run-clang-tidy -p build > tidy_output.txt || true
-
-      # -----------------------------------
-      # Build
-      # -----------------------------------
+        run: cmake --preset ci
       - name: Build
-        id: build
-        run: cmake --build build --parallel
+        run: cmake --build --preset ci
 
-      - name: ccache stats after build
-        if: always()
+  tests:
+    name: tests
+    runs-on: ubuntu-latest
+    needs: clang-build
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install toolchain
         run: |
-          ccache --show-stats || true
+          sudo apt-get update
+          sudo apt-get install -y ninja-build clang $LINUX_WINDOWING_APT_DEPS
+      - uses: ./.github/actions/setup-vcpkg
+      - name: Configure
+        run: cmake --preset ci
+      - name: Build
+        run: cmake --build --preset ci
+      - name: Run tests
+        run: ctest --preset ci
 
-      # -----------------------------------
-      # Run Tests (fail job if tests fail)
-      # -----------------------------------
-      - name: Run Tests
-        id: tests
-        env:
-          ASAN_OPTIONS: detect_leaks=1:check_initialization_order=1:strict_init_order=1
-          UBSAN_OPTIONS: print_stacktrace=1
+  clang-tidy:
+    name: clang-tidy
+    runs-on: ubuntu-latest
+    needs: format
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install toolchain
         run: |
-          set +e
-          ctest --test-dir build --output-on-failure --parallel 2 | tee test_output.txt
-          RC=$?
-          echo "EXIT_CODE=$RC" >> $GITHUB_ENV
-          set -e
-          exit $RC
+          sudo apt-get update
+          sudo apt-get install -y ninja-build clang clang-tidy $LINUX_WINDOWING_APT_DEPS
+      - uses: ./.github/actions/setup-vcpkg
+      - name: Configure with clang-tidy enabled
+        run: cmake --preset ci -DCYBERCBA_ENABLE_CLANG_TIDY=ON
+      - name: Build (runs clang-tidy on first-party targets only)
+        run: cmake --build --preset ci
 
-      # Parse failed tests
-      - name: Parse Test Results
-        id: testparse
-        if: always()
+  sanitizers:
+    name: sanitizers
+    runs-on: ubuntu-latest
+    needs: tests
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install toolchain
         run: |
-          FAILED=$(grep -oP "\d+ tests failed" test_output.txt || true)
-          echo "FAILED_TESTS=${FAILED:-0 tests failed}" >> $GITHUB_ENV
+          sudo apt-get update
+          sudo apt-get install -y ninja-build clang $LINUX_WINDOWING_APT_DEPS
+      - uses: ./.github/actions/setup-vcpkg
+      - name: Configure
+        run: cmake --preset asan
+      - name: Build
+        run: cmake --build --preset asan
+      - name: Run tests under ASan+UBSan
+        run: ctest --preset asan
 
-      # -----------------------------------
-      # Coverage (lcov + llvm-cov)
-      # -----------------------------------
-      - name: Generate Coverage
-        id: coverage
-        if: always()
+  doxygen:
+    name: doxygen
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install doxygen
+        run: sudo apt-get update && sudo apt-get install -y doxygen graphviz
+      - name: Build docs and check for undocumented public API
         run: |
-          cat > llvm-gcov.sh <<'EOF'
-          #!/usr/bin/env bash
-          exec llvm-cov gcov "$@"
-          EOF
-          chmod +x llvm-gcov.sh
-
-          lcov --capture \
-            --directory build \
-            --output-file coverage.info \
-            --gcov-tool "$(pwd)/llvm-gcov.sh" \
-            --ignore-errors inconsistent,mismatch
-
-          lcov --remove coverage.info \
-            '/usr/*' \
-            '*/build/vcpkg_installed/*' \
-            '*/tests/*' \
-            '*/test/*' \
-            --ignore-errors inconsistent,unused \
-            --output-file coverage.info
-
-          lcov --list coverage.info --ignore-errors inconsistent | tee coverage_list.txt
-
-      - name: Generate Coverage HTML
-        if: always()
-        run: |
-          mkdir -p coverage_html
-          genhtml coverage.info \
-            --output-directory coverage_html \
-            --ignore-errors inconsistent || true
-
-      - name: Upload Coverage Artifact
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: coverage-report
-          path: |
-            coverage.info
-            coverage_html
-            coverage_list.txt
-            coverage_summary.txt
-          if-no-files-found: ignore
-
-      - name: Coverage Summary
-        id: cov
-        if: always()
-        run: |
-          if [ ! -f coverage.info ]; then
-            echo "COVERAGE_PCT=0" >> $GITHUB_ENV
-            echo "LINES_COVERAGE=0" >> $GITHUB_ENV
-            echo "FUNCTIONS_COVERAGE=0" >> $GITHUB_ENV
-            {
-              echo "## Coverage Report"
-              echo
-              echo "| Metric | Value |"
-              echo "|---|---:|"
-              echo "| Lines | 0% |"
-              echo "| Functions | 0% |"
-              echo "| Score usado por CI | 0% |"
-              echo "| Threshold | ${COVERAGE_THRESHOLD}% |"
-            } > coverage_comment.md
-            exit 0
-          fi
-
-          lcov --summary coverage.info --ignore-errors inconsistent | tee coverage_summary.txt
-
-          LINES=$(grep -E '^  lines\.*:' coverage_summary.txt | sed -E 's/.*: ([0-9]+(\.[0-9]+)?)%.*/\1/' | head -n1)
-          FUNCS=$(grep -E '^  functions\.*:' coverage_summary.txt | sed -E 's/.*: ([0-9]+(\.[0-9]+)?)%.*/\1/' | head -n1)
-
-          LINES=${LINES:-0}
-          FUNCS=${FUNCS:-0}
-          WORST=$(awk "BEGIN { if ($LINES < $FUNCS) print $LINES; else print $FUNCS; }")
-
-          echo "LINES_COVERAGE=$LINES" >> $GITHUB_ENV
-          echo "FUNCTIONS_COVERAGE=$FUNCS" >> $GITHUB_ENV
-          echo "COVERAGE_PCT=$WORST" >> $GITHUB_ENV
-
-          {
-            echo "## Coverage Report"
-            echo
-            echo "| Metric | Value |"
-            echo "|---|---:|"
-            echo "| Lines | ${LINES}% |"
-            echo "| Functions | ${FUNCS}% |"
-            echo "| Score usado por CI | ${WORST}% |"
-            echo "| Threshold | ${COVERAGE_THRESHOLD}% |"
-          } > coverage_comment.md
-
-      - name: Validate Coverage Threshold
-        if: always()
-        run: |
-          THRESHOLD="${COVERAGE_THRESHOLD}"
-
-          echo "Threshold: ${THRESHOLD}%"
-          echo "Lines coverage: ${LINES_COVERAGE:-0}%"
-          echo "Functions coverage: ${FUNCTIONS_COVERAGE:-0}%"
-
-          if ! awk "BEGIN {exit !(${LINES_COVERAGE:-0} >= ${THRESHOLD})}"; then
-            echo "FAILED: Lines coverage is lower than ${THRESHOLD}%"
+          mkdir -p build/docs
+          doxygen Doxyfile 2> doxygen-warnings.log
+          cat doxygen-warnings.log
+          if grep -q "not documented" doxygen-warnings.log; then
+            echo "::error::Doxygen found undocumented public members (see doxygen-warnings.log above)."
             exit 1
           fi
 
-          if ! awk "BEGIN {exit !(${FUNCTIONS_COVERAGE:-0} >= ${THRESHOLD})}"; then
-            echo "FAILED: Functions coverage is lower than ${THRESHOLD}%"
-            exit 1
-          fi
-
-          echo "PASSED: Coverage threshold satisfied"
-
-      # -----------------------------------
-      # Sanitizer summary
-      # -----------------------------------
-      - name: Sanitizer summary
-        if: always()
-        run: |
-          {
-            echo "## Sanitizers"
-            echo
-            if [ "${ENABLE_SANITIZERS}" = "true" ]; then
-              echo "- AddressSanitizer: enabled"
-              echo "- UndefinedBehaviorSanitizer: enabled"
-            else
-              echo "- Sanitizers: disabled"
-            fi
-          } > sanitizer_comment.md
-
-      - name: Count clang-tidy warnings
-        id: tidy_count
-        if: always()
-        run: |
-          WARN=$(grep -c "warning:" tidy_output.txt || true)
-          echo "TIDY_WARNINGS=$WARN" >> $GITHUB_ENV
-
-      # -----------------------------------
-      # Upload logs
-      # -----------------------------------
-      - name: Upload logs
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: logs
-          path: |
-            test_output.txt
-            tidy_output.txt
-          if-no-files-found: ignore
-
-      # -----------------------------------
-      # Coverage + Sanitizers comment on PR
-      # -----------------------------------
-      - name: Comment Coverage Report on PR
-        if: always() && github.event_name == 'pull_request'
-        uses: actions/github-script@v7
-        with:
-          script: |
-            const fs = require('fs');
-            const marker = "## Coverage Report";
-
-            let coverageBody = fs.existsSync("coverage_comment.md")
-              ? fs.readFileSync("coverage_comment.md", "utf8")
-              : "## Coverage Report\n\nNo coverage data available.";
-
-            let sanitizerBody = fs.existsSync("sanitizer_comment.md")
-              ? fs.readFileSync("sanitizer_comment.md", "utf8")
-              : "";
-
-            const body = `${coverageBody}\n\n${sanitizerBody}`;
-            const { owner, repo } = context.repo;
-            const issue_number = context.issue.number;
-
-            const comments = await github.rest.issues.listComments({
-              owner,
-              repo,
-              issue_number,
-              per_page: 100
-            });
-
-            const previous = comments.data.find(c =>
-              c.user?.type === "Bot" && c.body?.includes(marker)
-            );
-
-            if (previous) {
-              await github.rest.issues.updateComment({
-                owner,
-                repo,
-                comment_id: previous.id,
-                body
-              });
-            } else {
-              await github.rest.issues.createComment({
-                owner,
-                repo,
-                issue_number,
-                body
-              });
-            }
-
-      # -----------------------------------
-      # PR Bot with Smart Feedback
-      # -----------------------------------
-      - name: 🤖 PR Bot (smart, ES)
-        if: always() && github.event_name == 'pull_request'
-        uses: actions/github-script@v7
-        env:
-          STYLE_OUTCOME: ${{ steps.style.outcome }}
-          ASSETS_OUTCOME: ${{ steps.assets.outcome }}
-          CONFIGURE_OUTCOME: ${{ steps.configure.outcome }}
-          BUILD_OUTCOME: ${{ steps.build.outcome }}
-          TESTS_OUTCOME: ${{ steps.tests.outcome }}
-          DOCS_OUTCOME: ${{ steps.docs.outcome }}
-          COV_OUTCOME: ${{ steps.cov.outcome }}
-          LINES_COVERAGE: ${{ env.LINES_COVERAGE }}
-          FUNCTIONS_COVERAGE: ${{ env.FUNCTIONS_COVERAGE }}
-          COVERAGE_PCT: ${{ env.COVERAGE_PCT }}
-          TIDY_WARNINGS: ${{ env.TIDY_WARNINGS }}
-          FAILED_TESTS: ${{ env.FAILED_TESTS }}
-        with:
-          script: |
-            const styleOk  = process.env.STYLE_OUTCOME === "success";
-            const assetsOk = process.env.ASSETS_OUTCOME === "success";
-            const cfgOk   = process.env.CONFIGURE_OUTCOME === "success";
-            const buildOk = process.env.BUILD_OUTCOME === "success";
-            const testsOk = process.env.TESTS_OUTCOME === "success";
-            const docsOk  = (process.env.DOCS_OUTCOME || "success") === "success";
-            const covOk   = (process.env.COV_OUTCOME || "success") === "success";
-
-            const cov = parseFloat(process.env.COVERAGE_PCT || "0");
-            const lineCov = parseFloat(process.env.LINES_COVERAGE || "0");
-            const funcCov = parseFloat(process.env.FUNCTIONS_COVERAGE || "0");
-            const tidyWarn = parseInt(process.env.TIDY_WARNINGS || "0", 10);
-            const failedTests = process.env.FAILED_TESTS || "0 tests failed";
-
-            let score = 0;
-            score += styleOk ? 20 : 0;
-            score += (cfgOk && buildOk) ? 20 : 0;
-            score += testsOk ? 20 : 0;
-            score += (cov >= 90 ? 20 : cov >= 80 ? 18 : cov >= 50 ? 10 : cov >= 20 ? 5 : 0);
-            score += (tidyWarn === 0 ? 20 : tidyWarn <= 10 ? 15 : tidyWarn <= 30 ? 10 : 0);
-
-            let failed = null;
-            if (!styleOk) failed = "style";
-            else if (!assetsOk) failed = "assets";
-            else if (!cfgOk) failed = "configure";
-            else if (!buildOk) failed = "build";
-            else if (!testsOk) failed = "tests";
-            else if (!covOk) failed = "coverage";
-            else if (!docsOk) failed = "docs";
-
-            const hints = {
-              style: [
-                "Ejecutá clang-format localmente y verificá que todos usen la misma configuración.",
-                "Formateá solo los archivos del PR en src/, include/ y tests/."
-              ],
-              assets: [
-                "Corré `bash scripts/validate_assets.sh` localmente para ver el error exacto (canvas/alpha inválido, path faltante o desajuste con assets-manifest.json).",
-                "Si agregaste/quitaste un asset `processed`, actualizá el conteo esperado en scripts/validate_assets.sh junto con assets-manifest.json en el mismo cambio."
-              ],
-              configure: [
-                "Revisá VCPKG_ROOT, dependencias y CMakeLists.txt.",
-                "Probá borrar build/ y reconfigurar desde cero."
-              ],
-              build: [
-                "Si falla al linkear, revisá target_link_libraries y bibliotecas faltantes.",
-                "Verificá includes, firmas y símbolos no resueltos."
-              ],
-              tests: [
-                "Revisá casos borde, precondiciones y tests frágiles.",
-                `Resumen detectado: ${failedTests}.`
-              ],
-              coverage: [
-                "Agregá tests para caminos felices y casos borde.",
-                "Revisá coverage_list.txt para ver qué archivos quedaron con baja cobertura."
-              ],
-              docs: [
-                "Si hay cambios en API o comportamiento, actualizá documentación y comentarios."
-              ]
-            };
-
-            function take(arr, max = 5) {
-              return (arr || []).slice(0, max).map(x => `- ${x}`).join("\n");
-            }
-
-            let body = "## 🤖 Reporte de CI — Cyberpunk Córdoba 2077\n\n";
-            body += `**Quality Score:** **${score}/100**\n`;
-            body += `- 🧪 Tests: **${testsOk ? "OK" : "FALLÓ"}**\n`;
-            body += `- 🎨 Estilo (clang-format): **${styleOk ? "OK" : "FALLÓ"}**\n`;
-            body += `- 🖼️ Assets (manifest/canvas/alpha): **${assetsOk ? "OK" : "FALLÓ"}**\n`;
-            body += `- 🧼 clang-tidy warnings: **${tidyWarn}**\n`;
-            body += `- 📈 Coverage mínimo: **${cov.toFixed(1)}%**\n`;
-            body += `- 📏 Lines coverage: **${lineCov.toFixed(1)}%**\n`;
-            body += `- 🧩 Functions coverage: **${funcCov.toFixed(1)}%**\n\n`;
-
-            if (!failed) {
-              body += "✅ **Todo OK.** Tu PR pasó el pipeline completo.\n\n";
-              body += "> En 2077, tu código sobrevivió.\n";
-            } else {
-              const titles = {
-                style: "🎨 Estilo / Formato",
-                assets: "🖼️ Validación de assets",
-                configure: "⚙️ Configuración (CMake/vcpkg)",
-                build: "🏗️ Compilación / Linkeo",
-                tests: "🧪 Tests",
-                coverage: "📈 Coverage",
-                docs: "📚 Documentación"
-              };
-
-              body += `❌ **Falló la etapa:** **${titles[failed] || failed}**\n\n`;
-              body += "### Pistas para arreglarlo\n";
-              body += take(hints[failed], 5) + "\n\n";
-              body += "📌 Revisá los logs del step fallido en GitHub Actions: ahí está el error exacto.\n";
-            }
-
-            const { owner, repo } = context.repo;
-            const issue_number = context.issue.number;
-
-            const comments = await github.rest.issues.listComments({
-              owner,
-              repo,
-              issue_number,
-              per_page: 100
-            });
-
-            const marker = "## 🤖 Reporte de CI — Cyberpunk Córdoba 2077";
-            const previous = comments.data.find(c =>
-              c.user?.type === "Bot" && c.body?.includes(marker)
-            );
-
-            if (previous) {
-              await github.rest.issues.updateComment({
-                owner,
-                repo,
-                comment_id: previous.id,
-                body
-              });
-            } else {
-              await github.rest.issues.createComment({
-                owner,
-                repo,
-                issue_number,
-                body
-              });
-            }
+  portability:
+    name: portability
+    runs-on: windows-latest
+    needs: format
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ./.github/actions/setup-vcpkg
+      - name: Configure (MSVC)
+        run: cmake -S . -B build/portability --toolchain "$env:VCPKG_ROOT/scripts/buildsystems/vcpkg.cmake" -DCMAKE_BUILD_TYPE=Debug -DCYBERCBA_BUILD_APP=OFF -DCYBERCBA_BUILD_TESTS=OFF
+      - name: Build
+        run: cmake --build build/portability

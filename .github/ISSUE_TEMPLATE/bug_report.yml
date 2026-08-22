@@ -1,5 +1,5 @@
 name: "Bug Report"
-description: "Report a defect, regression, or unexpected behavior in CyberCba2077"
+description: "Report a defect, regression, or unexpected behavior in CyberCBA 2077"
 title: "[BUG] "
 labels: ["bug", "needs-triage"]
 assignees: []
@@ -8,8 +8,12 @@ body:
     attributes:
       value: |
         Thanks for reporting a bug.
-        
-        Please provide enough detail so the team can reproduce, prioritize, and fix the issue efficiently.
+
+        New to the project? Skim [`AGENTS.md`](../../AGENTS.md) and
+        [`docs/TAD-001.md`](../../docs/TAD-001.md) first — they explain the
+        architecture and constraints this project follows, which helps a
+        lot when describing where something broke.
+
         A good bug report should explain:
         - what happened
         - what you expected to happen
@@ -22,10 +26,12 @@ body:
       label: Affected area
       description: Select the primary area affected by the bug.
       options:
-        - engine
-        - gameplay
-        - ui
-        - build
+        - core (state machine, combat, missions, progression)
+        - structures (DynamicArray/Queue/Stack/DirectedGraph)
+        - platform (raylib adapters — input/asset/audio/render)
+        - app (composition root / main loop)
+        - build (CMake, vcpkg)
+        - ci
         - docs
         - tests
         - other
@@ -50,7 +56,7 @@ body:
     attributes:
       label: Branch / Commit
       description: Provide the branch name or commit SHA where the issue was observed.
-      placeholder: "feature/command-parser or a1b2c3d"
+      placeholder: "feature/mission-1-content or a1b2c3d"
     validations:
       required: true
 
@@ -59,7 +65,7 @@ body:
     attributes:
       label: Summary
       description: Briefly describe the bug in 2-5 lines.
-      placeholder: "When the player enters an invalid command, the parser crashes instead of returning an error."
+      placeholder: "CombatSystem::resolveAction lets Emma use Maneuver, which should be Magga-exclusive."
     validations:
       required: true
 
@@ -67,13 +73,12 @@ body:
     id: steps
     attributes:
       label: Steps to reproduce
-      description: Provide a clear, minimal, reproducible scenario.
+      description: Provide a clear, minimal, reproducible scenario. If it's covered by a failing test, paste the test name/output instead of manual steps.
       placeholder: |
-        1. Build the project in Debug mode
-        2. Launch the game
-        3. Open the console
-        4. Execute command `spawn --invalid`
-        5. Observe the crash
+        1. Build the project (cmake --preset dev && cmake --build build/dev)
+        2. Run ctest --test-dir build/dev
+        3. Observe CombatSystemTest.ManeuverIsMaggaOnly failing
+        (or, for manual repro: exact input sequence in the running app)
     validations:
       required: true
 
@@ -81,8 +86,8 @@ body:
     id: expected_behavior
     attributes:
       label: Expected behavior
-      description: What should have happened?
-      placeholder: "The parser should reject the command and return a validation error without crashing."
+      description: What should have happened? Cite the doc/spec section if there's a documented rule (GPD/TAD-001/VS-001).
+      placeholder: "isActionAvailable should return false for Maneuver when character == Emma (VS-001 §7.2)."
     validations:
       required: true
 
@@ -91,7 +96,7 @@ body:
     attributes:
       label: Actual behavior
       description: What actually happened?
-      placeholder: "The game terminates with a segmentation fault."
+      placeholder: "isActionAvailable returns true for any character."
     validations:
       required: true
 
@@ -99,7 +104,7 @@ body:
     id: evidence
     attributes:
       label: Evidence
-      description: Add logs, screenshots, stack traces, sanitizer output, or console output if available.
+      description: Add logs, screenshots, stack traces, sanitizer output, or console/ctest output if available.
       placeholder: |
         Paste error logs here.
         Example:
@@ -115,8 +120,8 @@ body:
       placeholder: |
         OS: Ubuntu 24.04
         Compiler: clang++ 18
-        Build type: Debug
-        Sanitizers: ASan + UBSan
+        CMake preset: dev
+        VCPKG_ROOT set: yes
     validations:
       required: true
 
@@ -124,8 +129,8 @@ body:
     id: scope_impact
     attributes:
       label: Scope / impact
-      description: What modules, features, or user flows appear to be affected?
-      placeholder: "Affects command parsing and game state transitions after console input."
+      description: What modules, systems, or player-facing flows appear to be affected?
+      placeholder: "Affects tactical combat action legality for both protagonists."
     validations:
       required: true
 
@@ -137,7 +142,7 @@ body:
       options:
         - label: I searched for existing issues and did not find a duplicate.
           required: true
-        - label: I included reproducible steps.
+        - label: I included reproducible steps (or a failing test name).
           required: true
         - label: I described expected and actual behavior.
           required: true

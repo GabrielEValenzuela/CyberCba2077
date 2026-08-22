@@ -1,5 +1,5 @@
 name: "Feature Request"
-description: "Propose a new feature or enhancement for CyberCba2077"
+description: "Propose a new feature, system, or content addition for CyberCBA 2077"
 title: "[FEATURE] "
 labels: ["feature", "needs-triage"]
 assignees: []
@@ -8,7 +8,14 @@ body:
     attributes:
       value: |
         Thanks for proposing a feature.
-        
+
+        Before writing this up: check [`docs/GPD.md`](../../docs/GPD.md)
+        (product/narrative rules) and [`docs/TAD-001.md`](../../docs/TAD-001.md)
+        (architecture rules) — a lot of "what if we added X" questions are
+        already answered there (see especially GPD §2 and §72, "No objetivos").
+        If your idea conflicts with something documented there, say so
+        explicitly instead of routing around it silently.
+
         A strong feature request should explain:
         - the problem or need
         - the proposed outcome
@@ -21,10 +28,13 @@ body:
       label: Target area
       description: Select the primary area where this feature belongs.
       options:
-        - engine
-        - gameplay
-        - ui
-        - build
+        - core (state machine, combat, missions, progression)
+        - structures (DynamicArray/Queue/Stack/DirectedGraph)
+        - platform (raylib adapters — input/asset/audio/render)
+        - app (composition root / main loop)
+        - narrative content (VS-001 scenes/dialogue)
+        - build (CMake, vcpkg)
+        - ci
         - docs
         - tests
         - other
@@ -49,7 +59,8 @@ body:
       label: Problem / opportunity
       description: What problem are we trying to solve, or what opportunity are we trying to unlock?
       placeholder: |
-        Players cannot inspect inventory items from the console, which limits testing and gameplay feedback.
+        MissionSystem currently only tracks scene type (Dialogue/Puzzle/Combat)
+        but has no way to represent the first Act I mission's scene sequence.
     validations:
       required: true
 
@@ -59,7 +70,8 @@ body:
       label: Proposed solution
       description: Describe the proposed feature clearly and concretely.
       placeholder: |
-        Add a console command `inventory list` that displays the current inventory with item name, quantity, and rarity.
+        Add MissionDefinition/SceneDefinition data for Mission 1 ("Rastro Frío")
+        per VS-001 §5, and wire it into Game so it's selectable from CentralMap.
     validations:
       required: true
 
@@ -69,7 +81,9 @@ body:
       label: Expected value
       description: Why is this feature useful for the project, team, or player experience?
       placeholder: |
-        This improves debuggability, usability, and gameplay visibility during development and manual testing.
+        This is the next milestone called out in AGENTS.md / CHANGELOG.md's
+        "Known limitations" — needed before the Vertical Slice is playable
+        end-to-end.
     validations:
       required: true
 
@@ -77,12 +91,12 @@ body:
     id: acceptance_criteria
     attributes:
       label: Acceptance criteria
-      description: Define the concrete criteria that must be met for this feature to be considered done.
+      description: Define the concrete criteria that must be met for this feature to be considered done. Reference VS-001/TAD-001 sections when applicable.
       placeholder: |
-        - A new command `inventory list` is available
-        - The command prints all inventory items
-        - Empty inventory is handled gracefully
-        - Unit tests cover normal and edge cases
+        - Mission 1 scenes (M1-M4, VS-001 §5) are authored as SceneDefinition data
+        - MissionSystem can run the full sequence without crashing
+        - Unit tests cover the new scene data's branching (M1 persuasion routes)
+        - No new STL containers / smart pointers introduced (TAD-001 §10-§11)
     validations:
       required: true
 
@@ -92,9 +106,10 @@ body:
       label: Technical considerations
       description: Mention architecture, modules, contracts, constraints, or dependencies that should be considered.
       placeholder: |
-        Consider reusing the existing command registry.
-        Avoid coupling the command directly to UI rendering code.
-        Preserve modularity between gameplay logic and console layer.
+        Reuse MissionSystem's existing Dialogue/Puzzle/Combat scene model —
+        don't add a parallel mechanism. Puzzle scenes still can't run end-to-end
+        until DynamicArray/Queue/Stack/DirectedGraph are implemented (see
+        AGENTS.md "Current implementation state").
     validations:
       required: true
 
@@ -104,8 +119,8 @@ body:
       label: Risks / trade-offs
       description: What could be impacted or complicated by this change?
       placeholder: |
-        May require exposing inventory read APIs.
-        Risk of mixing gameplay and presentation responsibilities.
+        Risk of hardcoding narrative content in a way that's hard to extend
+        for Mission 2/3 later — check VS-001 §21 (data-driven policy) first.
     validations:
       required: false
 
@@ -113,11 +128,7 @@ body:
     id: evidence_mockups
     attributes:
       label: Mockups / examples / references
-      description: Optional. Add sketches, screenshots, command examples, or references.
-      placeholder: |
-        Example output:
-        [1] Potion x3
-        [2] Sword x1
+      description: Optional. Add sketches, screenshots, dialogue examples, or references.
     validations:
       required: false
 
@@ -129,9 +140,9 @@ body:
       options:
         - label: I searched for existing issues and did not find a duplicate.
           required: true
+        - label: I checked docs/GPD.md and docs/TAD-001.md for conflicts with this proposal.
+          required: true
         - label: I described the problem, not only the solution.
           required: true
         - label: I included measurable acceptance criteria.
-          required: true
-        - label: I considered technical impact and scope.
           required: true

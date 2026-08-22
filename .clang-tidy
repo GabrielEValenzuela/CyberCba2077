@@ -1,0 +1,52 @@
+Checks: >
+  -*,
+  clang-analyzer-*,
+  bugprone-*,
+  performance-*,
+  portability-*,
+  readability-braces-around-statements,
+  readability-duplicate-include,
+  readability-else-after-return,
+  readability-identifier-naming,
+  readability-inconsistent-declaration-parameter-name,
+  readability-misleading-indentation,
+  readability-redundant-control-flow,
+  readability-redundant-declaration,
+  readability-simplify-boolean-expr,
+  -bugprone-easily-swappable-parameters
+
+WarningsAsErrors: '*'
+
+HeaderFilterRegex: '^(include|src)/'
+
+# Naming convention per docs/adr/ADR-001-cpp-style-guide-merge.md (supersedes
+# TAD-001 §22-§25 naming/style; the no-STL-containers / no-smart-pointers
+# rule from TAD-001 §10-§11 / GPD §51-§52 is unaffected and enforced
+# separately by the forbidden-symbols audit, not by clang-tidy).
+CheckOptions:
+  readability-identifier-naming.ClassCase: CamelCase
+  readability-identifier-naming.StructCase: CamelCase
+  readability-identifier-naming.EnumCase: CamelCase
+  readability-identifier-naming.EnumConstantCase: CamelCase
+  readability-identifier-naming.FunctionCase: camelBack
+  readability-identifier-naming.MethodCase: camelBack
+  readability-identifier-naming.VariableCase: camelBack
+  readability-identifier-naming.ParameterCase: camelBack
+  readability-identifier-naming.PrivateMemberCase: camelBack
+  readability-identifier-naming.PrivateMemberPrefix: 'm_'
+  readability-identifier-naming.ProtectedMemberCase: camelBack
+  readability-identifier-naming.ProtectedMemberPrefix: 'm_'
+  readability-identifier-naming.StaticVariableCase: camelBack
+  readability-identifier-naming.StaticVariablePrefix: 'gs_'
+  readability-identifier-naming.StaticConstantCase: camelBack
+  readability-identifier-naming.StaticConstantPrefix: 'gs_'
+  readability-identifier-naming.GlobalVariableCase: camelBack
+  readability-identifier-naming.GlobalVariablePrefix: 'g_'
+  # Only compile-time constants (constexpr/#define) are UPPER_CASE; ordinary
+  # `const` locals/parameters keep camelBack (ADR-001: "Constants must use
+  # ALL_CAPS_WITH_UNDERSCORES" refers to defines/constexpr, not every const).
+  readability-identifier-naming.ConstexprVariableCase: UPPER_CASE
+  readability-identifier-naming.GlobalConstantCase: UPPER_CASE
+  readability-identifier-naming.LocalConstantCase: camelBack
+  readability-identifier-naming.ConstantParameterCase: camelBack
+  readability-identifier-naming.ConstantMemberCase: camelBack
