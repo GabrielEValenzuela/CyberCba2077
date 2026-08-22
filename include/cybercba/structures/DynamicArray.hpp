@@ -218,6 +218,46 @@ template <typename TData> class DynamicArray final
         return m_pBufferData[index];
     }
 
+    /// @brief Access the first element, mutable.
+    ///
+    /// Requires `!isEmpty()`; calling this on an empty array is undefined
+    /// behavior.
+    /// @return Reference to the element at index `0`. Invalidated by any
+    ///     operation that reallocates the buffer (see class-level Ownership
+    ///     notes).
+    TData& front()
+    {
+        return m_pBufferData[0];
+    }
+
+    /// @brief Access the first element, read-only. See the mutable overload
+    /// for the full contract.
+    /// @return Const reference to the element at index `0`.
+    const TData& front() const
+    {
+        return m_pBufferData[0];
+    }
+
+    /// @brief Access the last element, mutable.
+    ///
+    /// Requires `!isEmpty()`; calling this on an empty array is undefined
+    /// behavior.
+    /// @return Reference to the element at index `size() - 1`. Invalidated
+    ///     by any operation that reallocates the buffer (see class-level
+    ///     Ownership notes).
+    TData& back()
+    {
+        return m_pBufferData[m_size - 1];
+    }
+
+    /// @brief Access the last element, read-only. See the mutable overload
+    /// for the full contract.
+    /// @return Const reference to the element at index `size() - 1`.
+    const TData& back() const
+    {
+        return m_pBufferData[m_size - 1];
+    }
+
     /// @brief Number of elements currently stored.
     /// @return Element count; always `<= capacity()`.
     std::size_t size() const

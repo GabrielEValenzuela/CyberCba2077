@@ -40,6 +40,39 @@ TEST(DynamicArrayTest, PushBackGrowsPastInitialCapacity)
     }
 }
 
+TEST(DynamicArrayTest, FrontAndBackReturnEndpoints)
+{
+    DynamicArray<int> array;
+    array.pushBack(1);
+    array.pushBack(2);
+    array.pushBack(3);
+
+    EXPECT_EQ(array.front(), 1);
+    EXPECT_EQ(array.back(), 3);
+}
+
+TEST(DynamicArrayTest, FrontAndBackAreMutable)
+{
+    DynamicArray<int> array;
+    array.pushBack(1);
+    array.pushBack(2);
+
+    array.front() = 10;
+    array.back()  = 20;
+
+    EXPECT_EQ(array[0], 10);
+    EXPECT_EQ(array[1], 20);
+}
+
+TEST(DynamicArrayTest, FrontEqualsBackOnSingleElement)
+{
+    DynamicArray<int> array;
+    array.pushBack(42);
+
+    EXPECT_EQ(array.front(), 42);
+    EXPECT_EQ(array.back(), 42);
+}
+
 TEST(DynamicArrayTest, PopBackRemovesLastElement)
 {
     DynamicArray<int> array;
