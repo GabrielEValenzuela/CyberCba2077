@@ -119,6 +119,22 @@ jobs:
       - name: Run tests under ASan+UBSan
         run: ctest --preset asan
 
+  doxygen:
+    name: doxygen
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install doxygen
+        run: sudo apt-get update && sudo apt-get install -y doxygen graphviz
+      - name: Build docs and check for undocumented public API
+        run: |
+          doxygen Doxyfile 2> doxygen-warnings.log
+          cat doxygen-warnings.log
+          if grep -q "not documented" doxygen-warnings.log; then
+            echo "::error::Doxygen found undocumented public members (see doxygen-warnings.log above)."
+            exit 1
+          fi
+
   portability:
     name: portability
     runs-on: windows-latest

@@ -6,7 +6,7 @@
 namespace cybercba::structures
 {
 
-/// Growable, contiguous, custom sequence container (no STL containers used).
+/// @brief Growable, contiguous, custom sequence container (no STL containers used).
 ///
 /// `DynamicArray` owns a single contiguous heap buffer of `TData` and grows
 /// it (capacity doubling, starting at 4) whenever `pushBack` would overflow
@@ -30,21 +30,35 @@ namespace cybercba::structures
 /// `operator[](index)` requires `0 <= index < size()`; violating it is
 /// undefined behavior, matching the contract this ADT was specified under
 /// (docs/GPD.md §55).
+///
+/// @tparam TData Element type stored by the array. Must be copy-assignable
+///     (used by growth/copy) and default-constructible (each slot in a
+///     freshly-allocated `TData[]` buffer is default-constructed before
+///     being overwritten).
 template <typename TData> class DynamicArray final
 {
   public:
-    /// Constructs an empty array: no allocation happens until the first
-    /// `pushBack`.
+    /// @brief Constructs an empty array.
+    ///
+    /// No allocation happens until the first `pushBack`; `m_pBufferData`
+    /// stays `nullptr` and `size()`/`capacity()` are both `0`.
     DynamicArray() : m_pBufferData(nullptr), m_size(0), m_capacity(0) {}
 
-    /// Releases the owned buffer. Safe to call on a moved-from array because
-    /// `delete[] nullptr` is a guaranteed no-op.
+    /// @brief Releases the owned buffer.
+    ///
+    /// Safe to call on a moved-from array because `delete[] nullptr` is a
+    /// guaranteed no-op.
     ~DynamicArray()
     {
         delete[] m_pBufferData;
     }
 
-    /// Deep-copies `other`'s buffer; never shares `m_pBufferData` with it.
+    /// @brief Copy constructor: deep-copies `other`'s buffer.
+    ///
+    /// Never shares `m_pBufferData` with `other` — mutating one array after
+    /// the copy never affects the other.
+    ///
+    /// @param other Array to copy from. Left unmodified.
     DynamicArray(const DynamicArray& other)
         : m_pBufferData(other.m_capacity == 0 ? nullptr : new TData[other.m_capacity]), m_size(other.m_size),
           m_capacity(other.m_capacity)
@@ -55,8 +69,14 @@ template <typename TData> class DynamicArray final
         }
     }
 
-    /// Deep-copy assignment. Guards against self-assignment (`a = a;`) and
-    /// only releases the current buffer after the new one is fully copied.
+    /// @brief Copy assignment: deep-copies `other`'s buffer.
+    ///
+    /// Guards against self-assignment (`a = a;`) and only releases the
+    /// current buffer after the new one is fully allocated and copied, so a
+    /// failed allocation never leaves `*this` without a valid buffer.
+    ///
+    /// @param other Array to copy from. Left unmodified.
+    /// @return Reference to `*this`, to allow chained assignment.
     DynamicArray& operator=(const DynamicArray& other)
     {
         if (this == &other)
@@ -77,8 +97,15 @@ template <typename TData> class DynamicArray final
         return *this;
     }
 
-    /// Steals `other`'s buffer; `other` is left empty so its destructor
-    /// releases nothing.
+    /// @brief Move constructor: steals `other`'s buffer.
+    ///
+    /// `other` is left empty (`nullptr`, size 0, capacity 0) so its
+    /// destructor releases nothing and any subsequent use of `other` behaves
+    /// like a freshly-constructed empty array rather than undefined
+    /// behavior.
+    ///
+    /// @param other Array to move from. Left empty; only safe to destroy,
+    ///     reassign, or query (`size()`/`isEmpty()`) afterward.
     DynamicArray(DynamicArray&& other) noexcept
         : m_pBufferData(other.m_pBufferData), m_size(other.m_size), m_capacity(other.m_capacity)
     {
@@ -87,8 +114,12 @@ template <typename TData> class DynamicArray final
         other.m_capacity    = 0;
     }
 
-    /// Move assignment. Releases this array's own buffer, then steals
-    /// `other`'s.
+    /// @brief Move assignment: releases this array's own buffer, then
+    /// steals `other`'s.
+    ///
+    /// @param other Array to move from. Left empty, same postcondition as
+    ///     the move constructor.
+    /// @return Reference to `*this`, to allow chained assignment.
     DynamicArray& operator=(DynamicArray&& other) noexcept
     {
         if (this == &other)
@@ -107,10 +138,14 @@ template <typename TData> class DynamicArray final
         return *this;
     }
 
-    /// Appends `value`, growing the buffer (capacity doubling from a base of
-    /// 4) when it is full. The new buffer is always allocated and populated
-    /// before the old one is freed, so a failure mid-copy never leaves this
-    /// array without a valid buffer.
+    /// @brief Appends `value` at the end, growing the buffer if needed.
+    ///
+    /// Growth doubles capacity (from a base of 4 on the first allocation)
+    /// when the array is full. The new buffer is always allocated and
+    /// populated before the old one is freed, so a failure mid-copy never
+    /// leaves this array without a valid buffer.
+    ///
+    /// @param value Element to append. Copied into the array.
     void pushBack(const TData& value)
     {
         if (isFull())
@@ -130,7 +165,7 @@ template <typename TData> class DynamicArray final
         ++m_size;
     }
 
-    /// Removes the last element. No-op on an empty array.
+    /// @brief Removes the last element. No-op on an empty array.
     void popBack()
     {
         if (m_size > 0)
@@ -139,17 +174,21 @@ template <typename TData> class DynamicArray final
         }
     }
 
-    /// Removes every element without releasing the buffer (capacity is kept
-    /// so subsequent `pushBack` calls don't need to reallocate).
+    /// @brief Removes every element without releasing the buffer.
+    ///
+    /// Capacity is kept as-is so subsequent `pushBack` calls don't need to
+    /// reallocate.
     void clear()
     {
         m_size = 0;
     }
 
-    /// Reverses the array in place using a recursive two-pointer swap
-    /// (docs/squads/issues/#216: the recursion requirement for this task).
-    /// Safe on empty arrays and single-element arrays (the recursive helper's
-    /// base case handles both).
+    /// @brief Reverses the array in place.
+    ///
+    /// Implemented as a recursive two-pointer swap (docs/squads/issues/#216:
+    /// the recursion requirement for this task). Safe on empty arrays and
+    /// single-element arrays — the recursive helper's base case handles
+    /// both without recursing.
     void reverse()
     {
         if (m_size == 0)
@@ -159,46 +198,80 @@ template <typename TData> class DynamicArray final
         reverseRecursive(m_pBufferData, m_pBufferData + m_size - 1);
     }
 
+    /// @brief Element access, mutable.
+    ///
+    /// @param index Zero-based position. Must satisfy `0 <= index <
+    ///     size()`; out-of-range access is undefined behavior (docs/GPD.md
+    ///     §55) — this operator does not bounds-check.
+    /// @return Reference to the element at `index`. Invalidated by any
+    ///     operation that reallocates the buffer (see class-level Ownership
+    ///     notes).
     TData& operator[](std::size_t index)
     {
         return m_pBufferData[index];
     }
 
+    /// @brief Element access, read-only. See the mutable overload for the
+    /// full contract (bounds precondition, invalidation on reallocation).
+    ///
+    /// @param index Zero-based position, `0 <= index < size()`.
+    /// @return Const reference to the element at `index`.
     const TData& operator[](std::size_t index) const
     {
         return m_pBufferData[index];
     }
 
+    /// @brief Number of elements currently stored.
+    /// @return Element count; always `<= capacity()`.
     std::size_t size() const
     {
         return m_size;
     }
 
+    /// @brief Number of elements the current buffer can hold without
+    /// reallocating.
+    /// @return Capacity in elements; `0` if no buffer has been allocated
+    ///     yet.
     std::size_t capacity() const
     {
         return m_capacity;
     }
 
+    /// @brief Whether the array holds no elements.
+    /// @return `true` iff `size() == 0`.
     bool isEmpty() const
     {
         return m_size == 0;
     }
 
   private:
+    /// Owned heap buffer of `m_capacity` elements, or `nullptr` if nothing
+    /// has been allocated yet. This is the only owner of this memory.
     TData* m_pBufferData;
+    /// Number of elements actually stored (`<= m_capacity`).
     std::size_t m_size;
+    /// Number of elements `m_pBufferData` can hold before a `pushBack`
+    /// triggers a reallocation.
     std::size_t m_capacity;
 
+    /// @brief Whether the next `pushBack` would need to grow the buffer.
+    /// @return `true` iff `m_size == m_capacity`.
     bool isFull() const
     {
         return m_size == m_capacity;
     }
 
-    /// Recursive base of `reverse()`: swaps the outer pair and recurses one
-    /// step inward. `pFirst >= pLast` is the base case — using `>=` (not
-    /// `==`) is what makes it correct for both even- and odd-sized ranges,
-    /// since an even-sized range has its two pointers cross rather than
-    /// coincide.
+    /// @brief Recursive base of `reverse()`.
+    ///
+    /// Swaps `*pFirst` and `*pLast`, then recurses one step inward.
+    /// `pFirst >= pLast` is the base case — using `>=` (not `==`) is what
+    /// makes it correct for both even- and odd-sized ranges, since an
+    /// even-sized range has its two pointers cross rather than coincide.
+    ///
+    /// @param pFirst Pointer to the current leftmost element of the
+    ///     remaining range to reverse.
+    /// @param pLast Pointer to the current rightmost element of the
+    ///     remaining range to reverse.
     static void reverseRecursive(TData* pFirst, TData* pLast)
     {
         if (pFirst >= pLast)
