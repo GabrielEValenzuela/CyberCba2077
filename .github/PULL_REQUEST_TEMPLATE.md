@@ -23,8 +23,8 @@ cmake --build build/dev && ctest --test-dir build/dev --output-on-failure
 ```
 <!-- Agregá un paso manual si aplica (ej. correr cybercba_app). -->
 
-## Checklist C++ (TAD-001)
-- [ ] Sin `std::vector/map/queue/stack/set` ni `unique_ptr/shared_ptr` (§10-11)
+## Checklist
+- [ ] Sin `std::vector/map/queue/stack/set` ni `unique_ptr/shared_ptr`
 - [ ] Ownership de punteros claro (quién crea/posee/destruye)
 - [ ] Const-correctness / sin copias innecesarias
 - [ ] `cybercba_core` no incluye `<raylib.h>`
