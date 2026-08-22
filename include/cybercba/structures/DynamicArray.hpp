@@ -35,9 +35,7 @@ template <typename TData> class DynamicArray final
   public:
     /// Constructs an empty array: no allocation happens until the first
     /// `pushBack`.
-    DynamicArray() : m_pBufferData(nullptr), m_size(0), m_capacity(0)
-    {
-    }
+    DynamicArray() : m_pBufferData(nullptr), m_size(0), m_capacity(0) {}
 
     /// Releases the owned buffer. Safe to call on a moved-from array because
     /// `delete[] nullptr` is a guaranteed no-op.

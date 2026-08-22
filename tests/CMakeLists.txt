@@ -2,6 +2,7 @@ find_package(GTest CONFIG REQUIRED)
 
 set(CYBERCBA_TEST_SOURCES
     core/CreditsLoaderTest.cpp
+    structures/DynamicArrayTest.cpp
     states/GameStateMachineTest.cpp
     combat/CombatSystemTest.cpp
     combat/GuardBehaviorStrategyTest.cpp
