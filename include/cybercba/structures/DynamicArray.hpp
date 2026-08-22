@@ -11,25 +11,23 @@ namespace cybercba::structures
 /// `DynamicArray` owns a single contiguous heap buffer of `TData` and grows
 /// it (capacity doubling, starting at 4) whenever `pushBack` would overflow
 /// the current capacity. It exists so gameplay code never needs
-/// `std::vector` (docs/GPD.md §51, docs/TAD-001.md §10-11).
+/// `std::vector`.
 ///
 /// ## Ownership
 /// A `DynamicArray<TData>` owns every element it stores. References
 /// returned by `operator[]` are observers only: they are invalidated by any
 /// operation that reallocates the buffer (a `pushBack` past capacity,
-/// assignment, etc.) — see docs/TAD-001.md §12-14 for the project's
-/// ownership vocabulary (owner / observer).
+/// assignment, etc.).
 ///
 /// ## Rule of Five
-/// Copy and move are both defined explicitly (docs/TAD-001.md §14): copy
-/// performs a deep copy of the buffer (never two objects sharing one
-/// `m_pBufferData`), move steals the pointer and leaves the source empty so
-/// its destructor is a safe no-op.
+/// Copy and move are both defined explicitly: copy performs a deep copy of
+/// the buffer (never two objects sharing one `m_pBufferData`), move steals
+/// the pointer and leaves the source empty so its destructor is a safe
+/// no-op.
 ///
 /// ## Preconditions
 /// `operator[](index)` requires `0 <= index < size()`; violating it is
-/// undefined behavior, matching the contract this ADT was specified under
-/// (docs/GPD.md §55).
+/// undefined behavior.
 ///
 /// @tparam TData Element type stored by the array. Must be copy-assignable
 ///     (used by growth/copy) and default-constructible (each slot in a
@@ -185,9 +183,8 @@ template <typename TData> class DynamicArray final
 
     /// @brief Reverses the array in place.
     ///
-    /// Implemented as a recursive two-pointer swap (docs/squads/issues/#216:
-    /// the recursion requirement for this task). Safe on empty arrays and
-    /// single-element arrays — the recursive helper's base case handles
+    /// Implemented as a recursive two-pointer swap. Safe on empty arrays
+    /// and single-element arrays — the recursive helper's base case handles
     /// both without recursing.
     void reverse()
     {
@@ -201,8 +198,8 @@ template <typename TData> class DynamicArray final
     /// @brief Element access, mutable.
     ///
     /// @param index Zero-based position. Must satisfy `0 <= index <
-    ///     size()`; out-of-range access is undefined behavior (docs/GPD.md
-    ///     §55) — this operator does not bounds-check.
+    ///     size()`; out-of-range access is undefined behavior — this
+    ///     operator does not bounds-check.
     /// @return Reference to the element at `index`. Invalidated by any
     ///     operation that reallocates the buffer (see class-level Ownership
     ///     notes).
