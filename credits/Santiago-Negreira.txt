@@ -1,0 +1,3 @@
+Santiago Negreira
+Trabajé colocando mi nombre en los créditos.
+Es mi primera vez utilizando CLion, Git y GitHub, aprendiendo de a poco.
