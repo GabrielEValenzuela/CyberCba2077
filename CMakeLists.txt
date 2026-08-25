@@ -20,6 +20,10 @@ set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 # --- Domain model shared by the game, tests and benchmarks.
 add_library(cyberpunk_model STATIC
   src/model/GameModel.cpp
+        include/progress_tracking/IAchievementCondition.cpp
+        include/progress_tracking/IAchievementCondition.hpp
+        include/progress_tracking/AchievementTracker.cpp
+        include/progress_tracking/AchievementTracker.hpp
 )
 
 target_include_directories(cyberpunk_model PUBLIC include)
@@ -49,6 +53,10 @@ add_library(cyber_cba_core STATIC
   src/domain/characters/PatrullaSeguridadCharacter.cpp
   src/domain/characters/TomoCharacter.cpp
   src/domain/characters/PrologueCharacters.cpp
+        include/progress_tracking/IAchievementCondition.cpp
+        include/progress_tracking/IAchievementCondition.hpp
+        include/progress_tracking/AchievementTracker.cpp
+        include/progress_tracking/AchievementTracker.hpp
 )
 target_include_directories(cyber_cba_core PUBLIC include)
 target_link_libraries(cyber_cba_core PUBLIC cyberpunk_model)
@@ -125,6 +133,10 @@ if(CYBERPUNK_BUILD_TESTS)
     tests/test_encounter_content.cpp
     tests/test_character_module.cpp
     tests/test_credits_loader.cpp
+          include/progress_tracking/IAchievementCondition.cpp
+          include/progress_tracking/IAchievementCondition.hpp
+          include/progress_tracking/AchievementTracker.cpp
+          include/progress_tracking/AchievementTracker.hpp
   )
 
   target_include_directories(unit_tests PRIVATE include)
@@ -149,6 +161,10 @@ if(CYBERPUNK_BUILD_BENCHMARKS)
 
   add_executable(benchmarks_run
     benchmarks/bench_gamemodel.cpp
+          include/progress_tracking/IAchievementCondition.cpp
+          include/progress_tracking/IAchievementCondition.hpp
+          include/progress_tracking/AchievementTracker.cpp
+          include/progress_tracking/AchievementTracker.hpp
   )
 
   target_include_directories(benchmarks_run PRIVATE include)
