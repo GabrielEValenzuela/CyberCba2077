@@ -11,6 +11,8 @@ set(CYBERCBA_CORE_SOURCES
     missions/PersuasionStrategy.cpp
     progression/SkillDefinition.cpp
     progression/ProgressionSystem.cpp
+        game/CheckpointStack.cpp
+        ../include/cybercba/game/CheckpointStack.h
 )
 
 # PuzzleSystem depends on the custom structures (VS-001 §12.2), whose bodies
@@ -18,13 +20,19 @@ set(CYBERCBA_CORE_SOURCES
 # compiles against the structures' public API but will not link into an
 # executable until those bodies exist — kept as its own object library so
 # cybercba_core / cybercba_tests can stay linkable in the meantime.
-add_library(cybercba_core_puzzle OBJECT missions/PuzzleSystem.cpp)
+add_library(cybercba_core_puzzle OBJECT missions/PuzzleSystem.cpp
+        game/CheckpointStack.cpp
+        ../include/cybercba/game/CheckpointStack.h
+)
 target_include_directories(cybercba_core_puzzle PUBLIC ${CMAKE_SOURCE_DIR}/include)
 target_compile_features(cybercba_core_puzzle PUBLIC cxx_std_17)
 cybercba_set_warnings(cybercba_core_puzzle)
 cybercba_enable_clang_tidy(cybercba_core_puzzle)
 
-add_library(cybercba_core STATIC ${CYBERCBA_CORE_SOURCES})
+add_library(cybercba_core STATIC ${CYBERCBA_CORE_SOURCES}
+        game/CheckpointStack.cpp
+        ../include/cybercba/game/CheckpointStack.h
+)
 
 target_include_directories(cybercba_core
     PUBLIC

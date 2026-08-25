@@ -9,9 +9,14 @@ set(CYBERCBA_TEST_SOURCES
     missions/MissionSystemTest.cpp
     missions/PersuasionStrategyTest.cpp
     progression/ProgressionSystemTest.cpp
+        ../src/game/CheckpointStack.cpp
+        ../include/cybercba/game/CheckpointStack.h
 )
 
-add_executable(cybercba_tests ${CYBERCBA_TEST_SOURCES})
+add_executable(cybercba_tests ${CYBERCBA_TEST_SOURCES}
+        ../src/game/CheckpointStack.cpp
+        ../include/cybercba/game/CheckpointStack.h
+)
 
 target_link_libraries(cybercba_tests
     PRIVATE

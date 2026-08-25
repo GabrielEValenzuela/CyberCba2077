@@ -1,4 +1,7 @@
-add_executable(cybercba_app main.cpp)
+add_executable(cybercba_app main.cpp
+        ../game/CheckpointStack.cpp
+        ../../include/cybercba/game/CheckpointStack.h
+)
 
 target_link_libraries(cybercba_app
     PRIVATE
