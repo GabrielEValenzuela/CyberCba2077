@@ -48,7 +48,11 @@ class ProgressionSystem final
     // canUpgrade() would have returned false.
     bool applyUpgrade(SkillProgress& progress, SkillId id) const;
 };
-
+	struct PrerequisiteInfo final
+{
+	SkillId Skill;
+	SkillLevel Level;
+}
 } // namespace cybercba::progression
 
 #endif // CYBERCBA_PROGRESSION_PROGRESSIONSYSTEM_H

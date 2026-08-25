@@ -13,10 +13,15 @@ SkillProgress::SkillProgress()
 
 SkillLevel SkillProgress::levelOf(SkillId id) const
 {
+    const auto index = static_cast<int>(id);
+    if (index >= SKILL_COUNT)
+    {
+        return SkillLevel::LevelI;
+    }
     return static_cast<SkillLevel>(m_levels[static_cast<int>(id)]);
 }
 
-bool SkillProgress::upgrade(SkillId id)
+bool SkillProgress::upgradeIaII(SkillId id)
 {
     const auto index = static_cast<int>(id);
     if (m_levels[index] != static_cast<int>(SkillLevel::LevelI))
@@ -26,10 +31,23 @@ bool SkillProgress::upgrade(SkillId id)
     m_levels[index] = static_cast<int>(SkillLevel::LevelII);
     return true;
 }
-
+bool SkillProgress::upgradeIIaIII(SkillId id)
+{
+	const auto index = static_cast<int>(id);
+    if (m_levels[index] != static_cast<int>(SkillLevel::LevelII))
+        {
+		return false;
+		}
+    m_levels[index] = static_cast<int>(SkillLevel::LevelIII);
+    return true;
+}
 bool ProgressionSystem::canUpgrade(const SkillProgress& progress, SkillId id) const
 {
     return progress.levelOf(id) == SkillLevel::LevelI;
+}
+bool ProgressionSystem::canUpgradeIIaIII(const SkillProgress& progress, SkillId id) const
+{
+    return progress.levelOf(id) != SkillLevel::LevelIII;
 }
 
 bool ProgressionSystem::applyUpgrade(SkillProgress& progress, SkillId id) const
