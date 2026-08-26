@@ -13,18 +13,6 @@ enum ResourceType
     COVER_BONUS
 };
 
-class ResourceRuleEngine final
-{
-  public:
-    bool consultar(ResourceType resource_type, int amount);
-    ResourceRuleEngine(CampaignState* campaign_state,
-                       cybercba::structures::DynamicArray<IResourceRule>* rules_container);
-    ~ResourceRuleEngine();
-    cybercba::structures::DynamicArray<ReglaDeCargaEMP> rules_container_emp;
-    cybercba::structures::DynamicArray<ReglaDeBonusDeCobertura> rules_container_coverage;
-    CampaignState* campaign_state;
-};
-
 class IResourceRule
 {
   public:
@@ -50,6 +38,18 @@ class ReglaDeBonusDeCobertura : public IResourceRule
     bool puedeOtorgar(int currentProgress, int amount);
     ResourceType type();
     cybercba::structures::DynamicArray<IResourceRule> dependsOn();
+};
+
+class ResourceRuleEngine final
+{
+  public:
+    bool consultar(ResourceType resource_type, int amount);
+    ResourceRuleEngine(CampaignState* campaign_state,
+                       cybercba::structures::DynamicArray<IResourceRule>* rules_container);
+    ~ResourceRuleEngine();
+    cybercba::structures::DynamicArray<ReglaDeCargaEMP> rules_container_emp;
+    cybercba::structures::DynamicArray<ReglaDeBonusDeCobertura> rules_container_coverage;
+    CampaignState* campaign_state;
 };
 
 } // namespace cybercba::game

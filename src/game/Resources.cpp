@@ -11,19 +11,32 @@ ResourceRuleEngine::ResourceRuleEngine(CampaignState* campaign_state, DynamicArr
 {
     this->campaign_state = campaign_state;
 
-    this->rules_container_emp      = DynamicArray<ReglaDeCargaEMP>();
-    this->rules_container_coverage = DynamicArray<ReglaDeBonusDeCobertura>();
+    DynamicArray<ReglaDeCargaEMP> emp;
+    DynamicArray<ReglaDeBonusDeCobertura> coverage;
 
-    for (int i = 0; i < rules->size(); i++)
+    this->rules_container_emp      = emp;
+    this->rules_container_coverage = coverage;
+
+    for (std::size_t i = 0; i < rules->size(); i++)
     {
-        if (rules[i].type() == ResourceType::EMP_CHARGE)
+        IResourceRule& rule = (*rules)[i];
+
+        if (rule.type() == ResourceType::EMP_CHARGE)
         {
-            this->rules_container_emp.pushBack((ReglaDeCargaEMP)rules[i]);
+            // chequeamos que podamos convertir IResourceRule en su clase derivada ReglaDeCargaEMP
+            if (auto* empRule = dynamic_cast<ReglaDeCargaEMP*>(&rule))
+            {
+                this->rules_container_emp.pushBack(*empRule);
+            }
         }
 
-        if (rules[i].type() == ResourceType::COVER_BONUS)
+        if (rule.type() == ResourceType::COVER_BONUS)
         {
-            this->rules_container_emp.pushBack((ReglaDeBonusDeCobertura)rules[i]);
+            // chequeamos que podamos convertir IResourceRule en su clase derivada ReglaDeBonusDeCobertura
+            if (auto* coverageRule = dynamic_cast<ReglaDeBonusDeCobertura*>(&rule))
+            {
+                this->rules_container_coverage.pushBack(*coverageRule);
+            }
         }
     }
 }
