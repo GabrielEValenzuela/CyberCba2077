@@ -28,15 +28,5 @@ TEST_F(ResourceTest, HAPPYPATH)
     EXPECT_EQ(value, 42);
 }
 
-// TEST_F(ResourceTest, ReadsEntriesSortedByFilename) {}
-
-// TEST_F(ResourceTest, SkipsReadmeAndUnderscorePrefixedTemplates) {}
-
-// TEST_F(ResourceTest, TrimsSurroundingWhitespacePerFile) {}
-
-// TEST_F(ResourceTest, SkipsEmptyFilesWithoutLeavingBlankEntries) {}
-
-// TEST_F(ResourceTest, HandlesManyEntriesWithoutTruncation) {}
-
 } // namespace
 } // namespace cybercba::game
