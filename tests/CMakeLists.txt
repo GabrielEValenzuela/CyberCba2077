@@ -1,6 +1,7 @@
 find_package(GTest CONFIG REQUIRED)
 
 set(CYBERCBA_TEST_SOURCES
+    game/ResourceTest.cpp
     core/CreditsLoaderTest.cpp
     structures/DynamicArrayTest.cpp
     states/GameStateMachineTest.cpp
