@@ -1,4 +1,4 @@
-# Wires clang-tidy into a target's build when CYBERCBA_ENABLE_CLANG_TIDY is on (TAD-001 §27/§29).
+# Wires clang-tidy into a target's build when CYBERCBA_ENABLE_CLANG_TIDY is enabled.
 function(cybercba_enable_clang_tidy target)
     if(CYBERCBA_ENABLE_CLANG_TIDY)
         find_program(CLANG_TIDY_EXE NAMES clang-tidy)

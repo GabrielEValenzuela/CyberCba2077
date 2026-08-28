@@ -17,8 +17,7 @@ enum class SkillLevel : std::uint8_t
     LevelIII = 3
 };
 
-// Tracks skill levels for one campaign. Fixed-size array indexed by SkillId,
-// no dynamic memory (TAD-001 §21 policy for VS-001 data).
+/// Tracks skill levels for one campaign in a fixed-size array indexed by SkillId.
 //
 // Ownership: value type, embedded in CampaignState's owner (Game).
 class SkillProgress final
@@ -33,7 +32,7 @@ class SkillProgress final
     int m_levels[SKILL_COUNT];
 };
 
-// Applies GPD §7.5 / VS-001 §9 progression rules: award a skill point at
+/// Applies progression rules: award a skill point at
 // mission close, let the player upgrade one available skill by one level.
 //
 // This system does not decide *which* skill the player picks (that is a UI/

@@ -6,9 +6,9 @@
 namespace cybercba::game
 {
 
-// Explicit state machine for GameStateId (TAD-001 §16). Owns the notion of
-// "current state" and the table of legal transitions; nothing outside this
-// class may declare a transition legal.
+/// Explicit state machine for GameStateId.
+///
+/// It owns the current state and the table of legal transitions.
 //
 // Ownership: value type, no dynamic memory. Embedded by value inside Game.
 class GameStateMachine final
@@ -20,8 +20,7 @@ class GameStateMachine final
 
     // Returns true and applies the transition if (current -> target) is a
     // legal edge per the transition table; returns false and leaves state
-    // unchanged otherwise (TAD-001 §42: errors must not be silently ignored
-    // by callers — check the return value).
+    // unchanged otherwise; callers must check the return value.
     bool transitionTo(GameStateId target);
 
     bool canTransitionTo(GameStateId target) const;

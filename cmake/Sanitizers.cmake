@@ -1,4 +1,4 @@
-# Applies ASan+UBSan to a target when CYBERCBA_ENABLE_SANITIZERS is on (TAD-001 §30).
+# Applies ASan+UBSan when CYBERCBA_ENABLE_SANITIZERS is enabled.
 function(cybercba_enable_sanitizers target)
     if(CYBERCBA_ENABLE_SANITIZERS)
         if(NOT CMAKE_CXX_COMPILER_ID MATCHES "Clang|GNU")

@@ -22,7 +22,7 @@ Lo que empieza como una búsqueda personal se convierte en la última oportunida
 
 Tu elección inicial, tus decisiones en el terreno y cómo reconstruís (o no) la relación entre Emma y Magga determinan cómo termina la historia — no con un medidor de relación a la vista, sino con las consecuencias de lo que hiciste.
 
-*(La historia completa, escena por escena, está en [`docs/GPD.md`](docs/GPD.md) y [`docs/specs/VS-001.md`](docs/specs/VS-001.md) — sin spoilers acá arriba a propósito.)*
+*(La historia completa, escena por escena, está en [`docs/specs/VS-001.md`](docs/specs/VS-001.md) — sin spoilers acá arriba a propósito.)*
 
 ---
 
@@ -34,27 +34,16 @@ C++17 · raylib (vía vcpkg) · CMake · GoogleTest.
 
 ### Documentación
 
-- [`docs/GPD.md`](docs/GPD.md) — Game Production & Design Document: qué es el juego, narrativa completa.
-- [`docs/TAD-001.md`](docs/TAD-001.md) — Technical Architecture Document: cómo está construido.
 - [`docs/specs/VS-001.md`](docs/specs/VS-001.md) — spec del Vertical Slice: escenas, puzzles y combate exactos.
 - [`docs/adr/`](docs/adr/) — Architecture Decision Records (convenciones de estilo, gestión de dependencias).
+- [`INSTALL.md`](INSTALL.md) — dependencias y preparación de Ubuntu.
+- [`COMPILE.md`](COMPILE.md) — configuración, compilación, pruebas y documentación de API.
 - [`CHANGELOG.md`](CHANGELOG.md) — historial de releases.
 - [`AGENTS.md`](AGENTS.md) / [`CLAUDE.md`](CLAUDE.md) — instrucciones para agentes de IA que trabajen en este repo.
 
 ### Compilar
 
-Requiere [vcpkg](https://github.com/microsoft/vcpkg) y CMake 3.21+.
-
-```bash
-export VCPKG_ROOT=/ruta/a/tu/vcpkg
-cmake --preset dev
-cmake --build build/dev
-ctest --test-dir build/dev --output-on-failure
-```
-
-Otros presets (`asan`, `ci`, `release`, `debug`) están en `CMakePresets.json`.
-
-Corré el juego con `./build/dev/src/app/cybercba_app` desde la raíz del repo (busca la carpeta `credits/` relativa al directorio de trabajo).
+Ver [INSTALL.md](INSTALL.md) y [COMPILE.md](COMPILE.md).
 
 ### Sumar tu nombre a los créditos
 

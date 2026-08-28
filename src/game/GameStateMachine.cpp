@@ -29,7 +29,7 @@ constexpr TransitionEdge ALLOWED_EDGES[] = {
     {GameStateId::PostMission, GameStateId::CentralMap},
     {GameStateId::CentralMap, GameStateId::Ending},
 
-    // Meta/out-of-fiction credits screen (not part of GPD's narrative flow).
+    // Meta/out-of-fiction credits screen.
     {GameStateId::MainMenu, GameStateId::Credits},
     {GameStateId::Credits, GameStateId::MainMenu},
 };

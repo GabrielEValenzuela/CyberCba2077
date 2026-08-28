@@ -1,4 +1,4 @@
-# Applies the project's warning baseline (TAD-001 §26) to a target.
+# Applies the project's warning baseline to a target.
 # Only ever applied to first-party targets, never to raylib/GoogleTest.
 function(cybercba_set_warnings target)
     if(CMAKE_CXX_COMPILER_ID MATCHES "Clang|GNU")

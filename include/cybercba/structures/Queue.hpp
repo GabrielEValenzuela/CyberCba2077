@@ -6,13 +6,13 @@
 namespace cybercba::structures
 {
 
-// STUDENT EXERCISE (see docs/GPD.md §55, docs/TAD-001.md §15): implement this ADT.
+/// Student exercise: implement this ADT.
 //
 // Contract:
 //   - Owns its storage (linked nodes or a ring buffer — implementation detail).
 //   - FIFO semantics: enqueue at the back, dequeue from the front.
 //   - Must define destructor, copy constructor, copy assignment, move constructor,
-//     and move assignment per the Rule of Five (TAD-001 §14).
+//     and move assignment per the Rule of Five.
 //   - dequeue()/front() on an empty queue is a precondition violation; document
 //     the chosen behavior (assert vs. defined error) in the implementation.
 //
@@ -46,4 +46,4 @@ template <typename T> class Queue final
 
 } // namespace cybercba::structures
 
-#endif // _CYBERCBA_STRUCTURES_QUEUE_H
+#endif // CYBERCBA_STRUCTURES_QUEUE_H

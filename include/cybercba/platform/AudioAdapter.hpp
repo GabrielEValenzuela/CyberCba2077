@@ -4,7 +4,7 @@
 namespace cybercba::platform
 {
 
-// Owns the raylib audio device lifecycle (TAD-001 §20). No SoundId is wired
+/// Owns the raylib audio device lifecycle. No SoundId is wired
 // up yet (VS-001 §13 does not list audio assets) — this exists so the
 // device init/shutdown pairing lives in exactly one place when sounds are
 // added, instead of being bolted onto AssetStore later.

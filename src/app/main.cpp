@@ -16,8 +16,8 @@ const char* const WINDOW_TITLE = "CyberCBA 2077";
 
 } // namespace
 
-// Composition root (TAD-001 §17): wires cybercba_core and cybercba_raylib
-// together and runs the game loop. Kept intentionally small — gameplay
+// Composition root: wires cybercba_core and cybercba_raylib together and runs
+// the game loop. Kept intentionally small — gameplay
 // logic lives in Game::update, presentation in Renderer::draw.
 int main()
 {
