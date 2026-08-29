@@ -10,6 +10,7 @@ set(CYBERCBA_TEST_SOURCES
     missions/MissionSystemTest.cpp
     missions/PersuasionStrategyTest.cpp
     progression/ProgressionSystemTest.cpp
+    game/ResourceRulesTest.cpp
 )
 
 add_executable(cybercba_tests ${CYBERCBA_TEST_SOURCES})

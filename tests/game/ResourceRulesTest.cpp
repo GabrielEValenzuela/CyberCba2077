@@ -77,8 +77,8 @@ TEST(ResourceTest, RechazaCantidadCero)
 
 TEST(ResourceTest, RechazaSignoIncorrectoEnLasReglas)
 {
-    const ReglaDeCargaEMP reglaEmp;
-    const ReglaDeBonusDeCobertura reglaCover;
+    ReglaDeCargaEMP reglaEmp;
+    ReglaDeBonusDeCobertura reglaCover;
 
     CampaignState state{};
     state.empCharges = 1;
@@ -92,17 +92,17 @@ TEST(ResourceTest, RechazaSignoIncorrectoEnLasReglas)
 
 TEST(ResourceTest, CadenaDeDependenciasSeEvaluaEnOrden)
 {
-    const ReglaDeCargaEMP reglaEmp;
-    const ReglaDeBonusDeCobertura reglaCover(&reglaEmp);
+    ReglaDeCargaEMP reglaEmp;
+    ReglaDeBonusDeCobertura reglaCover(&reglaEmp);
 
     CampaignState state{};
     state.empCharges = 0;
-    state.coverBonus = 0;
+    state.coverBonus = 1;
 
-    EXPECT_TRUE(reglaCover.puedeOtorgar(state, -1));
+    EXPECT_FALSE(reglaCover.puedeConsumir(state, 1));
 
     state.empCharges = 1;
-    EXPECT_FALSE(reglaCover.puedeOtorgar(state, -1));
+    EXPECT_TRUE(reglaCover.puedeConsumir(state, 1));
 }
 
 class ReglaDePrueba final : public IResourceRule
@@ -187,8 +187,8 @@ TEST(ResourceTest, DependenciaCircularSeCortaConSeguridad)
 
 TEST(ResourceTest, ReglasIndependientesNoSeAfectanEntreSi)
 {
-    const ReglaDeCargaEMP reglaEmp;
-    const ReglaDeBonusDeCobertura reglaCover;
+    ReglaDeCargaEMP reglaEmp;
+    ReglaDeBonusDeCobertura reglaCover;
 
     CampaignState state{};
     state.empCharges = 0;
