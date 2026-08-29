@@ -1,8 +1,6 @@
 #ifndef CYBERCBA_GAME_RESOURCERULES_IRESOURCERULE_H
 #define CYBERCBA_GAME_RESOURCERULES_IRESOURCERULE_H
 
-#include <cstdint>
-
 #include "cybercba/game/CampaignState.hpp"
 
 namespace cybercba::game
