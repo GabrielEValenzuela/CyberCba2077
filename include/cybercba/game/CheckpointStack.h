@@ -8,13 +8,15 @@
 namespace cybercba::game
 {
 
-// Administrador de cadena de puntos de control, guardandola con un tamaño fijo, llegando al tamaño limite descartando el mas antiguo, un sistema FIFO.
+// Administrador de cadena de puntos de control, guardandola con un tamaño fijo, llegando al tamaño limite descartando
+// el mas antiguo, un sistema FIFO.
 class CheckpointStack final
 {
-    public: CheckpointStack(int MaxSize = 6); //Creacion de una pila vacia con limite de 6.
-    ~CheckpointStack(); // Destructor de la clase.
-
-
+  public:
+    CheckpointStack(int maxSize = 6); // Creacion de una pila vacia con limite de 6.
+    ~CheckpointStack();               // Destructor de la clase.
+    private:
+    int m_maxSize;
 };
 }
 
