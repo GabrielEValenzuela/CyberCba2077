@@ -1,22 +1,22 @@
-#ifndef CYBERCBA2077_MISSIONMAPSYSTEM_HPP
-#define CYBERCBA2077_MISSIONMAPSYSTEM_HPP
+#ifndef CYBERCBA_MISSIONS_MISSIONMAPSYSTEM_H
+#define CYBERCBA_MISSIONS_MISSIONMAPSYSTEM_H
 #include "MissionNode.hpp"
 
-// misionesDisponibles(progreso actual) : lista
+namespace cybercba::missions
+{
 
-namespace cybercba::missions {
-
-class MissionMapSystem {
-private:
-    structures::DynamicArray<MissionNode> misiones;
-
+class MissionMapSystem
+{
 public:
-    MissionMapSystem();
+  MissionMapSystem();
 
-    void agregarMision(const MissionNode& mision);
-    structures::DynamicArray<MissionNode> misionesDisponibles() const;
-    bool estaDesbloqueada(int idMision) const;
+  void agregarMision(const MissionNode& mision);
+  structures::DynamicArray<MissionNode> misionesDisponibles() const;
+  bool estaDesbloqueada(int idMision) const;
+
+private:
+  structures::DynamicArray<MissionNode> m_misiones;
 };
 
 }
-#endif // CYBERCBA2077_MISSIONMAPSYSTEM_HPP
+#endif // CYBERCBA_MISSIONS_MISSIONMAPSYSTEM_H

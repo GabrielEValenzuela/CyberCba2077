@@ -1,31 +1,21 @@
 #ifndef CYBERCBA_MISSIONS_PLAYERPROGRESS_H
 #define CYBERCBA_MISSIONS_PLAYERPROGRESS_H
 
-#include "MissionNode.hpp"
 #include "cybercba/structures/DynamicArray.hpp"
-
-#include <algorithm>
 #include <string>
 
 namespace cybercba::missions
 {
 struct PlayerProgress
 {
-    structures::DynamicArray<MissionNode> misionesCompletadas;
-    structures::DynamicArray<MissionNode> flagsActivos;
+    structures::DynamicArray<int> misionesCompletadas;
+    structures::DynamicArray<std::string> flagsActivos;
 
-    bool misionCompletada(int idMision) const
-    {
-        return std::find(misionesCompletadas.begin(), misionesCompletadas.end(), idMision)
-               != misionesCompletadas.end();
-    }
 
-    bool flagActivo(const std::string& flag) const
-    {
-        return std::find(flagsActivos.begin(), flagsActivos.end(), flag)
-               != flagsActivos.end();
-    }
+    bool misionCompletada(int idMision) const;
+
+    bool flagActivo(const std::string& flag) const;
 };
-};
+}
 
-#endif // CYBERCBA2077_PLAYERPROGRESS_HPP
+#endif // CYBERCBA_MISSIONS_PLAYERPROGRESS_H

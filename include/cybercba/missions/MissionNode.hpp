@@ -1,29 +1,29 @@
-#ifndef CYBERCBA2077_MISSIONNODE_HPP
-#define CYBERCBA2077_MISSIONNODE_HPP
+#ifndef CYBERCBA_MISSIONS_MISSIONNODE_H
+#define CYBERCBA_MISSIONS_MISSIONNODE_H
+
+#include "IUnlockCondition.hpp"
 #include "cybercba/structures/DynamicArray.hpp"
 #include <string>
 
 namespace cybercba::missions
 {
-
-
-class MissionNode {
-private:
-    int id;
-    std::string nombre;
-    structures::DynamicArray<int>  misionesRequisito;
-
+class MissionNode
+{
 public:
+    MissionNode();
     MissionNode(int id, const std::string& nombre);
 
-    int getId() const;
-    std::string getNombre() const;
+    int id() const;
+    const std::string& nombre() const;
+    void agregarCondicion(const IUnlockCondition& condicion);
+    const structures::DynamicArray<const IUnlockCondition*>& condiciones() const;
 
-    const structures::DynamicArray<int>& getMisionesRequisito() const;
-
-    void agregarMisionRequisito(int idMision);
+private:
+    int m_id;
+    std::string m_nombre;
+    structures::DynamicArray<const IUnlockCondition*> m_condiciones;
 };
 
-
 }
-#endif // CYBERCBA2077_MISSIONNODE_HPP
+
+#endif // CYBERCBA_MISSIONS_MISSIONNODE_H
