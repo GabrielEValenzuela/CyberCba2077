@@ -1,5 +1,8 @@
 #include "cybercba/game/ResourceRules/ResourceRulesEngine.hpp"
 
+#include <cstddef>
+#include <stdexcept>
+
 namespace cybercba::game
 {
 
@@ -7,6 +10,7 @@ ResourceRulesEngine::ResourceRulesEngine(const CampaignState* pState,
                                          const structures::DynamicArray<const IResourceRule*>& reglas)
     : m_pState(pState), m_reglas(reglas)
 {
+    validarGrafo();
 }
 
 bool ResourceRulesEngine::consultar(ResourceType tipo, int cantidad) const
@@ -38,4 +42,34 @@ bool ResourceRulesEngine::consultar(ResourceType tipo, int cantidad) const
 
     return bEncontroRegla;
 }
+
+void ResourceRulesEngine::validarGrafo() const
+{
+    const int PROFUNDIDAD_MAXIMA = 8;
+
+    for (std::size_t i = 0; i < m_reglas.size(); ++i)
+    {
+        const IResourceRule* pActual = m_reglas[i];
+        const IResourceRule* pRuta[PROFUNDIDAD_MAXIMA]{};
+        int profundidad = 0;
+        while (pActual != nullptr)
+        {
+            if (profundidad >= PROFUNDIDAD_MAXIMA)
+            {
+                throw std::invalid_argument("ResourceRulesEngine: invalid rule dependency graph");
+            }
+            for (int j = 0; j < profundidad; ++j)
+            {
+                if (pRuta[j] == pActual)
+                {
+                    throw std::invalid_argument("ResourceRulesEngine: invalid rule dependency graph");
+                }
+            }
+            pRuta[profundidad] = pActual;
+            ++profundidad;
+            pActual = pActual->reglaDeLaQueDepende();
+        }
+    }
+}
+
 } // namespace cybercba::game
