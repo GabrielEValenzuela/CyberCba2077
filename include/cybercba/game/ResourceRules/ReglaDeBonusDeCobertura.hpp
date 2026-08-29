@@ -11,10 +11,10 @@ class ReglaDeBonusDeCobertura final : public IResourceRule
   public:
     explicit ReglaDeBonusDeCobertura(const IResourceRule* pDependencia = nullptr);
 
-    ResourceType tipo() const override;
-    bool puedeConsumir(const CampaignState& state, int cantidad) const override;
-    bool puedeOtorgar(const CampaignState& state, int cantidad) const override;
-    const IResourceRule* reglaDeLaQueDepende() const override;
+    ResourceType tipo() override;
+    bool puedeConsumir(const CampaignState& state, int cantidad) override;
+    bool puedeOtorgar(const CampaignState& state, int cantidad) override;
+    const IResourceRule* reglaDeLaQueDepende() override;
 
   private:
     const IResourceRule* m_pDependencia;

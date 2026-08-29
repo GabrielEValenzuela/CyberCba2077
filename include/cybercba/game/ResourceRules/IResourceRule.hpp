@@ -19,13 +19,13 @@ class IResourceRule
   public:
     virtual ~IResourceRule() = default;
 
-    virtual ResourceType tipo() const = 0;
+    virtual ResourceType tipo();
 
-    virtual bool puedeConsumir(const CampaignState& state, int cantidad) const = 0;
+    virtual bool puedeConsumir(const CampaignState& state, int cantidad);
 
-    virtual bool puedeOtorgar(const CampaignState& state, int cantidad) const = 0;
+    virtual bool puedeOtorgar(const CampaignState& state, int cantidad);
 
-    virtual const IResourceRule* reglaDeLaQueDepende() const = 0;
+    virtual const IResourceRule* reglaDeLaQueDepende();
 };
 
 } // namespace cybercba::game
