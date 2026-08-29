@@ -4,6 +4,7 @@ set(CYBERCBA_CORE_SOURCES
     game/GameStateMachine.cpp
     game/CampaignState.cpp
     game/Game.cpp
+    game/ResourceRules/ResourceRulesEngine.cpp
     combat/CombatSystem.cpp
     combat/GuardBehaviorStrategy.cpp
     missions/DialogueSystem.cpp
