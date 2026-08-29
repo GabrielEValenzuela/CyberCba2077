@@ -13,6 +13,8 @@ add_library(cybercba_raylib STATIC
     AssetStore.cpp
     AudioAdapter.cpp
     Renderer.cpp
+        ../../game/Checkpoint.cpp
+        ../../../include/cybercba/game/Checkpoint.h
         ../../game/CheckpointStack.cpp
         ../../../include/cybercba/game/CheckpointStack.h
 )

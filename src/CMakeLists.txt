@@ -11,6 +11,8 @@ set(CYBERCBA_CORE_SOURCES
     missions/PersuasionStrategy.cpp
     progression/SkillDefinition.cpp
     progression/ProgressionSystem.cpp
+        game/Checkpoint.cpp
+        ../include/cybercba/game/Checkpoint.h
         game/CheckpointStack.cpp
         ../include/cybercba/game/CheckpointStack.h
 )
@@ -21,6 +23,8 @@ set(CYBERCBA_CORE_SOURCES
 # executable until those bodies exist — kept as its own object library so
 # cybercba_core / cybercba_tests can stay linkable in the meantime.
 add_library(cybercba_core_puzzle OBJECT missions/PuzzleSystem.cpp
+        game/Checkpoint.cpp
+        ../include/cybercba/game/Checkpoint.h
         game/CheckpointStack.cpp
         ../include/cybercba/game/CheckpointStack.h
 )
@@ -30,6 +34,9 @@ cybercba_set_warnings(cybercba_core_puzzle)
 cybercba_enable_clang_tidy(cybercba_core_puzzle)
 
 add_library(cybercba_core STATIC ${CYBERCBA_CORE_SOURCES}
+        game/CheckpointStack.cpp
+        game/Checkpoint.cpp
+        ../include/cybercba/game/Checkpoint.h
         game/CheckpointStack.cpp
         ../include/cybercba/game/CheckpointStack.h
 )

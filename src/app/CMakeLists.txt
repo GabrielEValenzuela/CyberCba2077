@@ -1,4 +1,6 @@
 add_executable(cybercba_app main.cpp
+        ../game/Checkpoint.cpp
+        ../../include/cybercba/game/Checkpoint.h
         ../game/CheckpointStack.cpp
         ../../include/cybercba/game/CheckpointStack.h
 )
