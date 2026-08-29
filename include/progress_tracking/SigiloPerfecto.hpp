@@ -9,19 +9,14 @@
 #include "progress_tracking/IAchievementCondition.hpp"
 
 
-class SigiloPerfecto : public IAchievementCondition
+class SigiloPerfecto : public IAchievementCondition  //TERMINADO
 {
       public:
-      SigiloPerfecto(bool detectado)  //CONSTRUCTOR
+      bool estaDesbloqueada(const List& progresoLogros, const GameModel& estadoActualDelJuego) const override
       {
-          logroSigilo= detectado;   //ESTE CUERPO PUEDE IR EN EL CPP
-
+            bool detectado= estadoActualDelJuego.fueDetectado(); ///DEPENDE DATO GAMEMODEL
+            return !detectado; // SI fue detectado ->devuelve NO al logro
       }
-      bool estaDesbloqueada(const GameModel& estadoActualDelJuego) const override;
-
-      private:
-      bool logroSigilo;
-
 
 };
 

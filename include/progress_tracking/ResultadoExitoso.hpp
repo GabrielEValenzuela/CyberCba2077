@@ -10,20 +10,17 @@
 
 class ResultadoExitoso : public IAchievementCondition
 {
-      public:
-      ResultadoExitoso (int valorObjetivo) //CONSTRUCTOR QUE VERIFICA SI EL VALOR
+      public:                               //SUPOSICION
+                                           //CONSTRUCTOR QUE VERIFICA SI EL VALOR
                                            //DE LO QUE SEA, LOGRA TENER EXITO
-                                           //SE IMPLEMENTA EN EL CPP,
                                            //HACIENDO UNA COMPARACION DEL VALOR OBJT CON EL VALOR RECIBIDO POR EL ESTADO DEGAMEMODEL
-      {
-         valor=valorObjetivo;
-      }
+        bool estaDesbloqueada(const List& progresoLogros, const GameModel& estadoActualDelJuego) const override
+        {
+        int valor=estadoActualDelJuego.resultadoObtenido(); // DEPENDE DATO GAMEMODEL
+        return valor>=60;   //CUAL SERIA EL VALOR OBJETIVO? suponemos que el minimo para pasar es 60%
 
+         }
 
-      bool estaDesbloqueada (const GameModel& estadoActualDelJuego) const override;
-
-      private:
-      int valor;
 
 };
 

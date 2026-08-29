@@ -12,7 +12,7 @@
 class IAchievementCondition
 {
    public:
-   bool estaDesbloqueada(const GameModel& estadoActualDeljuego) const;
+   virtual bool estaDesbloqueada( const List& progresoLogros, const GameModel& estadoActualDeljuego) const=0;
 
 };
 

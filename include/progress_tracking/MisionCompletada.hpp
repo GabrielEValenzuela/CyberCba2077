@@ -7,27 +7,28 @@
 
 #include "model/GameModel.hpp"
 #include "progress_tracking/IAchievementCondition.hpp"
-
-template<typename T>
-
+#include <string>
 class MisionCompletada : public IAchievementCondition
 {
-    public:
-    MisionCompletada(T mision) //CONTRUCTOR DE MISIONCOMPLETADA
-    {
-       logroMisionCompletad a= mision;
+    public:    //va a buscar en la lista de misiones esta ultima que se completo, para dar el logro
+
+    bool estaDesbloqueada(const List& progresoLogros, const GameModel& estadoActualDelJuego) const override //METODO MADRE QUE VERIFICA
+   {
+      const std::string misionesDelJueg[]={"Consigue un arma","Elimina a Arasaka","Asistir al ultimo concierto de samurai","conseguir nuevos implantes oculares"};
+      std::string mision= estadoActualDelJuego.ultimaMision();
+
+      for (std::string misionDelJuego : misionesDelJueg )
+      {
+        if (misionDelJuego==mision)
+        {
+          return true;
+        }
+
+      }
+      return false;
+
+
     }
-    bool estaDesbloqueada(const GameModel& estadoActualDelJuego) const override //METODO MADRE QUE VERIFICA
-    {
-        return false; // <-----------TRABAJAR LUEGO EN ESTO!!!! AL HACERLO GENERICO (TEMPLATE)
-                      // DEBO OLVIDARME DEL .CPP Y ESCRIBIR LA IMPLEMENTACION DE LOS METODOS ACA!
-    }
-
-
-    private:
-    T logroMisionCompletada;
-
-
 
 };
 

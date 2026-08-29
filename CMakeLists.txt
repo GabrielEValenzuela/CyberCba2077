@@ -24,11 +24,8 @@ add_library(cyberpunk_model STATIC
         include/progress_tracking/IAchievementCondition.hpp
         include/progress_tracking/AchievementTracker.cpp
         include/progress_tracking/AchievementTracker.hpp
-        include/progress_tracking/MisionCompletada.cpp
         include/progress_tracking/MisionCompletada.hpp
-        include/progress_tracking/SigiloPerfecto.cpp
         include/progress_tracking/SigiloPerfecto.hpp
-        include/progress_tracking/ResultadoExitoso.cpp
         include/progress_tracking/ResultadoExitoso.hpp
 )
 
@@ -109,11 +106,8 @@ add_executable(cyber_cba
   src/ui/widgets/CurrentObjectivePanel.cpp
   src/ui/widgets/PortraitFrame.cpp
   src/ui/widgets/InteractionPanel.cpp
-        include/progress_tracking/MisionCompletada.cpp
         include/progress_tracking/MisionCompletada.hpp
-        include/progress_tracking/SigiloPerfecto.cpp
         include/progress_tracking/SigiloPerfecto.hpp
-        include/progress_tracking/ResultadoExitoso.cpp
         include/progress_tracking/ResultadoExitoso.hpp
         include/progress_tracking/LogroCompuesto.cpp
         include/progress_tracking/LogroCompuesto.hpp
@@ -153,11 +147,8 @@ if(CYBERPUNK_BUILD_TESTS)
           include/progress_tracking/IAchievementCondition.hpp
           include/progress_tracking/AchievementTracker.cpp
           include/progress_tracking/AchievementTracker.hpp
-          include/progress_tracking/MisionCompletada.cpp
           include/progress_tracking/MisionCompletada.hpp
-          include/progress_tracking/SigiloPerfecto.cpp
           include/progress_tracking/SigiloPerfecto.hpp
-          include/progress_tracking/ResultadoExitoso.cpp
           include/progress_tracking/ResultadoExitoso.hpp
           include/progress_tracking/LogroCompuesto.cpp
           include/progress_tracking/LogroCompuesto.hpp
