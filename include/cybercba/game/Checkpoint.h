@@ -14,7 +14,7 @@ class Checkpoint
 {
   public:
     // Declaro el constructor con sus parametros inciales, el estado y si hay algun punto previo de checkpoint
-    Checkpoint(const CampaingState& estado, Checkpoint* previo = nullptr);
+    Checkpoint(const CampaingState& estado, Checkpoint* previo = nullptr); //ERROR: deberia ser "CampaignState&"
 
     // Devuelve la informacion del estado de la partida solo para lectura
     const CampaingState& estado() const;
