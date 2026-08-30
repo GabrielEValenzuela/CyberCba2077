@@ -45,10 +45,11 @@ bool ResourceRulesEngine::consultar(ResourceType tipo, int cantidad) const
 
 void ResourceRulesEngine::validarGrafo() const
 {
-    const int PROFUNDIDAD_MAXIMA = 8;
 
     for (std::size_t i = 0; i < m_reglas.size(); ++i)
     {
+        constexpr int PROFUNDIDAD_MAXIMA = 8;
+
         const IResourceRule* pActual = m_reglas[i];
         const IResourceRule* pRuta[PROFUNDIDAD_MAXIMA]{};
         int profundidad = 0;
