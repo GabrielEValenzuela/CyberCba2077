@@ -203,5 +203,26 @@ TEST(ResourceTest, ReglasIndependientesNoSeAfectanEntreSi)
     EXPECT_FALSE(reglaCover.puedeConsumir(state, 1));
 }
 
+TEST(ResourceTest, CadenaDeTresDependenciasFallaSiFallaLaPrimera)
+{
+    ReglaDePrueba reglaA(false);
+    ReglaDePrueba reglaB(true);
+    ReglaDePrueba reglaC(true);
+
+    reglaB.setDependencia(&reglaA);
+    reglaC.setDependencia(&reglaB);
+
+    DynamicArray<const IResourceRule*> reglas;
+    agregarRegla(reglas, reglaA);
+    agregarRegla(reglas, reglaB);
+    agregarRegla(reglas, reglaC);
+
+    CampaignState state{};
+
+    const ResourceRulesEngine engine(&state, reglas);
+
+    EXPECT_FALSE(engine.consultar(ResourceType::EmpCharge, 1));
+}
+
 } // namespace
 } // namespace cybercba::game
