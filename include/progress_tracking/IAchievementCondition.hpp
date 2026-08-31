@@ -5,14 +5,14 @@
 #ifndef CYBERPUNK_CORDOBA_2077_IACHIEVEMENTCONDITION_H
 #define CYBERPUNK_CORDOBA_2077_IACHIEVEMENTCONDITION_H
 
+#include "Lista.hpp"
 #include "model/GameModel.hpp"
-
-
 
 class IAchievementCondition
 {
    public:
-   virtual bool estaDesbloqueada( const List& progresoLogros, const GameModel& estadoActualDeljuego) const=0;
+   virtual ~IAchievementCondition() = default;
+   virtual bool estaDesbloqueada( const Lista& progresoLogros, const cyberpunk::GameModel& estadoActualDeljuego) const=0;
 
 };
 

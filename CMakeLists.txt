@@ -62,6 +62,8 @@ add_library(cyber_cba_core STATIC
         include/progress_tracking/AchievementTracker.hpp
         include/progress_tracking/LogroCompuesto.cpp
         include/progress_tracking/LogroCompuesto.hpp
+        include/progress_tracking/Lista.cpp
+        include/progress_tracking/Lista.hpp
 )
 target_include_directories(cyber_cba_core PUBLIC include)
 target_link_libraries(cyber_cba_core PUBLIC cyberpunk_model)
@@ -111,6 +113,8 @@ add_executable(cyber_cba
         include/progress_tracking/ResultadoExitoso.hpp
         include/progress_tracking/LogroCompuesto.cpp
         include/progress_tracking/LogroCompuesto.hpp
+        include/progress_tracking/Lista.cpp
+        include/progress_tracking/Lista.hpp
 )
 
 set_target_properties(cyber_cba PROPERTIES OUTPUT_NAME "cyber-cba")
@@ -152,6 +156,8 @@ if(CYBERPUNK_BUILD_TESTS)
           include/progress_tracking/ResultadoExitoso.hpp
           include/progress_tracking/LogroCompuesto.cpp
           include/progress_tracking/LogroCompuesto.hpp
+          include/progress_tracking/Lista.cpp
+          include/progress_tracking/Lista.hpp
   )
 
   target_include_directories(unit_tests PRIVATE include)

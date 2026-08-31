@@ -12,9 +12,9 @@
 class SigiloPerfecto : public IAchievementCondition  //TERMINADO
 {
       public:
-      bool estaDesbloqueada(const List& progresoLogros, const GameModel& estadoActualDelJuego) const override
+      bool estaDesbloqueada(const Lista& progresoLogros, const cyberpunk::GameModel& estadoActualDeljuego) const override
       {
-            bool detectado= estadoActualDelJuego.fueDetectado(); ///DEPENDE DATO GAMEMODEL
+            bool detectado= estadoActualDeljuego.fueDetectado(); ///DEPENDE DATO GAMEMODEL
             return !detectado; // SI fue detectado ->devuelve NO al logro
       }
 

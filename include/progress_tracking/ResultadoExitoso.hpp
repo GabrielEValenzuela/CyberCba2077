@@ -14,9 +14,9 @@ class ResultadoExitoso : public IAchievementCondition
                                            //CONSTRUCTOR QUE VERIFICA SI EL VALOR
                                            //DE LO QUE SEA, LOGRA TENER EXITO
                                            //HACIENDO UNA COMPARACION DEL VALOR OBJT CON EL VALOR RECIBIDO POR EL ESTADO DEGAMEMODEL
-        bool estaDesbloqueada(const List& progresoLogros, const GameModel& estadoActualDelJuego) const override
+        bool estaDesbloqueada(const Lista& progresoLogros, const cyberpunk::GameModel& estadoActualDeljuego) const override
         {
-        int valor=estadoActualDelJuego.resultadoObtenido(); // DEPENDE DATO GAMEMODEL
+        int valor=estadoActualDeljuego.resultadoObtenido(); // DEPENDE DATO GAMEMODEL
         return valor>=60;   //CUAL SERIA EL VALOR OBJETIVO? suponemos que el minimo para pasar es 60%
 
          }

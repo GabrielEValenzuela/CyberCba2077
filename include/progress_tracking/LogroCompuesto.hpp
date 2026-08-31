@@ -7,18 +7,19 @@
 
 #include "model/GameModel.hpp"
 #include "progress_tracking/IAchievementCondition.hpp"
+#include "Lista.hpp"
 
 class LogroCompuesto : public IAchievementCondition
 {
     public:
-    LogroCompuesto (Lista requerimientos); //constructor, que va a recibir una lista
+    LogroCompuesto (const Lista& requerimientos); //constructor, que va a recibir una lista
                                           //de los logros que deben estar completos.
                                          // implementar en cpp, que recorra la lista
                                          // y vea si cada logro esta completo para decir
                                          // que el logro compuesto esta completo
 
 
-    bool estaDesbloqueada(const GameModel& estadoDelJuego) const override;
+    bool estaDesbloqueada(const Lista& progresoLogros, const cyberpunk::GameModel& estadoActualDeljuego) const override;
 
 
 

@@ -12,12 +12,12 @@ class MisionCompletada : public IAchievementCondition
 {
     public:    //va a buscar en la lista de misiones esta ultima que se completo, para dar el logro
 
-    bool estaDesbloqueada(const List& progresoLogros, const GameModel& estadoActualDelJuego) const override //METODO MADRE QUE VERIFICA
+    bool estaDesbloqueada(const Lista& progresoLogros, const cyberpunk::GameModel& estadoActualDeljuego) const override //METODO MADRE QUE VERIFICA
    {
-      const std::string misionesDelJueg[]={"Consigue un arma","Elimina a Arasaka","Asistir al ultimo concierto de samurai","conseguir nuevos implantes oculares"};
-      std::string mision= estadoActualDelJuego.ultimaMision();
+      const std::string misionesDeljueg[]={"Consigue un arma","Elimina a Arasaka","Asistir al ultimo concierto de samurai","conseguir nuevos implantes oculares"};
+      std::string mision= estadoActualDeljuego.ultimaMision();
 
-      for (std::string misionDelJuego : misionesDelJueg )
+      for (std::string misionDelJuego : misionesDelJuego)
       {
         if (misionDelJuego==mision)
         {

@@ -6,14 +6,17 @@
 #define CYBERPUNK_CORDOBA_2077_ACHIEVEMENTTRACKER_H
 
 #include "model/GameModel.hpp"
+#include "Lista.hpp"
 
 class AchievementTracker
 {
      public:
-    Lista revisarTodas(const  GameModel& estadoActualDeljuego); // TODAVIA NO VIMOS LISTAS???
+     Lista revisarTodas(const Lista& progresoLogros, const cyberpunk::GameModel& estadoActualDeljuego);
+
+     void registrarLogro(IAchievementCondition* condicion, const std::string& nombre);
 
       private:
-     Lista condicionesLogros;  //LISTA?? LIST???
+      Lista condicionesLogros;
 
 
 };
