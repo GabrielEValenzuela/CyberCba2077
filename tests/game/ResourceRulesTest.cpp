@@ -206,6 +206,24 @@ TEST(ResourceTest, ConsultaExigeQueTodasLasReglasDelRecursoSeCumplan)
     EXPECT_TRUE(engineSoloEmp.consultar(ResourceType::EmpCharge, 1));
 }
 
+TEST(ResourceTest, CadenaProfundaPropagaFallaEnOrden)
+{
+    ReglaDePrueba reglaA(true);
+    ReglaDePrueba reglaB(true);
+    ReglaDePrueba reglaC(false);
+
+    reglaA.setDependencia(&reglaB);
+    reglaB.setDependencia(&reglaC);
+
+    DynamicArray<const IResourceRule*> reglas;
+    agregarRegla(reglas, reglaA);
+
+    CampaignState state{};
+    const ResourceRulesEngine engine(&state, reglas);
+
+    EXPECT_FALSE(engine.consultar(ResourceType::EmpCharge, 1));
+}
+
 TEST(ResourceTest, DependenciaCircularSeCortaConSeguridad)
 {
     ReglaDePrueba reglaA;
