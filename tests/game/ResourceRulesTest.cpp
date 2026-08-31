@@ -247,6 +247,25 @@ TEST(ResourceTest, DependenciaCircularSeCortaConSeguridad)
     EXPECT_THROW({ ResourceRulesEngine engine(&state, reglasSelf); }, std::invalid_argument);
 }
 
+TEST(ResourceTest, SuperaProfundidadMaximaLanzaExcepcion)
+{
+    ReglaDePrueba r0, r1, r2, r3, r4, r5, r6, r7, r8;
+    r0.setDependencia(&r1);
+    r1.setDependencia(&r2);
+    r2.setDependencia(&r3);
+    r3.setDependencia(&r4);
+    r4.setDependencia(&r5);
+    r5.setDependencia(&r6);
+    r6.setDependencia(&r7);
+    r7.setDependencia(&r8);
+
+    DynamicArray<const IResourceRule*> reglas;
+    agregarRegla(reglas, r0);
+
+    CampaignState state{};
+    EXPECT_THROW({ ResourceRulesEngine engine(&state, reglas); }, std::invalid_argument);
+}
+
 TEST(ResourceTest, ReglasIndependientesNoSeAfectanEntreSi)
 {
     ReglaDeCargaEMP reglaEmp;
