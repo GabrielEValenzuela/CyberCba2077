@@ -120,6 +120,20 @@ TEST(ResourceTest, RechazaConsultaSiEstadoEsNulo)
     EXPECT_FALSE(engine.consultar(ResourceType::EmpCharge, 1));
 }
 
+TEST(ResourceTest, RechazaConsultaSiRecursoNoTieneReglaRegistrada)
+{
+    ReglaDeCargaEMP reglaEmp;
+    DynamicArray<const IResourceRule*> reglas;
+    agregarRegla(reglas, reglaEmp);
+
+    CampaignState state{};
+    state.coverBonus = 2;
+
+    const ResourceRulesEngine engine(&state, reglas);
+
+    EXPECT_FALSE(engine.consultar(ResourceType::CoverBonus, 1));
+}
+
 TEST(ResourceTest, CadenaDeDependenciasSeEvaluaEnOrden)
 {
     ReglaDeCargaEMP reglaEmp;
