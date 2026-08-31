@@ -90,6 +90,25 @@ TEST(ResourceTest, RechazaSignoIncorrectoEnLasReglas)
     EXPECT_FALSE(reglaCover.puedeOtorgar(state, 1));
 }
 
+TEST(ResourceTest, RechazaConsumoSiLaCantidadEsInsuficiente)
+{
+    ReglaDeCargaEMP reglaEmp;
+    ReglaDeBonusDeCobertura reglaCover;
+
+    DynamicArray<const IResourceRule*> reglas;
+    agregarRegla(reglas, reglaEmp);
+    agregarRegla(reglas, reglaCover);
+
+    CampaignState state{};
+    state.empCharges = 1;
+    state.coverBonus = 0;
+
+    const ResourceRulesEngine engine(&state, reglas);
+
+    EXPECT_FALSE(engine.consultar(ResourceType::EmpCharge, 2));
+    EXPECT_FALSE(engine.consultar(ResourceType::CoverBonus, 1));
+}
+
 TEST(ResourceTest, CadenaDeDependenciasSeEvaluaEnOrden)
 {
     ReglaDeCargaEMP reglaEmp;
