@@ -109,6 +109,17 @@ TEST(ResourceTest, RechazaConsumoSiLaCantidadEsInsuficiente)
     EXPECT_FALSE(engine.consultar(ResourceType::CoverBonus, 1));
 }
 
+TEST(ResourceTest, RechazaConsultaSiEstadoEsNulo)
+{
+    ReglaDeCargaEMP reglaEmp;
+    DynamicArray<const IResourceRule*> reglas;
+    agregarRegla(reglas, reglaEmp);
+
+    const ResourceRulesEngine engine(nullptr, reglas);
+
+    EXPECT_FALSE(engine.consultar(ResourceType::EmpCharge, 1));
+}
+
 TEST(ResourceTest, CadenaDeDependenciasSeEvaluaEnOrden)
 {
     ReglaDeCargaEMP reglaEmp;
