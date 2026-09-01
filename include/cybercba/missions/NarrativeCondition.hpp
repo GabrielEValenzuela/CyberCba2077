@@ -12,7 +12,7 @@ namespace cybercba::missions
  */
 class NarrativeCondition
 {
-public:
+  public:
     virtual ~NarrativeCondition() = default;
 
     /**
@@ -28,12 +28,12 @@ public:
  */
 class CondicionDeFlag : public NarrativeCondition
 {
-private:
+  private:
     progression::SkillId m_skillId;
     progression::SkillLevel m_nivelRequerido;
     mutable std::size_t m_evalCount{0};
 
-public:
+  public:
     /**
      * @brief Construye la condición asociando una habilidad y el nivel mínimo requerido.
      * @param id Identificador de la habilidad.
@@ -60,10 +60,10 @@ public:
  */
 class TodasLasCondiciones : public NarrativeCondition
 {
-private:
+  private:
     structures::DynamicArray<NarrativeCondition*> m_condiciones;
 
-public:
+  public:
     /**
      * @brief Agrega una nueva condición a la lista.
      * @param pCondicion Puntero a la condición.

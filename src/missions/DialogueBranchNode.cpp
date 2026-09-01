@@ -14,10 +14,9 @@ void DialogueBranchNode::agregarHija(DialogueBranchNode* pHija)
     hijas.pushBack(pHija);
 }
 
-void NarrativeConsequenceResolver::resolverAuxiliar(
-    DialogueBranchNode* pNodo,
-    const progression::SkillProgress& progreso,
-    structures::DynamicArray<DialogueLine>& resultado)
+void NarrativeConsequenceResolver::resolverAuxiliar(DialogueBranchNode* pNodo,
+                                                    const progression::SkillProgress& progreso,
+                                                    structures::DynamicArray<DialogueLine>& resultado)
 {
     if (pNodo == nullptr)
     {
@@ -27,7 +26,7 @@ void NarrativeConsequenceResolver::resolverAuxiliar(
     // Si el nodo tiene condición y NO se cumple, se descarta la rama entera sin mirar las hijas
     if (pNodo->pCondicion != nullptr && !pNodo->pCondicion->estaSatisfecha(progreso))
     {
-        return; 
+        return;
     }
 
     // La condición se cumplió: se registra la línea
@@ -40,9 +39,8 @@ void NarrativeConsequenceResolver::resolverAuxiliar(
     }
 }
 
-structures::DynamicArray<DialogueLine> NarrativeConsequenceResolver::resolver(
-    DialogueBranchNode* pRaiz,
-    const progression::SkillProgress& progreso)
+structures::DynamicArray<DialogueLine>
+NarrativeConsequenceResolver::resolver(DialogueBranchNode* pRaiz, const progression::SkillProgress& progreso)
 {
     structures::DynamicArray<DialogueLine> resultado;
     resolverAuxiliar(pRaiz, progreso, resultado);

@@ -16,7 +16,7 @@ using DialogueLine = std::string;
  */
 class DialogueBranchNode
 {
-public:
+  public:
     DialogueLine linea;
     NarrativeCondition* pCondicion;
     structures::DynamicArray<DialogueBranchNode*> hijas;
@@ -40,15 +40,14 @@ public:
  */
 class NarrativeConsequenceResolver
 {
-private:
+  private:
     /**
      * @brief Método auxiliar recursivo para explorar y filtrar ramas válidas.
      */
-    static void resolverAuxiliar(DialogueBranchNode* pNodo,
-                                 const progression::SkillProgress& progreso,
+    static void resolverAuxiliar(DialogueBranchNode* pNodo, const progression::SkillProgress& progreso,
                                  structures::DynamicArray<DialogueLine>& resultado);
 
-public:
+  public:
     /**
      * @brief Recorre el árbol y retorna las líneas cuyas condiciones fueron satisfechas.
      * @param pRaiz Raíz del árbol de diálogo.
@@ -56,7 +55,7 @@ public:
      * @return DynamicArray con las líneas que corresponden mostrar.
      */
     static structures::DynamicArray<DialogueLine> resolver(DialogueBranchNode* pRaiz,
-                                                          const progression::SkillProgress& progreso);
+                                                           const progression::SkillProgress& progreso);
 };
 
 } // namespace cybercba::missions
