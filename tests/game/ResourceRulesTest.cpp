@@ -23,8 +23,8 @@ void agregarRegla(DynamicArray<const IResourceRule*>& reglas, const IResourceRul
 
 TEST(ResourceTest, EnrutaConsultaDeConsumoHaciaLaReglaCorrecta)
 {
-    ReglaDeCargaEMP reglaEmp;
-    ReglaDeBonusDeCobertura reglaCover;
+    ReglaDeCargaEMP reglaEmp(nullptr, 10, -10);
+    ReglaDeBonusDeCobertura reglaCover(nullptr, 10, -10);
 
     DynamicArray<const IResourceRule*> reglas;
     agregarRegla(reglas, reglaEmp);
@@ -42,8 +42,8 @@ TEST(ResourceTest, EnrutaConsultaDeConsumoHaciaLaReglaCorrecta)
 
 TEST(ResourceTest, PermiteConsumirYOtorgarCantidadesValidas)
 {
-    ReglaDeCargaEMP reglaEmp;
-    ReglaDeBonusDeCobertura reglaCover;
+    ReglaDeCargaEMP reglaEmp(nullptr, 10, -10);
+    ReglaDeBonusDeCobertura reglaCover(nullptr, 10, -10);
 
     DynamicArray<const IResourceRule*> reglas;
     agregarRegla(reglas, reglaEmp);
@@ -61,8 +61,8 @@ TEST(ResourceTest, PermiteConsumirYOtorgarCantidadesValidas)
 
 TEST(ResourceTest, RechazaCantidadCero)
 {
-    ReglaDeCargaEMP reglaEmp;
-    ReglaDeBonusDeCobertura reglaCover;
+    ReglaDeCargaEMP reglaEmp(nullptr, 10, -10);
+    ReglaDeBonusDeCobertura reglaCover(nullptr, 10, -10);
 
     DynamicArray<const IResourceRule*> reglas;
     agregarRegla(reglas, reglaEmp);
@@ -77,8 +77,8 @@ TEST(ResourceTest, RechazaCantidadCero)
 
 TEST(ResourceTest, RechazaSignoIncorrectoEnLasReglas)
 {
-    ReglaDeCargaEMP reglaEmp;
-    ReglaDeBonusDeCobertura reglaCover;
+    ReglaDeCargaEMP reglaEmp(nullptr, 10, -10);
+    ReglaDeBonusDeCobertura reglaCover(nullptr, 10, -10);
 
     CampaignState state{};
     state.empCharges = 1;
@@ -92,8 +92,8 @@ TEST(ResourceTest, RechazaSignoIncorrectoEnLasReglas)
 
 TEST(ResourceTest, RechazaConsumoSiLaCantidadEsInsuficiente)
 {
-    ReglaDeCargaEMP reglaEmp;
-    ReglaDeBonusDeCobertura reglaCover;
+    ReglaDeCargaEMP reglaEmp(nullptr, 10, -10);
+    ReglaDeBonusDeCobertura reglaCover(nullptr, 10, -10);
 
     DynamicArray<const IResourceRule*> reglas;
     agregarRegla(reglas, reglaEmp);
@@ -111,7 +111,7 @@ TEST(ResourceTest, RechazaConsumoSiLaCantidadEsInsuficiente)
 
 TEST(ResourceTest, RechazaConsultaSiEstadoEsNulo)
 {
-    ReglaDeCargaEMP reglaEmp;
+    ReglaDeCargaEMP reglaEmp(nullptr, 10, -10);
     DynamicArray<const IResourceRule*> reglas;
     agregarRegla(reglas, reglaEmp);
 
@@ -122,7 +122,7 @@ TEST(ResourceTest, RechazaConsultaSiEstadoEsNulo)
 
 TEST(ResourceTest, RechazaConsultaSiRecursoNoTieneReglaRegistrada)
 {
-    ReglaDeCargaEMP reglaEmp;
+    ReglaDeCargaEMP reglaEmp(nullptr, 10, -10);
     DynamicArray<const IResourceRule*> reglas;
     agregarRegla(reglas, reglaEmp);
 
@@ -136,8 +136,8 @@ TEST(ResourceTest, RechazaConsultaSiRecursoNoTieneReglaRegistrada)
 
 TEST(ResourceTest, CadenaDeDependenciasSeEvaluaEnOrden)
 {
-    ReglaDeCargaEMP reglaEmp;
-    ReglaDeBonusDeCobertura reglaCover(&reglaEmp);
+    ReglaDeCargaEMP reglaEmp(nullptr, 10, -10);
+    ReglaDeBonusDeCobertura reglaCover(&reglaEmp, 10, -10);
 
     CampaignState state{};
     state.empCharges = 0;
@@ -159,13 +159,21 @@ class ReglaDePrueba final : public IResourceRule
         return ResourceType::EmpCharge;
     }
 
-    bool puedeConsumir(const CampaignState& /*state*/, int /*cantidad*/) const override
+    bool puedeConsumir(const CampaignState& state, int cantidad) const override
     {
+        if (m_pDependencia != nullptr && !m_pDependencia->puedeConsumir(state, cantidad))
+        {
+            return false;
+        }
         return m_bAcepta;
     }
 
-    bool puedeOtorgar(const CampaignState& /*state*/, int /*cantidad*/) const override
+    bool puedeOtorgar(const CampaignState& state, int cantidad) const override
     {
+        if (m_pDependencia != nullptr && !m_pDependencia->puedeOtorgar(state, cantidad))
+        {
+            return false;
+        }
         return m_bAcepta;
     }
 
@@ -186,7 +194,7 @@ class ReglaDePrueba final : public IResourceRule
 
 TEST(ResourceTest, ConsultaExigeQueTodasLasReglasDelRecursoSeCumplan)
 {
-    ReglaDeCargaEMP reglaEmp;
+    ReglaDeCargaEMP reglaEmp(nullptr, 10, -10);
     ReglaDePrueba reglaExtra(false);
 
     DynamicArray<const IResourceRule*> reglas;
@@ -268,8 +276,8 @@ TEST(ResourceTest, SuperaProfundidadMaximaLanzaExcepcion)
 
 TEST(ResourceTest, ReglasIndependientesNoSeAfectanEntreSi)
 {
-    ReglaDeCargaEMP reglaEmp;
-    ReglaDeBonusDeCobertura reglaCover;
+    ReglaDeCargaEMP reglaEmp(nullptr, 10, -10);
+    ReglaDeBonusDeCobertura reglaCover(nullptr, 10, -10);
 
     CampaignState state{};
     state.empCharges = 0;
