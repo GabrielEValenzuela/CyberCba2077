@@ -45,16 +45,16 @@ bool ResourceRulesEngine::consultar(ResourceType tipo, int cantidad) const
 
 void ResourceRulesEngine::validarGrafo() const
 {
-    const int PROFUNDIDAD_MAXIMA = 8;
+    const int profundidadMaxima = 8;
 
     for (std::size_t i = 0; i < m_reglas.size(); ++i)
     {
         const IResourceRule* pActual = m_reglas[i];
-        const IResourceRule* pRuta[PROFUNDIDAD_MAXIMA]{};
+        const IResourceRule* pRuta[profundidadMaxima]{};
         int profundidad = 0;
         while (pActual != nullptr)
         {
-            if (profundidad >= PROFUNDIDAD_MAXIMA)
+            if (profundidad >= profundidadMaxima)
             {
                 throw std::invalid_argument("ResourceRulesEngine: invalid rule dependency graph");
             }
