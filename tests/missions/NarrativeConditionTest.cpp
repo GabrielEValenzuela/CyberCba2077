@@ -19,7 +19,7 @@ TEST(NarrativeConditionTest, ResuelveArbolDeTresNivelesCorrectamente)
 
     // Condiciones individuales
     CondicionDeFlag condHacking(progression::SkillId::Hacking, progression::SkillLevel::LevelII);
-    CondicionDeFlag condCombat(progression::SkillId::Combat, progression::SkillLevel::LevelII);
+    CondicionDeFlag condCombat(progression::SkillId::MeleeCombat, progression::SkillLevel::LevelII);
 
     // Construcción del árbol (3 Niveles)
     // Nivel 1 (Raíz): Sin condición
