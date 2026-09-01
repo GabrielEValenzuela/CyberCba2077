@@ -6,8 +6,10 @@ set(CYBERCBA_CORE_SOURCES
     game/Game.cpp
     combat/CombatSystem.cpp
     combat/GuardBehaviorStrategy.cpp
+    missions/DialogueBranchNode.cpp
     missions/DialogueSystem.cpp
     missions/MissionSystem.cpp
+    missions/NarrativeCondition.cpp
     missions/PersuasionStrategy.cpp
     progression/SkillDefinition.cpp
     progression/ProgressionSystem.cpp
