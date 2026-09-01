@@ -28,7 +28,7 @@ bool ReglaDeBonusDeCobertura::puedeOtorgar(const CampaignState& state, int canti
     {
         return false;
     }
-    return cantidad < m_max && state.empCharges + (-cantidad) && cantidad > m_min;
+    return cantidad < m_max && state.coverBonus + (-cantidad) && cantidad > m_min;
 }
 
 const IResourceRule* ReglaDeBonusDeCobertura::reglaDeLaQueDepende() const
