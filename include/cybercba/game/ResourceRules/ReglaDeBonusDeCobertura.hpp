@@ -9,7 +9,7 @@ namespace cybercba::game
 class ReglaDeBonusDeCobertura final : public IResourceRule
 {
   public:
-    explicit ReglaDeBonusDeCobertura(const IResourceRule* pDependencia = nullptr);
+    explicit ReglaDeBonusDeCobertura(const IResourceRule* pDependencia = nullptr, int max = 0, int min = 0);
 
     ResourceType tipo() const override;
     bool puedeConsumir(const CampaignState& state, int cantidad) const override;
@@ -18,6 +18,8 @@ class ReglaDeBonusDeCobertura final : public IResourceRule
 
   private:
     const IResourceRule* m_pDependencia;
+    int m_max;
+    int m_min;
 };
 
 } // namespace cybercba::game

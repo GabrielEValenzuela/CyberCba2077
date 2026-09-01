@@ -9,7 +9,7 @@ namespace cybercba::game
 class ReglaDeCargaEMP final : public IResourceRule
 {
   public:
-    explicit ReglaDeCargaEMP(const IResourceRule* pDependencia = nullptr);
+    explicit ReglaDeCargaEMP(const IResourceRule* pDependencia = nullptr, int max = 0, int min = 0);
 
     ResourceType tipo() const override;
     bool puedeConsumir(const CampaignState& state, int cantidad) const override;
@@ -18,6 +18,8 @@ class ReglaDeCargaEMP final : public IResourceRule
 
   private:
     const IResourceRule* m_pDependencia;
+    int m_max;
+    int m_min;
 };
 
 } // namespace cybercba::game

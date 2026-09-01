@@ -3,7 +3,10 @@
 namespace cybercba::game
 {
 
-ReglaDeCargaEMP::ReglaDeCargaEMP(const IResourceRule* pDependencia) : m_pDependencia(pDependencia) {}
+ReglaDeCargaEMP::ReglaDeCargaEMP(const IResourceRule* pDependencia, int max, int min)
+    : m_pDependencia(pDependencia), m_max(max), m_min(min)
+{
+}
 
 ResourceType ReglaDeCargaEMP::tipo() const
 {
@@ -25,7 +28,7 @@ bool ReglaDeCargaEMP::puedeOtorgar(const CampaignState& state, int cantidad) con
     {
         return false;
     }
-    return cantidad < 0 && state.empCharges + (-cantidad);
+    return cantidad < m_max && state.empCharges + (-cantidad) && cantidad > m_min;
 }
 
 const IResourceRule* ReglaDeCargaEMP::reglaDeLaQueDepende() const

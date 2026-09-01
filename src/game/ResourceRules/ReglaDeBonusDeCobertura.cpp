@@ -3,7 +3,10 @@
 namespace cybercba::game
 {
 
-ReglaDeBonusDeCobertura::ReglaDeBonusDeCobertura(const IResourceRule* pDependencia) : m_pDependencia(pDependencia) {}
+ReglaDeBonusDeCobertura::ReglaDeBonusDeCobertura(const IResourceRule* pDependencia, int max, int min)
+    : m_pDependencia(pDependencia), m_max(max), m_min(min)
+{
+}
 
 ResourceType ReglaDeBonusDeCobertura::tipo() const
 {
@@ -25,7 +28,7 @@ bool ReglaDeBonusDeCobertura::puedeOtorgar(const CampaignState& state, int canti
     {
         return false;
     }
-    return cantidad < 0 && state.coverBonus + (-cantidad);
+    return cantidad < m_max && state.empCharges + (-cantidad) && cantidad > m_min;
 }
 
 const IResourceRule* ReglaDeBonusDeCobertura::reglaDeLaQueDepende() const
