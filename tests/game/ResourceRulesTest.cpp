@@ -292,5 +292,27 @@ TEST(ResourceTest, ReglasIndependientesNoSeAfectanEntreSi)
     EXPECT_FALSE(reglaCover.puedeConsumir(state, 1));
 }
 
+TEST(ResourceTest, RechazaOtorgamientoSiSuperaMaximoOPermitidoPorLimites)
+{
+    ReglaDeCargaEMP reglaEmp(nullptr, 0, -5);
+    ReglaDeBonusDeCobertura reglaCover(nullptr, 0, -3);
+
+    DynamicArray<const IResourceRule*> reglas;
+    agregarRegla(reglas, reglaEmp);
+    agregarRegla(reglas, reglaCover);
+
+    CampaignState state{};
+    state.empCharges = 0;
+    state.coverBonus = 0;
+
+    const ResourceRulesEngine engine(&state, reglas);
+
+    EXPECT_TRUE(engine.consultar(ResourceType::EmpCharge, -1));
+    EXPECT_TRUE(engine.consultar(ResourceType::CoverBonus, -2));
+
+    EXPECT_FALSE(engine.consultar(ResourceType::EmpCharge, -6));
+    EXPECT_FALSE(engine.consultar(ResourceType::CoverBonus, -4));
+}
+
 } // namespace
 } // namespace cybercba::game
