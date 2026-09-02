@@ -4,6 +4,22 @@
 
 #include "progress_tracking/LogroCompuesto.hpp"
 #include "Lista.hpp"
+
+LogroCompuesto::LogroCompuesto (const Lista& requerimientos)
+{
+    Nodo *actual=requerimientos.obtenerHead();
+    while (actual != nullptr)
+    {
+        listaDeLogros.agregar(actual->desbloqueado, actual->nombreDelLogro);
+        actual = actual->siguiente;
+    }
+
+}
+
+
+
+
+
 bool LogroCompuesto::estaDesbloqueada(const Lista& progresoLogros, const cyberpunk::GameModel& estadoActualDeljuego) const
 {
     Nodo* actual=listaDeLogros.obtenerHead();

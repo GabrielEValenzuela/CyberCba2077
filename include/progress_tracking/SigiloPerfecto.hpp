@@ -7,6 +7,7 @@
 
 #include "model/GameModel.hpp"
 #include "progress_tracking/IAchievementCondition.hpp"
+#include "Lista.hpp"
 
 
 class SigiloPerfecto : public IAchievementCondition  //TERMINADO

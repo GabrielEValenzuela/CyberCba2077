@@ -25,7 +25,7 @@ Lista AchievementTracker::revisarTodas(const Lista& progresoLogros, const cyberp
     }
     return logrosDesbloqueados;
 }
-void AchievementTracker:: registrarLogro(IAchievementCondition* condicion, const std::string& nombre)
+void AchievementTracker::registrarLogro(IAchievementCondition* condicion, const std::string& nombre)
 {
     condicionesLogros.agregar(condicion, nombre);
 

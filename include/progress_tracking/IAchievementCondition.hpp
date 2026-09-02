@@ -5,8 +5,8 @@
 #ifndef CYBERPUNK_CORDOBA_2077_IACHIEVEMENTCONDITION_H
 #define CYBERPUNK_CORDOBA_2077_IACHIEVEMENTCONDITION_H
 
-#include "Lista.hpp"
 #include "model/GameModel.hpp"
+class Lista;
 
 class IAchievementCondition
 {

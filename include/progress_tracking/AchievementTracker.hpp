@@ -7,6 +7,7 @@
 
 #include "model/GameModel.hpp"
 #include "Lista.hpp"
+#include "progress_tracking/IAchievementCondition.hpp"
 
 class AchievementTracker
 {

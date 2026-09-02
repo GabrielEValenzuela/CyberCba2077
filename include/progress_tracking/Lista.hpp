@@ -23,6 +23,19 @@ class Lista
     {
         head=nullptr;
     }
+    ~Lista() //destructor
+    {
+
+        Nodo* actual=head;
+
+        while (actual!=nullptr)
+        {
+            Nodo* siguiente= actual->siguiente;
+            delete actual;
+            actual=siguiente;
+        }
+        head=nullptr;
+    }
 
     //METODOS:
     Nodo* obtenerHead() const
