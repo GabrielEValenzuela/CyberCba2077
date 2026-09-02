@@ -58,8 +58,10 @@ template <typename TData> class DynamicArray final
     ///
     /// @param other Array to copy from. Left unmodified.
     DynamicArray(const DynamicArray& other)
-        : m_pBufferData(other.m_capacity == 0 ? nullptr : new TData[other.m_capacity]), m_size(other.m_size),
-          m_capacity(other.m_capacity)
+        : m_pBufferData((other.m_pBufferData != nullptr && other.m_capacity > 0) ? new TData[other.m_capacity]
+                                                                                 : nullptr),
+          m_size((other.m_pBufferData != nullptr && other.m_capacity > 0) ? other.m_size : 0),
+          m_capacity((other.m_pBufferData != nullptr && other.m_capacity > 0) ? other.m_capacity : 0)
     {
         for (std::size_t i = 0; i < m_size; ++i)
         {
@@ -82,16 +84,19 @@ template <typename TData> class DynamicArray final
             return *this;
         }
 
-        TData* pNewBufferData = other.m_capacity == 0 ? nullptr : new TData[other.m_capacity];
-        for (std::size_t i = 0; i < other.m_size; ++i)
+        const auto safeOtherSize     = (other.m_pBufferData != nullptr && other.m_capacity > 0) ? other.m_size : 0;
+        const auto safeOtherCapacity = (other.m_pBufferData != nullptr && other.m_capacity > 0) ? other.m_capacity : 0;
+
+        TData* pNewBufferData = safeOtherCapacity == 0 ? nullptr : new TData[safeOtherCapacity];
+        for (std::size_t i = 0; i < safeOtherSize; ++i)
         {
             pNewBufferData[i] = other.m_pBufferData[i];
         }
 
         delete[] m_pBufferData;
         m_pBufferData = pNewBufferData;
-        m_size        = other.m_size;
-        m_capacity    = other.m_capacity;
+        m_size        = safeOtherSize;
+        m_capacity    = safeOtherCapacity;
         return *this;
     }
 
