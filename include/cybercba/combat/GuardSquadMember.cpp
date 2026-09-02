@@ -11,7 +11,7 @@ using namespace GuardSquadMember;
 //acá implementé el constructor, los guardias nacen con cero y sin vecinos
 GuardSquadMember(const EstrategiaDeAtaque* primeraEstrategia)
 {
-    EsteNivelAlerta =0
+    EsteNivelAlerta = 0;
     EstaEstrategia = primeraEstrategia;
 }
 
@@ -35,6 +35,7 @@ int RecibirAlerta (int nivel, nivel guardia) {
 
 void avisarVecino();
 {
+
 
 }
 
