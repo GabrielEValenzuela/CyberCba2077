@@ -14,11 +14,10 @@ GuardSquadMember(const EstrategiaDeAtaque* primeraEstrategia)
     EstaEstrategia = primeraEstrategia;
 }
 
-// para agregar un vecino lo inicio acá
-void addVecino(GuardSquadMember* vecino)
-{
-    //este metodo estaba esta en la estructura del profe
-    //el método pushback lo que hace es tomar el puntero y lo coloca en el primer casillero vacio.
+
+void addVecino(GuardSquadMember* vecino) {
+    // este metodo estaba esta en la estructura del profe
+    // el método pushback lo que hace es tomar el puntero y lo coloca en el primer casillero vacio.
     estosVecinos.pushBack(vecino);
 }
 //nota: el guardia astá en la clase y el guardia ya conoce su propio
@@ -41,7 +40,7 @@ int atenuador(int nivelEntrada)
 void avisarVecinos(int nivelAtenuado) //esta función itera sobre el arreglo de los punteritos
 {
     if (nivelAtenuado > 0) {
-        for (i = 0; i < estosVecinos; ++i) {
+        for (i = 0; i < estosVecinos.size() ; ++i) {
             //entra a la memoria del vecino especifico y ejecuta reacción
             estosVecinos[i]->recibirAlerta(nivelAtenuado);
         }
