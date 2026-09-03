@@ -23,4 +23,18 @@ const cybercba::structures::DynamicArray<std::size_t>& GuardSquadMember::vecinos
     return m_vecinos;
 }
 
+const IGuardBehaviorStrategy& GuardSquadMember::estrategia() const
+{
+    if (m_nivelAlerta > 0)
+    {
+        return GuardStrategies::escalating();
+    }
+    return GuardStrategies::standard();
+}
+
+int GuardSquadMember::decideDamage(const CombatState& state) const
+{
+    return estrategia().decideDamage(state, m_nivelAlerta);
+}
+
 } // namespace cybercba::combat
