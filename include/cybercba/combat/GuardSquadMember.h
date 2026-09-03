@@ -1,44 +1,49 @@
-//
-// Created by facundo on 2/9/26.
-//
+#ifndef CYBERCBA_COMBAT_GUARDSQUADMEMBER_H
+#define CYBERCBA_COMBAT_GUARDSQUADMEMBER_H
 
+#include <cstddef>
 
-#ifndef ALGORITMOS_Y_ESTRUCTURAS_DE_DATOS_GUARDSQUADMEMBER_H
-#define ALGORITMOS_Y_ESTRUCTURAS_DE_DATOS_GUARDSQUADMEMBER_H
-
-// Incluimos la lista dinámica de la cátedra para guardar a los vecinos
 #include "cybercba/structures/DynamicArray.hpp"
-#include "cybercba/combat/GuardBehaviorStrate"
 
 namespace cybercba::combat
 {
 
+// Un guardia dentro de un GuardSquad (issue #220): sabe su propio nivel de
+// alerta y a qué otros guardias del mismo escuadrón puede avisar.
+//
+// Los vecinos se guardan como índices dentro del DynamicArray que posee
+// GuardSquad, no como punteros: GuardSquad guarda a sus miembros por valor,
+// así que agregar un guardia nuevo puede reubicar el buffer entero y dejar
+// cualquier puntero guardado de antes apuntando a memoria vieja (ver
+// DynamicArray.hpp). Un índice no se invalida cuando eso pasa.
+//
+// GuardSquadMember es un simple contenedor de datos: la recursión que
+// propaga la alerta entre vecinos vive en GuardSquad::propagarAlerta, no
+// acá (evita tener dos implementaciones de la misma recorrida).
+class GuardSquadMember
+{
+  public:
+    GuardSquadMember() = default;
 
+    // Nivel de alerta actual de este guardia.
+    int nivelAlerta() const;
 
+    // Actualiza el nivel. GuardSquad::propagarAlerta decide cuándo llamarlo
+    // (solo si el nivel nuevo supera al que el guardia ya tenía).
+    void setNivelAlerta(int nivel);
 
-using namespace cybercba::combat;
-using namespace cybercba::structures;
+    // Registra a `indice` (la posición de otro guardia dentro del mismo
+    // GuardSquad) como alguien a quien este guardia puede avisar.
+    void addVecino(std::size_t indice);
 
+    // Índices de los vecinos de este guardia.
+    const cybercba::structures::DynamicArray<std::size_t>& vecinos() const;
 
-class GuardSquadMember{
-    int nivelAlerta; //esta es la info que tiene el guardia
-    DynamicArray<GuardSquadMember*> estosVecinos; // el arreglo tiene los punteros de los guardias
-
-    const IGuardBehaviorStrategy* estaEstrategia;
-
-public:
-    GuardSquadMember(const IGuardBehaviorStrategy* estrategiaInicial); //este es el constructor que crea un guardia
-    //Este ya nacie
-    //entonces estos de acá abajo son las funciones que se vana a ejecutar
-    //pero como es un header nomás nombro las funciones que deberia tener
-    //las implementaciones van en el cpp
-
-    void addVecino(GuardSquadMember* vecino);
-    void recibirAlerta(int nivel );
-    void avisarVecinos(int nivelAtenuado);
-    int atenuador(int nivelEntrada);
-
+  private:
+    int                                              m_nivelAlerta = 0;
+    cybercba::structures::DynamicArray<std::size_t> m_vecinos;
 };
-}
 
-#endif // ALGORITMOS_Y_ESTRUCTURAS_DE_DATOS_GUARDSQUADMEMBER_H
+} // namespace cybercba::combat
+
+#endif // CYBERCBA_COMBAT_GUARDSQUADMEMBER_H

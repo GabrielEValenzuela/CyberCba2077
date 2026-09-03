@@ -76,7 +76,11 @@ TEST(GuardSquadTest, GuardiaNoBajaDeNivelPorAvisoMasDebil)
     const std::size_t g0 = squad.addMiembro();
     const std::size_t g1 = squad.addMiembro();
 
-    squad.conectar(g0, g1);
+    // Unidireccional a propósito: si fuera bidireccional, la primera
+    // propagarAlerta(g1, 5) de abajo también alcanzaría a g0 (nivel 4) y
+    // el escenario que este test quiere aislar — g0 en 0 antes del segundo
+    // aviso — nunca se daría.
+    squad.conectar(g0, g1, /*bidireccional=*/false);
 
     // Primero g1 recibe una alerta fuerte, directamente.
     squad.propagarAlerta(g1, 5);
