@@ -2,7 +2,7 @@
 namespace cybercba::combat
 {
 
-int GuardSquadMember::nivelAlerta() const
+int GuardSquadMember::nivelAlerta() const noexcept
 {
     return m_nivelAlerta;
 }
@@ -17,7 +17,7 @@ void GuardSquadMember::addVecino(std::size_t indice)
     m_vecinos.pushBack(indice);
 }
 
-const cybercba::structures::DynamicArray<std::size_t>& GuardSquadMember::vecinos() const
+const cybercba::structures::DynamicArray<std::size_t>& GuardSquadMember::vecinos() const noexcept
 {
     return m_vecinos;
 }
