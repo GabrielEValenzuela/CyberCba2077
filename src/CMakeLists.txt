@@ -11,6 +11,7 @@ set(CYBERCBA_CORE_SOURCES
     missions/PersuasionStrategy.cpp
     progression/SkillDefinition.cpp
     progression/ProgressionSystem.cpp
+        missions/IUnlockCondition.cpp
 )
 
 # PuzzleSystem depends on the custom structures, whose bodies are a student
