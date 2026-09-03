@@ -18,14 +18,17 @@ class IGuardBehaviorStrategy
   public:
     virtual ~IGuardBehaviorStrategy() = default;
 
-    virtual int decideDamage(const CombatState& state) const = 0;
+    // nivelAlerta: this guard's own alert level from GuardSquad::propagarAlerta
+    // (Issue #220), independent of CombatState::alarmTriggered. Standard and
+    // Alerted ignore it — only EscalatingGuardStrategy uses it.
+    virtual int decideDamage(const CombatState& state, int nivelAlerta) const = 0;
 };
 
 // Regular guard: fixed base damage per round (VS-001 §7.3).
 class StandardGuardStrategy final : public IGuardBehaviorStrategy
 {
   public:
-    int decideDamage(const CombatState& state) const override;
+    int decideDamage(const CombatState& state, int nivelAlerta) const override;
 };
 
 // Guard already alerted by a failed stealth/puzzle check (alarmTriggered):
@@ -33,16 +36,26 @@ class StandardGuardStrategy final : public IGuardBehaviorStrategy
 class AlertedGuardStrategy final : public IGuardBehaviorStrategy
 {
   public:
-    int decideDamage(const CombatState& state) const override;
+    int decideDamage(const CombatState& state, int nivelAlerta) const override;
 };
 
-// Two stateless, reusable strategy instances owned by CombatSystem's
+// Guard in a squad reacting to propagated alert (Issue #220): damage scales
+// with how alerted this particular guard is, unlike Standard/Alerted which
+// only know about the encounter-wide alarmTriggered flag.
+class EscalatingGuardStrategy final : public IGuardBehaviorStrategy
+{
+  public:
+    int decideDamage(const CombatState& state, int nivelAlerta) const override;
+};
+
+// Three stateless, reusable strategy instances owned by CombatSystem's
 // translation unit (static storage duration) — no per-encounter allocation
 // (VS-001 §9.5.3).
 struct GuardStrategies
 {
     static const IGuardBehaviorStrategy& standard();
     static const IGuardBehaviorStrategy& alerted();
+    static const IGuardBehaviorStrategy& escalating();
 };
 
 } // namespace cybercba::combat

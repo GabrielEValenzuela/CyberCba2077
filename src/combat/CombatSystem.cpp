@@ -76,7 +76,10 @@ bool CombatSystem::resolveAction(CombatState& state, CombatActionType action, ga
         return true;
     }
 
-    const int guardDamage = guardStrategy.decideDamage(state);
+    // TODO(#220): nivelAlerta hardcoded to 0 until GuardSquad wires a
+    // per-guard alert level through to CombatSystem; only affects
+    // EscalatingGuardStrategy, which nothing calls with yet.
+    const int guardDamage = guardStrategy.decideDamage(state, 0);
     state.playerResistance -= applyCoverReduction(guardDamage, state.playerCovered);
     state.playerCovered = false;
     ++state.round;
