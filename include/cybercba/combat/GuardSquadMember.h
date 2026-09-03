@@ -10,6 +10,12 @@
 #include "cybercba/structures/DynamicArray.hpp"
 #include "cybercba/combat/GuardBehaviorStrate"
 
+namespace cybercba::combat
+{
+
+
+
+
 using namespace cybercba::combat;
 using namespace cybercba::structures;
 
@@ -33,7 +39,6 @@ public:
     int atenuador(int nivelEntrada);
 
 };
-
-
+}
 
 #endif // ALGORITMOS_Y_ESTRUCTURAS_DE_DATOS_GUARDSQUADMEMBER_H
