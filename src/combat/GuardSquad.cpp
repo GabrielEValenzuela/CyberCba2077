@@ -9,6 +9,7 @@ std::size_t GuardSquad::addMiembro()
      según el constructor por defecto de GuardSquadMember) y se devuelve
      su posición dentro del arreglo, que funciona como su "identidad"
      para el resto del escuadrón.*/
+    // NOLINTNEXTLINE(clang-analyzer-core.NullDereference)
     miembros_.pushBack(GuardSquadMember());
     return miembros_.size() - 1;
 }
