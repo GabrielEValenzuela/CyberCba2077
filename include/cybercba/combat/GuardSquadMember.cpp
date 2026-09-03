@@ -3,7 +3,6 @@
 //
 
 #include "GuardSquadMember.h"
-
 using namespace GuardSquadMember;
 
 
@@ -20,34 +19,49 @@ void addVecino(GuardSquadMember* vecino)
 {
     //este metodo estaba esta en la estructura del profe
     //el método pushback lo que hace es tomar el puntero y lo coloca en el primer casillero vacio.
+    estosVecinos.pushBack(vecino);
+}
+//nota: el guardia astá en la clase y el guardia ya conoce su propio
+void RecibirAlerta (int nivelEntrada) {
+    //el nivel de entrada es mayor al mio? (nivelAlerta)
+    if (nivelEntrada1 > esteNivelAlerta) {
+        esteNivelAlerta= nivelEntrada; //acá actualizo
 
-    esteVecino.pushBack(vecino);
+        atenuarNivel(nivelEntrada);
+        avisarVecino(nivelAtenuado);
+    }
 
 }
+int atenuarNivel(int nivelEntrada)
+{
+    int nivelAtenuado = nivelEntrada -10;
+    return nivelAtenuado;
+}
+void GuardSquadMember::receiveAlert(int nivelEntrada)
+{
+    // si el nivel de entrada es mayor a Este Nivel de Alerta
+    if (nivelEntrada > EsteNivelAlerta) {
 
-int RecibirAlerta (int nivel, nivel guardia) {
-    if (nivel > nivelGuardia) {
-        this.Guardia = nivel;
+        // Me guardo el nivel más alto
+        EsteNivelAlerta = nivelEntrada;
+
+        // Calculo la atenuación
+        int nivelAtenuado = nivelEntrada - 10;
+
+        // Aviso a todos los vecinos
         avisarVecino();
     }
-    return nivel;
 }
 
-void avisarVecino();
+void avisarVecinos(int nivelAtenuado); //esta función itera sobre el arreglo de los punteritos
 {
-
-
-}
-
-
-int RecibirAlerta (int nivel, nivel guardia)
-{
-// 
-    if (nivel > nivelGuardia)
-    {
-        EsteGuardia =nivelEntrada;
-        avisarVecino();
-
+    if (nivelAtenuado > 0) {
+        for (i = 0; i < estosVecinos; ++i) {
+            //entra a la memoria del vecino especifico y ejecuta reacción
+            estosVecinos[i]->recibirAlerta(nivelAtenuado);
+        }
     }
-    return nivel;
+
 }
+
+
