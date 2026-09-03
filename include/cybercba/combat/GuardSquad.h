@@ -1,0 +1,14 @@
+//
+// Created by facundo on 2/9/26.
+//
+
+#ifndef ALGORITMOS_Y_ESTRUCTURAS_DE_DATOS_GUARDSQUAD_H
+#define ALGORITMOS_Y_ESTRUCTURAS_DE_DATOS_GUARDSQUAD_H
+
+class GuardSquad
+{
+
+
+};
+
+#endif // ALGORITMOS_Y_ESTRUCTURAS_DE_DATOS_GUARDSQUAD_H
