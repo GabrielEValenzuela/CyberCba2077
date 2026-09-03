@@ -1,5 +1,4 @@
-#include "cybercba/combat/GuardSquadMember.h"
-
+#include "cybercba/combat/GuardSquadMember.hpp"
 namespace cybercba::combat
 {
 
