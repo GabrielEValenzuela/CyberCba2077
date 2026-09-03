@@ -13,7 +13,7 @@ namespace cybercba::missions
  */
 class NarrativeCondition
 {
-public:
+  public:
     virtual ~NarrativeCondition() = default;
 
     /**
@@ -29,12 +29,12 @@ public:
  */
 class CondicionDeFlag : public NarrativeCondition
 {
-private:
+  private:
     progression::SkillId m_skillId;
     progression::SkillLevel m_nivelRequerido;
     mutable std::size_t m_evalCount{0};
 
-public:
+  public:
     /**
      * @brief Constructor de la condición individual.
      * @param id Identificador de la habilidad a evaluar.
@@ -55,10 +55,10 @@ public:
  */
 class TodasLasCondiciones : public NarrativeCondition
 {
-private:
+  private:
     structures::DynamicArray<NarrativeCondition*> m_condiciones;
 
-public:
+  public:
     /**
      * @brief Añade una nueva condición al arreglo de validación.
      * @param pCondicion Puntero a la condición narrativa a agregar.

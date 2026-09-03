@@ -1,5 +1,5 @@
-#include "cybercba/missions/DialogueBranchNode.hpp"
 #include "cybercba/missions/NarrativeCondition.hpp"
+#include "cybercba/missions/DialogueBranchNode.hpp"
 #include "cybercba/progression/ProgressionSystem.hpp"
 #include <gtest/gtest.h>
 
@@ -37,8 +37,7 @@ TEST(NarrativeConditionTest, ResuelveArbolDeTresNivelesCorrectamente)
     ramaHacking.agregarHija(&subRamaHacking);
 
     // Ejecución del resolutor
-    const structures::DynamicArray<DialogueLine> resultado =
-        NarrativeConsequenceResolver::resolver(&raiz, progreso);
+    const structures::DynamicArray<DialogueLine> resultado = NarrativeConsequenceResolver::resolver(&raiz, progreso);
 
     // Verificaciones
     ASSERT_EQ(resultado.size(), 3u);
@@ -64,8 +63,7 @@ TEST(NarrativeConditionTest, RamaNoActivadaNoEvaluaSusHijas)
     ramaBloqueada.agregarHija(&subRamaHija);
 
     // Ejecución
-    const structures::DynamicArray<DialogueLine> resultado =
-        NarrativeConsequenceResolver::resolver(&raiz, progreso);
+    const structures::DynamicArray<DialogueLine> resultado = NarrativeConsequenceResolver::resolver(&raiz, progreso);
 
     // La rama bloqueada se evaluó 1 vez (y dio false)
     EXPECT_EQ(condHacking.evalCount(), 1u);
@@ -99,8 +97,7 @@ TEST(NarrativeConditionTest, EvaluaCondicionCompuestaTodasLasCondiciones)
 
     raiz.agregarHija(&ramaInfiltracion);
 
-    const structures::DynamicArray<DialogueLine> resultado =
-        NarrativeConsequenceResolver::resolver(&raiz, progreso);
+    const structures::DynamicArray<DialogueLine> resultado = NarrativeConsequenceResolver::resolver(&raiz, progreso);
 
     ASSERT_EQ(resultado.size(), 2u);
     EXPECT_EQ(resultado[0], "Raiz");

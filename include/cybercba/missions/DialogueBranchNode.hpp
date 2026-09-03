@@ -40,25 +40,22 @@ struct DialogueBranchNode
  */
 class NarrativeConsequenceResolver
 {
-private:
+  private:
     /**
      * @brief Función auxiliar recursiva para explorar los nodos del árbol.
      */
-    static void resolverAuxiliar(
-        DialogueBranchNode* pNodo,
-        const progression::SkillProgress& progreso,
-        structures::DynamicArray<DialogueLine>& resultado);
+    static void resolverAuxiliar(DialogueBranchNode* pNodo, const progression::SkillProgress& progreso,
+                                 structures::DynamicArray<DialogueLine>& resultado);
 
-public:
+  public:
     /**
      * @brief Evalúa el árbol desde la raíz y devuelve las líneas de diálogo habilitadas.
      * @param pRaiz Puntero al nodo raíz del árbol.
      * @param progreso Estado actual de habilidades del jugador.
      * @return Arreglo dinámico con las líneas de diálogo que se deben mostrar.
      */
-    static structures::DynamicArray<DialogueLine> resolver(
-        DialogueBranchNode* pRaiz,
-        const progression::SkillProgress& progreso);
+    static structures::DynamicArray<DialogueLine> resolver(DialogueBranchNode* pRaiz,
+                                                           const progression::SkillProgress& progreso);
 };
 
 } // namespace cybercba::missions

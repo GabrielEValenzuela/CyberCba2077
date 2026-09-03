@@ -14,10 +14,9 @@ void DialogueBranchNode::agregarHija(DialogueBranchNode* pHija)
     hijas.pushBack(pHija);
 }
 
-void NarrativeConsequenceResolver::resolverAuxiliar(
-    DialogueBranchNode* pNodo,
-    const progression::SkillProgress& progreso,
-    structures::DynamicArray<DialogueLine>& resultado)
+void NarrativeConsequenceResolver::resolverAuxiliar(DialogueBranchNode* pNodo,
+                                                    const progression::SkillProgress& progreso,
+                                                    structures::DynamicArray<DialogueLine>& resultado)
 {
     if (pNodo == nullptr)
     {
@@ -39,9 +38,8 @@ void NarrativeConsequenceResolver::resolverAuxiliar(
     }
 }
 
-structures::DynamicArray<DialogueLine> NarrativeConsequenceResolver::resolver(
-    DialogueBranchNode* pRaiz,
-    const progression::SkillProgress& progreso)
+structures::DynamicArray<DialogueLine>
+NarrativeConsequenceResolver::resolver(DialogueBranchNode* pRaiz, const progression::SkillProgress& progreso)
 {
     structures::DynamicArray<DialogueLine> resultado;
     resolverAuxiliar(pRaiz, progreso, resultado);
