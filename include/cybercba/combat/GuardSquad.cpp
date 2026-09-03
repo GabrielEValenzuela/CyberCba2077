@@ -5,32 +5,41 @@
 #include "GuardSquad.h"
 
 #include "GuardSquadMember.h"
-using namespace GuardSquad;
-
-GuardSquad()
+//esto "envuelve" todo en el entorno del juego (contexto)
+namespace cybercba::combat
 {
-    // acá se queda vacio porque solo necesita inicializase
+//
+GuardSquad::GuardSquad()
+{
+    // acá se queda vacio porque la "libreta de contactos" (dinamicArray) arranca vacia por defecto.
 
 }
 
-//DESTRUCTOR
-~GuardSquad()
+//DESTRUCTOR (limpia la ram cuando el combate termina)
+GuardSquad::~GuardSquad()
 {
-    for (int i = 0; i < estosMiembros.size(); i++)
+    for (unsigned int i = 0; i < estosMiembros.size(); i++) //recorre la lista con el unsigned para que no salet el warning (preguntar profe)
     {
+
+        // el delete va ala direción de memoria y "mata" fisicamente al guardia para devolverle ram a la compu y evitar fuga de memoria
         delete estosMiembros[i];
     }
 }
 
-void agregarGuardia(GuardSquadMember* guardia)
+//nace un guardia en la libreta del ESCUADRÓN
+void GuardSquad::agregarGuardia(GuardSquadMember* guardia)
 {
-    estosMiembros.push_back(guardia);
+    estosMiembros.pushBack(guardia);
 }
 
-void iniciarAlerta(GuardSquadMember* origen, int nivelInicial)
+void GuardSquad::iniciarAlerta(GuardSquadMember* origen, int nivelInicial)
+
 {
-    if (origen->nivelInicial != nullptr)
+    // acá pregunta si el puntero origen trae una dirección de memoria real?
+    if (origen != nullptr) //asegura que el guardia exista antes de mandar la orden
     {
-        origen->recibirAlerta(nivelInicial);
+        //la flechita va a la memoria del guarsia y le tira nivel de alerta por la cabeza
+        origen->RecibirAlerta(nivelInicial);
     }
+}
 }
