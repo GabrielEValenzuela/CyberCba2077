@@ -23,7 +23,6 @@ void GuardSquad::propagarAlerta(std::size_t origen, int nivel)
 {
     GuardSquadMember& guardia = miembros_[origen];
 
-
     if (nivel <= guardia.nivelAlerta())
     {
         return;
