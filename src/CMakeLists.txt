@@ -6,6 +6,8 @@ set(CYBERCBA_CORE_SOURCES
     game/Game.cpp
     combat/CombatSystem.cpp
     combat/GuardBehaviorStrategy.cpp
+    combat/GuardSquad.cpp
+        combat/GuardSquadMember.cpp
     missions/DialogueSystem.cpp
     missions/MissionSystem.cpp
     missions/PersuasionStrategy.cpp

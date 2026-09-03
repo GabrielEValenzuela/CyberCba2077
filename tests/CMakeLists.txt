@@ -6,6 +6,8 @@ set(CYBERCBA_TEST_SOURCES
     states/GameStateMachineTest.cpp
     combat/CombatSystemTest.cpp
     combat/GuardBehaviorStrategyTest.cpp
+    combat/GuardSquadTest.cpp
+    combat/GuardSquadMemberTest.cpp
     missions/DialogueSystemTest.cpp
     missions/MissionSystemTest.cpp
     missions/PersuasionStrategyTest.cpp

@@ -9,6 +9,13 @@ namespace
 constexpr int STANDARD_GUARD_DAMAGE = 8;
 constexpr int ALERTED_GUARD_DAMAGE  = 12;
 
+// EscalatingGuardStrategy: base damage plus a per-level increment. Chosen so
+// that even at nivelAlerta == 1 (the weakest propagated alert) the damage
+// already exceeds AlertedGuardStrategy's fixed value, matching the idea that
+// this strategy tracks *how* alerted the guard is, not just whether.
+constexpr int ESCALATING_BASE_DAMAGE      = 8;
+constexpr int ESCALATING_DAMAGE_PER_LEVEL = 5;
+
 // Stateless singletons backing GuardStrategies (VS-001 §9.5.3): one instance
 // per translation unit, never allocated per-encounter.
 //
@@ -22,17 +29,24 @@ constexpr int ALERTED_GUARD_DAMAGE  = 12;
 static const StandardGuardStrategy gs_standardGuardStrategy;
 // NOLINTNEXTLINE(readability-identifier-naming)
 static const AlertedGuardStrategy gs_alertedGuardStrategy;
+// NOLINTNEXTLINE(readability-identifier-naming)
+static const EscalatingGuardStrategy gs_escalatingGuardStrategy;
 
 } // namespace
 
-int StandardGuardStrategy::decideDamage(const CombatState& /*state*/) const
+int StandardGuardStrategy::decideDamage(const CombatState& /*state*/, int /*nivelAlerta*/) const
 {
     return STANDARD_GUARD_DAMAGE;
 }
 
-int AlertedGuardStrategy::decideDamage(const CombatState& /*state*/) const
+int AlertedGuardStrategy::decideDamage(const CombatState& /*state*/, int /*nivelAlerta*/) const
 {
     return ALERTED_GUARD_DAMAGE;
+}
+
+int EscalatingGuardStrategy::decideDamage(const CombatState& /*state*/, int nivelAlerta) const
+{
+    return ESCALATING_BASE_DAMAGE + nivelAlerta * ESCALATING_DAMAGE_PER_LEVEL;
 }
 
 const IGuardBehaviorStrategy& GuardStrategies::standard()
@@ -43,6 +57,11 @@ const IGuardBehaviorStrategy& GuardStrategies::standard()
 const IGuardBehaviorStrategy& GuardStrategies::alerted()
 {
     return gs_alertedGuardStrategy;
+}
+
+const IGuardBehaviorStrategy& GuardStrategies::escalating()
+{
+    return gs_escalatingGuardStrategy;
 }
 
 } // namespace cybercba::combat
