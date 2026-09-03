@@ -71,5 +71,24 @@ bool isSkillAvailableTo(SkillId id, cybercba::game::PlayerCharacter character)
     const bool isEmmaSkill = value < COMMON_SKILL_COUNT * 2;
     return isEmmaSkill == (character == cybercba::game::PlayerCharacter::Emma);
 }
+std::string_view skillDescription(SkillId id, SkillLevel level)
+{
+    const SkillDefinition& skill = skillDefinition(id);
 
+    switch (level)
+    {
+        case SkillLevel::LevelI:
+            return skill.levelIDescription;
+
+        case SkillLevel::LevelII:
+            return skill.levelIIDescription;
+
+        case SkillLevel::LevelIII:
+            return skill.levelIIIDescription;
+    }
+
+    return {};
+}
+
+}
 } // namespace cybercba::progression
