@@ -1,74 +1,70 @@
-#ifndef CYBERCBA_COMBAT_GUARDSQUAD_H
-#define CYBERCBA_COMBAT_GUARDSQUAD_H
+#ifndef CYBERCBA_COMBAT_GUARDSQUAD_HPP
+#define CYBERCBA_COMBAT_GUARDSQUAD_HPP
 
 #include <cstddef>
 
-#include "cybercba/combat/GuardSquadMember.h"
+#include "cybercba/combat/GuardSquadMember.hpp"
 #include "cybercba/structures/DynamicArray.hpp"
 
 namespace cybercba::combat
 {
-
-/// Agrupa a todos los guardias de un encuentro de combate y sabe cómo
-/// propagar una alerta entre ellos (VS-001), reemplazando el viejo
-/// esquema de "todo o nada" donde todos los guardias se ponían alerta
-/// al mismo tiempo.
-///
-/// GuardSquad es el único dueño de los GuardSquadMember (los guarda por
-/// valor en un DynamicArray) y el único que conoce cómo recorrer el
-/// grafo de vecinos. Cada GuardSquadMember solo conoce sus propios
-/// vecinos, referenciados por índice dentro de este arreglo (no por
-/// puntero), tal como se acordó con Facu.
+/**
+* @brief Agrupa a todos los guardias de un encuentro de combate y propaga alertas.
+* @details Es el unico dueño de los GuardSquadMember y
+* recorre el grafo de vecinos por indice para propagar el nivel de alerta.
+*/
 class GuardSquad final
 {
   public:
     GuardSquad() = default;
 
-    /// Agrega un nuevo guardia al escuadrón y devuelve su índice. Ese
-    /// índice es el valor que se usa después para conectarlo con otros
-    /// guardias (conectar()) o como origen de una alerta
-    /// (propagarAlerta()).
+    /**
+     * @brief Agrega un nuevo guardia al escuadrón.
+     * @return std::size_t Índice asignado al nuevo guardia.
+     */
     std::size_t addMiembro();
 
-    /// Registra a `indiceB` como vecino de `indiceA` (es decir, `indiceA`
-    /// puede avisarle a `indiceB`).
-    ///
-    /// @param bidireccional Si es true (por defecto), también registra a
-    ///     `indiceA` como vecino de `indiceB`. La mayoría de los
-    ///     escuadrones se avisan en ambos sentidos.
+    /**
+     * @brief Registra una conexión de vecindad entre dos guardias.
+     * @param[in] indiceA Índice del guardia origen.
+     * @param[in] indiceB Índice del guardia destino.
+     * @param[in] bidireccional Si es true, conecta también B con A.
+     */
     void conectar(std::size_t indiceA, std::size_t indiceB, bool bidireccional = true);
 
-    /// Propaga una alerta de nivel `nivel` empezando en el guardia
-    /// `origen`.
-    ///
-    /// Es recursiva. El caso base es: si `nivel` no supera el nivel de
-    /// alerta que el guardia ya tenía, esta rama no hace nada y corta ahí
-    /// (así un guardia nunca "baja" de nivel por un aviso más débil que
-    /// llega desde otro lado). Si sí lo supera, actualiza el nivel del
-    /// guardia y avisa a cada vecino con `nivel - 1` (un escalón menos,
-    /// como indica el diagrama de flujo).
-    ///
-    /// Esta poda es también lo que garantiza que la propagación termina
-    /// aunque los guardias estén conectados en círculo: el nivel baja de
-    /// a uno en cada salto, así que tarde o temprano deja de superar el
-    /// nivel guardado en algún guardia de la vuelta y la recursión corta
-    /// sola, sin necesidad de un arreglo de "visitados" aparte.
+    /**
+     * @brief Propaga una alerta de forma recursiva a partir de un guardia origen.
+     * @param[in] origen Índice del guardia inicial.
+     * @param[in] nivel Nivel de alerta a propagar.
+     */
+
     void propagarAlerta(std::size_t origen, int nivel);
 
-    /// Cantidad de guardias en el escuadrón.
-    std::size_t size() const;
+    /**
+     * @brief Obtiene la cantidad total de guardias en el escuadrón.
+     * @return std::size_t Cantidad de miembros.
+     */
+    [[nodiscard]] std::size_t size() const noexcept;
 
-    /// Acceso mutable a un guardia por índice.
+    /**
+     * @brief Acceso mutable a un guardia por su índice.
+     * @param[in] indice Posición del guardia.
+     * @return GuardSquadMember& Referencia al guardia.
+     */
     GuardSquadMember& miembro(std::size_t indice);
 
-    /// Acceso de solo lectura a un guardia por índice.
-    const GuardSquadMember& miembro(std::size_t indice) const;
+    /**
+     * @brief Acceso de solo lectura a un guardia por su índice.
+     * @param[in] indice Posición del guardia.
+     * @return const GuardSquadMember& Referencia constante al guardia.
+     */
+    [[nodiscard]] const GuardSquadMember& miembro(std::size_t indice) const;
 
   private:
-    /// Dueño único de todos los guardias del combate.
+    // Dueño único de todos los guardias del combate.
     cybercba::structures::DynamicArray<GuardSquadMember> miembros_;
 };
 
 } // namespace cybercba::combat
 
-#endif // CYBERCBA_COMBAT_GUARDSQUAD_H
+#endif // CYBERCBA_COMBAT_GUARDSQUAD_HPP

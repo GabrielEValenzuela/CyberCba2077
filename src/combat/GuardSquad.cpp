@@ -44,7 +44,7 @@ void GuardSquad::propagarAlerta(std::size_t origen, int nivel)
     }
 }
 
-std::size_t GuardSquad::size() const
+std::size_t GuardSquad::size() const noexcept
 {
     return miembros_.size();
 }
