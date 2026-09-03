@@ -12,7 +12,7 @@ RequisitoDeMisionPrevia::RequisitoDeMisionPrevia(int idMision)
 
 bool RequisitoDeMisionPrevia::estaSatisfecha(const PlayerProgress& progreso) const
 {
-    return true; // TODO
+    return progreso.estaCompletada(m_idMision);
 }
 
 RequisitoDeFlag::RequisitoDeFlag(const std::string& flag)
@@ -21,7 +21,7 @@ RequisitoDeFlag::RequisitoDeFlag(const std::string& flag)
 }
 bool RequisitoDeFlag::estaSatisfecha(const PlayerProgress& progreso) const
 {
-    return true; // TODO
+    return progreso.estaSatisfecha(m_flag);
 }
 
 ;
