@@ -27,33 +27,18 @@ void RecibirAlerta (int nivelEntrada) {
     if (nivelEntrada1 > esteNivelAlerta) {
         esteNivelAlerta= nivelEntrada; //acá actualizo
 
-        atenuarNivel(nivelEntrada);
+        atenuador(nivelEntrada);
         avisarVecino(nivelAtenuado);
     }
 
 }
-int atenuarNivel(int nivelEntrada)
+int atenuador(int nivelEntrada)
 {
     int nivelAtenuado = nivelEntrada -10;
     return nivelAtenuado;
 }
-void GuardSquadMember::receiveAlert(int nivelEntrada)
-{
-    // si el nivel de entrada es mayor a Este Nivel de Alerta
-    if (nivelEntrada > EsteNivelAlerta) {
 
-        // Me guardo el nivel más alto
-        EsteNivelAlerta = nivelEntrada;
-
-        // Calculo la atenuación
-        int nivelAtenuado = nivelEntrada - 10;
-
-        // Aviso a todos los vecinos
-        avisarVecino();
-    }
-}
-
-void avisarVecinos(int nivelAtenuado); //esta función itera sobre el arreglo de los punteritos
+void avisarVecinos(int nivelAtenuado) //esta función itera sobre el arreglo de los punteritos
 {
     if (nivelAtenuado > 0) {
         for (i = 0; i < estosVecinos; ++i) {
