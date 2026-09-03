@@ -9,10 +9,10 @@
 namespace cybercba::combat
 {
 /**
-* @brief Agrupa a todos los guardias de un encuentro de combate y propaga alertas.
-* @details Es el unico dueño de los GuardSquadMember y
-* recorre el grafo de vecinos por indice para propagar el nivel de alerta.
-*/
+ * @brief Agrupa a todos los guardias de un encuentro de combate y propaga alertas.
+ * @details Es el unico dueño de los GuardSquadMember y
+ * recorre el grafo de vecinos por indice para propagar el nivel de alerta.
+ */
 class GuardSquad final
 {
   public:
