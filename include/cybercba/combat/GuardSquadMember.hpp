@@ -17,7 +17,7 @@ namespace cybercba::combat
 class GuardSquadMember
 {
   public:
-    GuardSquadMember();
+    GuardSquadMember() =default;
 
     /**
      * @brief Devuelve el nivel de alerta actual de este guardia.

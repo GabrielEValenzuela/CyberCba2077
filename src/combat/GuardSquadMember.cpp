@@ -1,10 +1,7 @@
 #include "cybercba/combat/GuardSquadMember.hpp"
 namespace cybercba::combat
 {
-GuardSquadMember::GuardSquadMember()
-{
-    m_vecinos.reserve(4);
-}
+
 int GuardSquadMember::nivelAlerta() const noexcept
 {
     return m_nivelAlerta;

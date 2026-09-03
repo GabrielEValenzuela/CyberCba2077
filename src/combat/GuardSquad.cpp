@@ -5,10 +5,6 @@ namespace cybercba::combat
 
 std::size_t GuardSquad::addMiembro()
 {
-    /* Se agrega un guardia recién creado (nace en nivel 0, sin vecinos,
-     según el constructor por defecto de GuardSquadMember) y se devuelve
-     su posición dentro del arreglo, que funciona como su "identidad"
-     para el resto del escuadrón.*/
     // NOLINTNEXTLINE(clang-analyzer-core.NullDereference)
     miembros_.pushBack(GuardSquadMember());
     return miembros_.size() - 1;
@@ -27,17 +23,14 @@ void GuardSquad::propagarAlerta(std::size_t origen, int nivel)
 {
     GuardSquadMember& guardia = miembros_[origen];
 
-    /* Caso base: si este nivel no es mejor que el que el guardia ya
-     tenía, no hace nada y se termina esta rama de la recursión.*/
+
     if (nivel <= guardia.nivelAlerta())
     {
         return;
     }
 
-    // Actualiza el nivel de alerta de este guardia.
     guardia.setNivelAlerta(nivel);
 
-    // Avisa a cada vecino, con el nivel un escalón más bajo.
     const cybercba::structures::DynamicArray<std::size_t>& vecinos = guardia.vecinos();
     for (std::size_t i = 0; i < vecinos.size(); ++i)
     {
