@@ -15,6 +15,7 @@ namespace cybercba::progression
 // POD data holder: fields intentionally have no m_ prefix (ADR-001 exception).
 struct SkillDefinition
 {
+    SkillLevel level;
     SkillId id;
     std::string_view name;
     std::string_view levelIDescription;
