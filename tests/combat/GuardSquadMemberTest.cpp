@@ -1,4 +1,4 @@
-#include "cybercba/combat/GuardSquadMember.h"
+#include "cybercba/combat/GuardSquadMember.hpp"
 
 #include <gtest/gtest.h>
 
