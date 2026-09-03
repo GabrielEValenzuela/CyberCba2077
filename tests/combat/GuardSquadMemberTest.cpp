@@ -12,7 +12,7 @@ namespace
 TEST(GuardSquadMemberTest, NewGuardUsesStandardStrategy)
 {
     const GuardSquadMember guard;
-    const CombatState      state{30, 15};
+    const CombatState state{30, 15};
 
     EXPECT_EQ(&guard.estrategia(), &GuardStrategies::standard());
     EXPECT_EQ(guard.decideDamage(state), GuardStrategies::standard().decideDamage(state, 0));
@@ -20,7 +20,7 @@ TEST(GuardSquadMemberTest, NewGuardUsesStandardStrategy)
 
 TEST(GuardSquadMemberTest, AlertedGuardUsesEscalatingStrategy)
 {
-    GuardSquadMember   guard;
+    GuardSquadMember guard;
     const CombatState state{30, 15};
 
     guard.setNivelAlerta(3);
@@ -31,7 +31,7 @@ TEST(GuardSquadMemberTest, AlertedGuardUsesEscalatingStrategy)
 
 TEST(GuardSquadMemberTest, DamageGrowsAsAlertLevelRises)
 {
-    GuardSquadMember   guard;
+    GuardSquadMember guard;
     const CombatState state{30, 15};
 
     guard.setNivelAlerta(1);

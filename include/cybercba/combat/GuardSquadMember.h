@@ -54,7 +54,7 @@ class GuardSquadMember
     int decideDamage(const CombatState& state) const;
 
   private:
-    int                                              m_nivelAlerta = 0;
+    int m_nivelAlerta = 0;
     cybercba::structures::DynamicArray<std::size_t> m_vecinos;
 };
 
